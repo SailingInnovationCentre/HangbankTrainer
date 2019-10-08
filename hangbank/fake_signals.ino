@@ -21,5 +21,11 @@ void loop() {
   Serial.print(",");
   Serial.println(rightRead);
   
-  delay(100);
+//  Serial.println(testInt); 
+//  testInt++;
+//  if (testInt > 32000)
+//  {
+//    testInt = 0; 
+//  }
+  delay(500);
 }

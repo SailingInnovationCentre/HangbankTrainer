@@ -1,4 +1,6 @@
-﻿using System;
+﻿using LiveCharts;
+using LiveCharts.Wpf;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -24,6 +26,11 @@ namespace HangbankTrainer
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
 
+        public SeriesCollection SeriesCollection { get; set; }
+        public string[] Labels { get; set; }
+        public Func<double, string> YFormatter { get; set; }
+
+
         private string _serialInput; 
         public string SerialInput { 
             get
@@ -37,30 +44,41 @@ namespace HangbankTrainer
             }
         }
 
-        SerialPortListener _listener;
+        private readonly SerialPortListener _listener;
 
         public MainWindow()
         {
-            DataContext = this; 
             InitializeComponent();
 
-            _listener = new SerialPortListener("COM3");
+            SeriesCollection = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    Title = "Links",
+                    Values = new ChartValues<int>(Enumerable.Range(1, 100).Select(x => 0))
+                },
+                new LineSeries
+                {
+                    Title = "Rechts",
+                    Values = new ChartValues<int>(Enumerable.Range(1, 100).Select(x => 0))
+                }
+
+            };
+
+            _listener = new SerialPortListener("COM4");
             _listener.NewMessage += (s, e) =>
             {
-                string message = ((SerialPortEventArgs)e).Message;
-
-                //double messageAsDouble; 
-                if (double.TryParse(message.Trim(), out double messageAsDouble))
-                {
-                    double d = Math.Sin(messageAsDouble / 5.0);
-                    SerialInput = $"{d:0.##}";
-                }
+                var eventArgs = (SerialPortEventArgs)e; 
+                SeriesCollection[0].Values.Add(eventArgs.Left);
+                SeriesCollection[0].Values.RemoveAt(0); 
+                SeriesCollection[1].Values.Add(eventArgs.Right);
+                SeriesCollection[1].Values.RemoveAt(0);
             };
-            _listener.Open(); 
+            _listener.Open();
+
+            DataContext = this;
 
         }
-
-
 
         public event PropertyChangedEventHandler PropertyChanged;
 
