@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="HangbankTrainer.ConfigurationUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HangbankTrainer"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <StackPanel Orientation="Horizontal">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Waarde links bij onbelast"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding LinksOnbelast}"/>
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Waarde links bij belast 50kg"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding LinksBelast}"/>
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Waarde rechts bij onbelast"/>
+            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding RechtsOnbelast}"/>
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="Waarde rechts bij belast 50kg"/>
+            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding RechtsBelast}"/>
+            <TextBlock Grid.Row="4" Grid.Column="0" Text="Speler minimum"/>
+            <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding SpelerMinimum}"/>
+            <TextBlock Grid.Row="5" Grid.Column="0" Text="Speler maximum"/>
+            <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding SpelerMaximum}"/>
+        </Grid>
+    </StackPanel>
+</UserControl>
