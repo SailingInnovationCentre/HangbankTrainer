@@ -85,7 +85,7 @@ namespace HangbankTrainer
             _timer.Interval = 500;
             _timer.Elapsed += (s, e) =>
             {
-                NewMessage?.Invoke(this, new SerialPortEventArgs(0, _random.Next(245, 255)));
+                NewMessage?.Invoke(this, new SerialPortEventArgs(_random.Next(550,560), _random.Next(245, 255)));
             };
             _timer.Start(); 
         }

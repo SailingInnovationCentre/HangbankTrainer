@@ -1,4 +1,5 @@
 ﻿using LiveCharts;
+using LiveCharts.Configurations;
 using LiveCharts.Wpf;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,24 +16,34 @@ namespace HangbankTrainer
     /// </summary>
     public partial class TrainingUserControl : UserControl, INotifyPropertyChanged
     {
-          
+
+        public class MeasureModel
+        {
+            public int X;
+            public int Y; 
+        }
+
+        private int _currentX;
+
+        public ChartValues<MeasureModel> ChartValuesLeft { get; set; }
+        public ChartValues<MeasureModel> ChartValuesRight { get; set; }
+
         public TrainingUserControl()
         {
+            AxisMin = 0;
+            AxisMax = 100; 
+
             InitializeComponent();
 
-            SeriesCollection = new SeriesCollection
-            {
-                new LineSeries
-                {
-                    Title = "Links",
-                    Values = new ChartValues<int>(Enumerable.Range(1, 100).Select(x => 0))
-                },
-                new LineSeries
-                {
-                    Title = "Rechts",
-                    Values = new ChartValues<int>(Enumerable.Range(1, 100).Select(x => 0))
-                }
-            };
+            var mapper = Mappers.Xy<MeasureModel>()
+                .X(model => model.X)
+                .Y(model => model.Y);
+
+            Charting.For<MeasureModel>(mapper);
+
+            ChartValuesLeft = new ChartValues<MeasureModel>();
+            ChartValuesRight = new ChartValues<MeasureModel>();
+            _currentX = 0; 
 
             DataContext = this; 
         }
@@ -53,18 +64,53 @@ namespace HangbankTrainer
 
                     LinksVolt = eventArgs.Left;
                     LinksMoment = (int)(1000 * (LinksVolt - Config.LinksOnbelast) / (Config.LinksBelast - Config.LinksOnbelast));
-                    SeriesCollection[0].Values.Add(LinksMoment);
-                    SeriesCollection[0].Values.RemoveAt(0);
+
+                    ChartValuesLeft.Add(new MeasureModel
+                    {
+                        X = _currentX,
+                        Y = LinksMoment
+                    });
 
                     RechtsVolt = eventArgs.Right;
                     RechtsMoment = (int)(1000 * (RechtsVolt - Config.RechtsOnbelast) / (Config.RechtsBelast - Config.RechtsOnbelast));
-                    SeriesCollection[1].Values.Add(RechtsMoment);
-                    SeriesCollection[1].Values.RemoveAt(0);
+
+                    ChartValuesRight.Add(new MeasureModel
+                    {
+                        X = _currentX,
+                        Y = RechtsMoment
+                    });
+
+                    SetAxisLimits(_currentX);
+                    _currentX++;
+
+                    if (ChartValuesLeft.Count > 1000)
+                    {
+                        ChartValuesLeft.RemoveAt(0);
+                        ChartValuesRight.RemoveAt(0);
+                    }
                 };
             }
         }
 
-        public SeriesCollection SeriesCollection { get; set; }
+        private double _axisMax;
+        public double AxisMax
+        {
+            get => _axisMax;
+            set => SetField(ref _axisMax, value);
+        }
+
+        private double _axisMin;
+        public double AxisMin
+        {
+            get => _axisMin;
+            set => SetField(ref _axisMin, value);
+        }
+
+        private void SetAxisLimits(int currentX)
+        {
+            AxisMax = currentX + 1;
+            AxisMin = currentX - 60;
+        }
 
         #region Bindings
 

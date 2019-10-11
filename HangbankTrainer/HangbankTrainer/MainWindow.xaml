@@ -16,8 +16,8 @@
         </ResourceDictionary>
     </Window.Resources>
     <StackPanel>
-        <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="8">
-            <TabItem Header="Configuratie"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <TabControl Margin="8">
+            <TabItem Header="Configuratie">
                 <local:ConfigurationUserControl x:Name="ConfigurationUserControl"/>
             </TabItem>
             <TabItem Header="Training">
