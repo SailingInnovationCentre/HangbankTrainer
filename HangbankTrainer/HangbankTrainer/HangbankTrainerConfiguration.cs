@@ -1,7 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO.Ports;
 using System.Runtime.CompilerServices;
+using System.Windows;
 
 namespace HangbankTrainer
 {
@@ -10,10 +12,19 @@ namespace HangbankTrainer
 
         public HangbankTrainerConfiguration()
         {
+            Listener = new SerialPortListener(); 
+
             _linksOnbelast = 456;   // 100 kg op zitvlak
             _linksBelast = 570;     // 50 kg op 120cm op calibratiebalk. 
             _rechtsOnbelast = 207;
-            _rechtsBelast = 256; 
+            _rechtsBelast = 256;
+        }
+
+        public SerialPortListener Listener { get; private set; }
+
+        public void SetSerialPort(string port)
+        {
+            Listener.SetSerialPort(port);
         }
 
         private double _linksOnbelast;

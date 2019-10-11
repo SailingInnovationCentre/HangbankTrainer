@@ -9,11 +9,23 @@ namespace HangbankTrainer
         private SerialPort _serialPort;
         private string _cachedString; 
 
-        public event EventHandler NewMessage; 
+        public event EventHandler NewMessage;
 
-        public SerialPortListener(string serialPortId)
+        internal void SetSerialPort(string port)
         {
-            _serialPort = new SerialPort(serialPortId);
+            try
+            {
+                if (_serialPort != null)
+                {
+                    _serialPort.Open();
+                }
+            }
+            catch (Exception)
+            {
+                // gulp.
+            }
+
+            _serialPort = new SerialPort(port);
 
             _serialPort.BaudRate = 9600;
             _serialPort.Parity = Parity.None;
@@ -22,6 +34,15 @@ namespace HangbankTrainer
             _serialPort.Handshake = Handshake.None;
 
             _serialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
+
+            try
+            {
+                _serialPort.Open(); 
+            }
+            catch (Exception)
+            {
+                // gulp.
+            }
         }
 
         private void DataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
@@ -39,14 +60,5 @@ namespace HangbankTrainer
             }
         }
 
-        public void Open()
-        {
-            _serialPort.Open();
-        }
-
-        public void Close()
-        {
-            _serialPort.Close(); 
-        }
     }
 }

@@ -15,6 +15,12 @@
         <Setter Property="Height" Value="18"/>
         <Setter Property="Width" Value="100"/>
     </Style>
+    <Style TargetType="ComboBox">
+        <Setter Property="Margin" Value="{StaticResource DefaultThickness}"/>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
+        <Setter Property="Height" Value="18"/>
+        <Setter Property="Width" Value="100"/>
+    </Style>
     <Style TargetType="Grid">
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Top"/>

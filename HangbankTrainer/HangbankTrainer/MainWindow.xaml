@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:HangbankTrainer"
         mc:Ignorable="d"
         Title="Hangbank Trainer" Height="700" Width="1300" 
-        Loaded="Window_Loaded" Closed="Window_Closed">
+        Closed="Window_Closed">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -16,7 +16,13 @@
         </ResourceDictionary>
     </Window.Resources>
     <StackPanel>
-        <local:ConfigurationUserControl x:Name="ConfigurationUserControl"/>
-        <local:TrainingUserControl x:Name="TrainingUserControl"/>
+        <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="8">
+            <TabItem Header="Configuratie"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <local:ConfigurationUserControl x:Name="ConfigurationUserControl"/>
+            </TabItem>
+            <TabItem Header="Training">
+                <local:TrainingUserControl x:Name="TrainingUserControl"/>
+            </TabItem>
+        </TabControl>
     </StackPanel>
 </Window>

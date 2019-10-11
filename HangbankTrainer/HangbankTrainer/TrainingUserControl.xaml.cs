@@ -1,20 +1,12 @@
 ﻿using LiveCharts;
 using LiveCharts.Wpf;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO.Ports;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace HangbankTrainer
 {
@@ -23,6 +15,7 @@ namespace HangbankTrainer
     /// </summary>
     public partial class TrainingUserControl : UserControl, INotifyPropertyChanged
     {
+          
         public TrainingUserControl()
         {
             InitializeComponent();
@@ -41,34 +34,35 @@ namespace HangbankTrainer
                 }
             };
 
-            _listener = new SerialPortListener("COM4");
-            _listener.NewMessage += (s, e) =>
-            {
-                var eventArgs = (SerialPortEventArgs)e;
-
-                LinksVolt = eventArgs.Left;
-                LinksMoment = (int)(1000 * (LinksVolt - Config.LinksOnbelast) / (Config.LinksBelast - Config.LinksOnbelast)); 
-                SeriesCollection[0].Values.Add(LinksMoment);
-                SeriesCollection[0].Values.RemoveAt(0);
-
-                RechtsVolt = eventArgs.Right;
-                RechtsMoment = (int)(1000 * (RechtsVolt - Config.RechtsOnbelast) / (Config.RechtsBelast - Config.RechtsOnbelast));
-                SeriesCollection[1].Values.Add(RechtsMoment);
-                SeriesCollection[1].Values.RemoveAt(0);
-            };
-            _listener.Open();
-
             DataContext = this; 
         }
 
-        public void Close()
+        private HangbankTrainerConfiguration _config; 
+        internal HangbankTrainerConfiguration Config
         {
-            _listener.Close();
+            get
+            {
+                return _config;
+            }
+            set
+            {
+                _config = value;
+                _config.Listener.NewMessage += (s, e) =>
+                {
+                    var eventArgs = (SerialPortEventArgs)e;
+
+                    LinksVolt = eventArgs.Left;
+                    LinksMoment = (int)(1000 * (LinksVolt - Config.LinksOnbelast) / (Config.LinksBelast - Config.LinksOnbelast));
+                    SeriesCollection[0].Values.Add(LinksMoment);
+                    SeriesCollection[0].Values.RemoveAt(0);
+
+                    RechtsVolt = eventArgs.Right;
+                    RechtsMoment = (int)(1000 * (RechtsVolt - Config.RechtsOnbelast) / (Config.RechtsBelast - Config.RechtsOnbelast));
+                    SeriesCollection[1].Values.Add(RechtsMoment);
+                    SeriesCollection[1].Values.RemoveAt(0);
+                };
+            }
         }
-
-        internal HangbankTrainerConfiguration Config { get; set; }
-
-        private readonly SerialPortListener _listener;
 
         public SeriesCollection SeriesCollection { get; set; }
 

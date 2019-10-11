@@ -25,20 +25,18 @@ namespace HangbankTrainer
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
-
-        
-
-
-        
-
         public MainWindow()
         {
             InitializeComponent();
             
             var config = new HangbankTrainerConfiguration();
+
             DataContext = config;
+            ConfigurationUserControl.Config = config;
             ConfigurationUserControl.DataContext = config;
-            TrainingUserControl.Config = config; 
+            TrainingUserControl.Config = config;
+
+            ConfigurationUserControl.ComPortComboBox.SelectedValue = "COM4";  // This will trigger setting up the connection. 
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -50,11 +48,7 @@ namespace HangbankTrainer
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            //_listener.Close(); 
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-        }
     }
 }

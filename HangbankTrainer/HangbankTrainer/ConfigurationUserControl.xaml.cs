@@ -22,5 +22,16 @@ namespace HangbankTrainer
         {
             InitializeComponent();
         }
+
+        internal HangbankTrainerConfiguration Config { get; set; }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ComPortComboBox.SelectedValue != null)
+            {
+                string comPort = ComPortComboBox.SelectedValue.ToString();
+                Config.SetSerialPort(comPort);
+            }
+        }
     }
 }
