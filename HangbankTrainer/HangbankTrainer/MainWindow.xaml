@@ -17,6 +17,6 @@
     </Window.Resources>
     <StackPanel>
         <local:ConfigurationUserControl x:Name="ConfigurationUserControl"/>
-        <local:TrainingUserControl x:Name="TrainingUserControl" Visibility="Collapsed"/>
+        <local:TrainingUserControl x:Name="TrainingUserControl"/>
     </StackPanel>
 </Window>

@@ -8,6 +8,14 @@ namespace HangbankTrainer
     class HangbankTrainerConfiguration : INotifyPropertyChanged
     {
 
+        public HangbankTrainerConfiguration()
+        {
+            _linksOnbelast = 456;
+            _linksBelast = 639;
+            _rechtsOnbelast = 207;
+            _rechtsBelast = 300; 
+        }
+
         private double _linksOnbelast;
         public double LinksOnbelast
         {

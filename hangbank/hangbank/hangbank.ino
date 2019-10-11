@@ -21,5 +21,5 @@ void loop() {
   Serial.print(",");
   Serial.println(rightRead);
   
-  delay(100);
+  delay(500);
 }

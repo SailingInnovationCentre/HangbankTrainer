@@ -3,9 +3,37 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              xmlns:local="clr-namespace:HangbankTrainer"
              mc:Ignorable="d">
-    <Grid>
-        <TextBlock Text="TRAINING!"/>
-    </Grid>
+    <StackPanel Orientation="Vertical">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" FontSize="18" Height="24" Text="Links:"/>
+            <TextBlock Grid.Row="0" Grid.Column="1" FontSize="18" Height="24" HorizontalAlignment="Right" Text="{Binding LinksVolt}"/>
+            <TextBlock Grid.Row="0" Grid.Column="2" FontSize="18" Height="24" HorizontalAlignment="Right" Text="{Binding LinksMoment}"/>
+            <TextBlock Grid.Row="0" Grid.Column="3" FontSize="18" Height="24" HorizontalAlignment="Right" Text="{Binding LinksPercentage, StringFormat=N2}"/>
+            <TextBlock Grid.Row="1" Grid.Column="0" FontSize="18" Height="24" Text="Rechts:"/>
+            <TextBlock Grid.Row="1" Grid.Column="1" FontSize="18" Height="24" HorizontalAlignment="Right" Text="{Binding RechtsVolt}"/>
+            <TextBlock Grid.Row="1" Grid.Column="2" FontSize="18" Height="24" HorizontalAlignment="Right" Text="{Binding RechtsMoment}"/>
+            <TextBlock Grid.Row="1" Grid.Column="3" FontSize="18" Height="24" HorizontalAlignment="Right" Text="{Binding RechtsPercentage, StringFormat=N2  }"/>
+        </Grid>
+        <lvc:CartesianChart Series="{Binding SeriesCollection}" LegendLocation="Right" Height="500" Width="800" Margin="8">
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Inspanning" MinValue="500" MaxValue="1200"/>
+            </lvc:CartesianChart.AxisY>
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Tijd"/>
+            </lvc:CartesianChart.AxisX>
+        </lvc:CartesianChart>
+    </StackPanel>
 </UserControl>
