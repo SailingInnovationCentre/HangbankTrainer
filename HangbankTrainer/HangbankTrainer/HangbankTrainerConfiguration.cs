@@ -10,10 +10,10 @@ namespace HangbankTrainer
 
         public HangbankTrainerConfiguration()
         {
-            _linksOnbelast = 456;
-            _linksBelast = 639;
+            _linksOnbelast = 456;   // 100 kg op zitvlak
+            _linksBelast = 570;     // 50 kg op 120cm op calibratiebalk. 
             _rechtsOnbelast = 207;
-            _rechtsBelast = 300; 
+            _rechtsBelast = 256; 
         }
 
         private double _linksOnbelast;
