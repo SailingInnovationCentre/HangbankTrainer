@@ -26,6 +26,7 @@
                 <ComboBoxItem>COM2</ComboBoxItem>
                 <ComboBoxItem>COM3</ComboBoxItem>
                 <ComboBoxItem>COM4</ComboBoxItem>
+                <ComboBoxItem>test</ComboBoxItem>
             </ComboBox>
             <TextBlock Grid.Row="1" Grid.Column="0" Text="Waarde links bij 100kg op zitvlak"/>
             <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding LinksOnbelast}"/>
