@@ -17,11 +17,14 @@
     </Window.Resources>
     <StackPanel>
         <TabControl Margin="8">
-            <TabItem Header="Configuratie">
-                <local:ConfigurationUserControl x:Name="ConfigurationUserControl"/>
+            <TabItem Header="Start">
+                <local:TrainingConfigurationUserControl x:Name="TrainingConfigUserControl"/>
             </TabItem>
             <TabItem Header="Training">
                 <local:TrainingUserControl x:Name="TrainingUserControl"/>
+            </TabItem>
+            <TabItem Header="Configuratie">
+                <local:ConfigurationUserControl x:Name="ConfigurationUserControl"/>
             </TabItem>
         </TabControl>
     </StackPanel>
