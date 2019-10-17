@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace HangbankTrainer
+﻿namespace HangbankTrainer
 {
-    class Athlete
+    public class Athlete
     {
 
         public string Name { get; set; }

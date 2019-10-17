@@ -43,9 +43,9 @@ namespace HangbankTrainer
 
             ChartValuesLeft = new ChartValues<MeasureModel>();
             ChartValuesRight = new ChartValues<MeasureModel>();
-            _currentX = 0; 
+            _currentX = 0;
 
-            DataContext = this; 
+            DataContext = this;
         }
 
         private HangbankTrainerConfiguration _config; 
