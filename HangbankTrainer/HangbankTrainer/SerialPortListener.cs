@@ -82,7 +82,7 @@ namespace HangbankTrainer
         {
             _timer = new Timer();
             _timer.AutoReset = true;
-            _timer.Interval = 500;
+            _timer.Interval = 250;
             _timer.Elapsed += (s, e) =>
             {
                 NewMessage?.Invoke(this, new SerialPortEventArgs(_random.Next(550,560), _random.Next(245, 255)));

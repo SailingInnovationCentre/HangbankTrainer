@@ -1,12 +1,8 @@
 ﻿using LiveCharts;
 using LiveCharts.Configurations;
-using LiveCharts.Wpf;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO.Ports;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Windows;
 using System.Windows.Controls;
 
 namespace HangbankTrainer
@@ -60,34 +56,37 @@ namespace HangbankTrainer
                 _config = value;
                 _config.Listener.NewMessage += (s, e) =>
                 {
-                    var eventArgs = (SerialPortEventArgs)e;
+                    App.Current.Dispatcher.Invoke(() => {
+                        var eventArgs = (SerialPortEventArgs)e;
 
-                    LinksVolt = eventArgs.Left;
-                    LinksMoment = (int)(1000 * (LinksVolt - Config.LinksOnbelast) / (Config.LinksBelast - Config.LinksOnbelast));
+                        LinksVolt = eventArgs.Left;
+                        LinksMoment = (int)(1000 * (LinksVolt - Config.LinksOnbelast) / (Config.LinksBelast - Config.LinksOnbelast));
 
-                    ChartValuesLeft.Add(new MeasureModel
-                    {
-                        X = _currentX,
-                        Y = LinksMoment
+                        ChartValuesLeft.Add(new MeasureModel
+                        {
+                            X = _currentX,
+                            Y = LinksMoment
+                        });
+
+                        RechtsVolt = eventArgs.Right;
+                        RechtsMoment = (int)(1000 * (RechtsVolt - Config.RechtsOnbelast) / (Config.RechtsBelast - Config.RechtsOnbelast));
+
+                        ChartValuesRight.Add(new MeasureModel
+                        {
+                            X = _currentX,
+                            Y = RechtsMoment
+                        });
+
+                        SetAxisLimits(_currentX);
+                        _currentX++;
+
+                        if (ChartValuesLeft.Count > 1000)
+                        {
+                            ChartValuesLeft.RemoveAt(0);
+                            ChartValuesRight.RemoveAt(0);
+                        }
+
                     });
-
-                    RechtsVolt = eventArgs.Right;
-                    RechtsMoment = (int)(1000 * (RechtsVolt - Config.RechtsOnbelast) / (Config.RechtsBelast - Config.RechtsOnbelast));
-
-                    ChartValuesRight.Add(new MeasureModel
-                    {
-                        X = _currentX,
-                        Y = RechtsMoment
-                    });
-
-                    SetAxisLimits(_currentX);
-                    _currentX++;
-
-                    if (ChartValuesLeft.Count > 1000)
-                    {
-                        ChartValuesLeft.RemoveAt(0);
-                        ChartValuesRight.RemoveAt(0);
-                    }
                 };
             }
         }

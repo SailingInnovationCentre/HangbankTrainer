@@ -71,7 +71,7 @@ namespace HangbankTrainer
                 }
                 catch (Exception)
                 {
-                    int x = 3; 
+                    // gulp
                 }
             }
             return athletes; 

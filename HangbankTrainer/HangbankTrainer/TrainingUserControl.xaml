@@ -7,13 +7,13 @@
              xmlns:local="clr-namespace:HangbankTrainer"
              mc:Ignorable="d">
     <StackPanel Orientation="Horizontal" Margin="16">
-        <lvc:CartesianChart AnimationsSpeed="0:0:0.1" Hoverable="False" DataTooltip="{x:Null}" Height="600" Width="1000">
+        <lvc:CartesianChart AnimationsSpeed="0:0:0.5" Hoverable="False" DataTooltip="{x:Null}" Height="600" Width="1000">
             <lvc:CartesianChart.Series>
                 <lvc:LineSeries Values="{Binding ChartValuesLeft}" 
                                 PointGeometry="{x:Null}" 
                                 LineSmoothness="1"
                                 StrokeThickness="6" 
-                                Stroke="#F34336"
+                                Stroke="#1e3f5a"
                                 Fill="Transparent"/>
                 <lvc:LineSeries Values="{Binding ChartValuesRight}" 
                                 PointGeometry="{x:Null}" 
@@ -23,9 +23,7 @@
                                 Fill="Transparent"/>
             </lvc:CartesianChart.Series>
             <lvc:CartesianChart.AxisX>
-                <lvc:Axis MaxValue="{Binding AxisMax}" 
-                          MinValue="{Binding AxisMin}">
-                </lvc:Axis>
+                <lvc:Axis MaxValue="{Binding AxisMax}" MinValue="{Binding AxisMin}"/>
             </lvc:CartesianChart.AxisX>
             <lvc:CartesianChart.AxisY>
                 <lvc:Axis MaxValue="1500" MinValue="500"/>
