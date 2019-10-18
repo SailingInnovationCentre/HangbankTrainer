@@ -44,7 +44,7 @@ namespace HangbankTrainer
                     athlete.WeightKg.ToString(),
                     athlete.MomentMax.ToString(),
                     athlete.Moment75.ToString(),
-                    athlete.Moment145degrees.ToString(),
+                    athlete.Moment145Degrees.ToString(),
                 }));
             }
             File.WriteAllText(GetAthletesCsvFile(), sb.ToString()); 
@@ -59,15 +59,13 @@ namespace HangbankTrainer
                 var elements = line.Split(',');
                 try
                 {
-                    athletes.Add(new Athlete
-                    {
-                        Name = elements[0],
-                        LengthCm = int.Parse(elements[1]),
-                        WeightKg = int.Parse(elements[2]),
-                        MomentMax = int.Parse(elements[3]),
-                        Moment75 = int.Parse(elements[4]),
-                        Moment145degrees = int.Parse(elements[5])
-                    });
+                    athletes.Add(new Athlete(
+                        elements[0],
+                        int.Parse(elements[1]),
+                        int.Parse(elements[2]),
+                        int.Parse(elements[3]),
+                        int.Parse(elements[4]),
+                        int.Parse(elements[5])));
                 }
                 catch (Exception)
                 {

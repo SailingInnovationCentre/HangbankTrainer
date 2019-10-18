@@ -1,18 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace HangbankTrainer
 {
@@ -29,6 +19,9 @@ namespace HangbankTrainer
             AthletePersister.AssertFilesPresent();
 
             Athletes = new ObservableCollection<Athlete>(AthletePersister.Read());
+            Athletes.Add(Athlete.CreateNew());
+
+            AthletesComboBox.SelectedIndex = 0; 
         }
 
         private Athlete _currentAthlete;
@@ -40,6 +33,10 @@ namespace HangbankTrainer
 
         public ObservableCollection<Athlete> Athletes { get; set; }
 
+        private void AthletesComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            CurrentAthlete = (Athlete) e.AddedItems[0];
+        }
 
         #region INotifyPropertyChanged
 
@@ -57,5 +54,7 @@ namespace HangbankTrainer
         }
 
         #endregion
+
+        
     }
 }
