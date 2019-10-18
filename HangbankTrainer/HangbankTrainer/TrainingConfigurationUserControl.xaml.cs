@@ -14,14 +14,12 @@ namespace HangbankTrainer
         public TrainingConfigurationUserControl()
         {
             InitializeComponent();
-            DataContext = this; 
+            DataContext = this;
 
             AthletePersister.AssertFilesPresent();
 
             Athletes = new ObservableCollection<Athlete>(AthletePersister.Read());
-            Athletes.Add(Athlete.CreateNew());
-
-            AthletesComboBox.SelectedIndex = 0; 
+            ActionComboBox.SelectedIndex = 0;
         }
 
         private Athlete _currentAthlete;
@@ -33,10 +31,86 @@ namespace HangbankTrainer
 
         public ObservableCollection<Athlete> Athletes { get; set; }
 
+        private void ActionComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string action = ((ComboBoxItem)e.AddedItems[0]).Name;
+            if (action == "CurrentAthleteCbi")
+            {
+                AthletesComboBox.Visibility = System.Windows.Visibility.Visible;
+                AthletesComboBox.SelectedIndex = 0;
+                NameTextBox.IsEnabled = true;
+                LengthTextBox.IsEnabled = true;
+                WeightTextBox.IsEnabled = true;
+                MomentMaxTextBox.IsEnabled = true;
+                Moment75TextBox.IsEnabled = true;
+                Moment145TextBox.IsEnabled = true;
+                ActionButton.IsEnabled = true;
+                ActionButton.Content = "Sla gegevens op";
+            }
+            else if (action == "AddAthleteCbi")
+            {
+                AthletesComboBox.Visibility = System.Windows.Visibility.Hidden;
+                NameTextBox.IsEnabled = true;
+                LengthTextBox.IsEnabled = true;
+                WeightTextBox.IsEnabled = true;
+                MomentMaxTextBox.IsEnabled = true;
+                Moment75TextBox.IsEnabled = true;
+                Moment145TextBox.IsEnabled = true;
+                ActionButton.IsEnabled = true;
+                ActionButton.Content = "Voeg atleet toe";
+                CurrentAthlete = Athlete.CreateNew();
+            }
+            else if (action == "DeleteAthleteCbi")
+            {
+                AthletesComboBox.Visibility = System.Windows.Visibility.Visible;
+                AthletesComboBox.SelectedIndex = 0;
+                NameTextBox.IsEnabled = false;
+                LengthTextBox.IsEnabled = false;
+                WeightTextBox.IsEnabled = false;
+                MomentMaxTextBox.IsEnabled = false;
+                Moment75TextBox.IsEnabled = false;
+                Moment145TextBox.IsEnabled = false;
+                ActionButton.IsEnabled = true;
+                ActionButton.Content = "Verwijder atleet";
+            }
+        }
+
         private void AthletesComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CurrentAthlete = (Athlete) e.AddedItems[0];
+            if (e.AddedItems.Count > 0)
+            {
+                CurrentAthlete = (Athlete)e.AddedItems[0];
+            }
         }
+
+        private void ActionButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            string action = (string)((Button)sender).Content;
+
+            if (action.Contains("Verwijder"))
+            {
+                Athletes.Remove(CurrentAthlete);
+            }
+            else if (action.Contains("Voeg"))
+            {
+                Athletes.Add(CurrentAthlete);
+            }
+
+            AthletePersister.Write(Athletes);
+
+            var athlete = CurrentAthlete;
+            ActionComboBox.SelectedIndex = 0;
+
+            if (action.Contains("Verwijder"))
+            {
+                AthletesComboBox.SelectedIndex = 0;
+            }
+            else
+            {
+                AthletesComboBox.SelectedItem = athlete;
+            }
+        }
+
 
         #region INotifyPropertyChanged
 
@@ -55,6 +129,5 @@ namespace HangbankTrainer
 
         #endregion
 
-        
     }
 }

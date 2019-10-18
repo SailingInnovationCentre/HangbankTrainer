@@ -23,26 +23,33 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="Ik ben:"/>
-                <ComboBox Grid.Row="0" Grid.Column="1" Width="200" ItemsSource="{Binding Athletes}" DisplayMemberPath="Name" 
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Ik wil:"/>
+                <ComboBox Grid.Row="0" Grid.Column="1" Width="200" SelectedValuePath="Content"
+                          x:Name="ActionComboBox" SelectionChanged="ActionComboBox_SelectionChanged">
+                    <ComboBoxItem x:Name="CurrentAthleteCbi">Ik heb al een spelersprofiel</ComboBoxItem>
+                    <ComboBoxItem x:Name="AddAthleteCbi">Ik wil een spelersprofiel toevoegen</ComboBoxItem>
+                    <ComboBoxItem x:Name="DeleteAthleteCbi">Ik wil een spelersprofiel verwijderen</ComboBoxItem>
+                </ComboBox>
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Ik ben:"/>
+                <ComboBox Grid.Row="1" Grid.Column="1" Width="200" ItemsSource="{Binding Athletes}" DisplayMemberPath="Name" 
                           x:Name="AthletesComboBox" SelectionChanged="AthletesComboBox_SelectionChanged"/>
-                <TextBlock Grid.Row="1" Grid.Column="0" Text="Naam:" />
-                <TextBox Grid.Row="1" Grid.Column="1" Width="200" Text="{Binding CurrentAthlete.Name}"/>
-                <TextBlock Grid.Row="2" Grid.Column="0" Text="Lengte (cm):"/>
-                <TextBox Grid.Row="2" Grid.Column="1" Width="200" Text="{Binding CurrentAthlete.LengthCm}"/>
-                <TextBlock Grid.Row="3" Grid.Column="0" Text="Gewicht (kg):"/>
-                <TextBox Grid.Row="3" Grid.Column="1" Width="200" Text="{Binding CurrentAthlete.WeightKg}"/>
-                <TextBlock Grid.Row="4" Grid.Column="0" Text="Moment (max):"/>
-                <TextBox Grid.Row="4" Grid.Column="1" Width="200" Text="{Binding CurrentAthlete.MomentMax}"/>
-                <TextBlock Grid.Row="5" Grid.Column="0" Text="Moment (75%):"/>
-                <TextBox Grid.Row="5" Grid.Column="1" Width="200" Text="{Binding CurrentAthlete.Moment75}"/>
-                <TextBlock Grid.Row="6" Grid.Column="0" Text="Moment (145 graden):"/>
-                <TextBox Grid.Row="6" Grid.Column="1" Width="200" Text="{Binding CurrentAthlete.Moment145Degrees}"/>
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Naam:" />
+                <TextBox Grid.Row="2" Grid.Column="1" Width="200" x:Name="NameTextBox" Text="{Binding CurrentAthlete.Name}"/>
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="Lengte (cm):"/>
+                <TextBox Grid.Row="3" Grid.Column="1" Width="200" x:Name="LengthTextBox" Text="{Binding CurrentAthlete.LengthCm}"/>
+                <TextBlock Grid.Row="4" Grid.Column="0" Text="Gewicht (kg):"/>
+                <TextBox Grid.Row="4" Grid.Column="1" Width="200" x:Name="WeightTextBox" Text="{Binding CurrentAthlete.WeightKg}"/>
+                <TextBlock Grid.Row="5" Grid.Column="0" Text="Moment (max):"/>
+                <TextBox Grid.Row="5" Grid.Column="1" Width="200" x:Name="MomentMaxTextBox" Text="{Binding CurrentAthlete.MomentMax}"/>
+                <TextBlock Grid.Row="6" Grid.Column="0" Text="Moment (75%):"/>
+                <TextBox Grid.Row="6" Grid.Column="1" Width="200" x:Name="Moment75TextBox" Text="{Binding CurrentAthlete.Moment75}"/>
+                <TextBlock Grid.Row="7" Grid.Column="0" Text="Moment (145 graden):"/>
+                <TextBox Grid.Row="7" Grid.Column="1" Width="200" x:Name="Moment145TextBox" Text="{Binding CurrentAthlete.Moment145Degrees}"/>
             </Grid>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Margin="12" Width="150" IsEnabled="{Binding CurrentAthlete.IsChanged}">Sla speler op</Button>
-                <Button Margin="12" Width="150">Verwijder speler</Button>
+                <Button Margin="12" Width="200" x:Name="ActionButton" Click="ActionButton_Click"/>
             </StackPanel>
         </StackPanel>
         <StackPanel Width="400" HorizontalAlignment="Center" Orientation="Vertical">
