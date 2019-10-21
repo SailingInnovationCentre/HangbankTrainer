@@ -1,4 +1,4 @@
-﻿<Window x:Class="HangbankTrainer.MainWindow"
+﻿<Window x:Class="HangbankTrainer.HangbankMainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -16,7 +16,8 @@
         </ResourceDictionary>
     </Window.Resources>
     <StackPanel>
-        <TabControl Margin="8">
+        <ContentControl x:Name="MainContentControl"/>
+        <!--<TabControl Margin="8">
             <TabItem Header="Start">
                 <local:TrainingConfigurationUserControl x:Name="TrainingConfigUserControl"/>
             </TabItem>
@@ -26,6 +27,6 @@
             <TabItem Header="Configuratie">
                 <local:ConfigurationUserControl x:Name="ConfigurationUserControl"/>
             </TabItem>
-        </TabControl>
+        </TabControl>-->
     </StackPanel>
 </Window>

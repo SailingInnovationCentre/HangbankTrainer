@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace HangbankTrainer
 {
-    class HangbankTrainerConfiguration : INotifyPropertyChanged
+    public class HangbankModel : INotifyPropertyChanged
     {
 
-        public HangbankTrainerConfiguration()
+        public HangbankModel()
         {
-            Listener = new SerialPortListener(); 
+            Listener = new SerialPortListener();
 
             _linksOnbelast = 456;   // 100 kg op zitvlak
             _linksBelast = 570;     // 50 kg op 120cm op calibratiebalk. 
@@ -17,53 +18,49 @@ namespace HangbankTrainer
             _rechtsBelast = 256;
         }
 
-        public SerialPortListener Listener { get; private set; }
+        private Athlete _currentAthlete;
 
-        public void SetSerialPort(string port)
+        public Athlete CurrentAthlete
+        {
+            get => _currentAthlete;
+            set => SetField(ref _currentAthlete, value);
+        }
+
+        public ObservableCollection<Athlete> Athletes { get; set; }
+
+        internal SerialPortListener Listener { get; private set; }
+
+        internal void SetSerialPort(string port)
         {
             Listener.SetSerialPort(port);
         }
 
         private double _linksOnbelast;
-        public double LinksOnbelast
+        internal double LinksOnbelast
         {
             get => _linksOnbelast;
             set => SetField(ref _linksOnbelast, value);
         }
 
         private double _linksBelast;
-        public double LinksBelast
+        internal double LinksBelast
         {
             get => _linksBelast;
             set => SetField(ref _linksBelast, value);
         }
 
         private double _rechtsOnbelast;
-        public double RechtsOnbelast
+        internal double RechtsOnbelast
         {
             get => _rechtsOnbelast;
             set => SetField(ref _rechtsOnbelast, value);
         }
 
         private double _rechtsBelast;
-        public double RechtsBelast
+        internal double RechtsBelast
         {
             get => _rechtsBelast;
             set => SetField(ref _rechtsBelast, value);
-        }
-
-        private double _spelerMinimum;
-        public double SpelerMinimum
-        {
-            get => _spelerMinimum;
-            set => SetField(ref _spelerMinimum, value);
-        }
-
-        private double _spelerMaximum;
-        public double SpelerMaximum
-        {
-            get => _spelerMaximum;
-            set => SetField(ref _spelerMaximum, value);
         }
 
         #region INotifyPropertyChanged

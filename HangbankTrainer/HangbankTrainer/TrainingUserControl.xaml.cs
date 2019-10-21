@@ -44,23 +44,23 @@ namespace HangbankTrainer
             DataContext = this;
         }
 
-        private HangbankTrainerConfiguration _config; 
-        internal HangbankTrainerConfiguration Config
+        private HangbankModel _model; 
+        internal HangbankModel Model
         {
             get
             {
-                return _config;
+                return _model;
             }
             set
             {
-                _config = value;
-                _config.Listener.NewMessage += (s, e) =>
+                _model = value;
+                _model.Listener.NewMessage += (s, e) =>
                 {
                     App.Current.Dispatcher.Invoke(() => {
                         var eventArgs = (SerialPortEventArgs)e;
 
                         LinksVolt = eventArgs.Left;
-                        LinksMoment = (int)(1000 * (LinksVolt - Config.LinksOnbelast) / (Config.LinksBelast - Config.LinksOnbelast));
+                        LinksMoment = (int)(1000 * (LinksVolt - Model.LinksOnbelast) / (Model.LinksBelast - Model.LinksOnbelast));
 
                         ChartValuesLeft.Add(new MeasureModel
                         {
@@ -69,7 +69,7 @@ namespace HangbankTrainer
                         });
 
                         RechtsVolt = eventArgs.Right;
-                        RechtsMoment = (int)(1000 * (RechtsVolt - Config.RechtsOnbelast) / (Config.RechtsBelast - Config.RechtsOnbelast));
+                        RechtsMoment = (int)(1000 * (RechtsVolt - Model.RechtsOnbelast) / (Model.RechtsBelast - Model.RechtsOnbelast));
 
                         ChartValuesRight.Add(new MeasureModel
                         {

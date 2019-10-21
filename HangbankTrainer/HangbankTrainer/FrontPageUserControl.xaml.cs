@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Controls;
 
 namespace HangbankTrainer
@@ -9,27 +6,26 @@ namespace HangbankTrainer
     /// <summary>
     /// Interaction logic for TrainingConfigurationUserControl.xaml
     /// </summary>
-    public partial class TrainingConfigurationUserControl : UserControl, INotifyPropertyChanged
+    public partial class FrontPageUserControl : UserControl
     {
-        public TrainingConfigurationUserControl()
+        private HangbankMainWindow _mainWindow;
+        private HangbankModel _model;
+
+        internal FrontPageUserControl(HangbankMainWindow mainWindow, HangbankModel model)
         {
+            _mainWindow = mainWindow;
+            _model = model; 
+
             InitializeComponent();
-            DataContext = this;
+            DataContext = model;
 
             AthletePersister.AssertFilesPresent();
 
-            Athletes = new ObservableCollection<Athlete>(AthletePersister.Read());
+            _model.Athletes = new ObservableCollection<Athlete>(AthletePersister.Read());
             ActionComboBox.SelectedIndex = 0;
         }
 
-        private Athlete _currentAthlete;
-        public Athlete CurrentAthlete
-        {
-            get => _currentAthlete;
-            set => SetField(ref _currentAthlete, value);
-        }
-
-        public ObservableCollection<Athlete> Athletes { get; set; }
+        public Athlete CurrentAthlete => _model.CurrentAthlete; 
 
         private void ActionComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -58,7 +54,7 @@ namespace HangbankTrainer
                 Moment145TextBox.IsEnabled = true;
                 ActionButton.IsEnabled = true;
                 ActionButton.Content = "Voeg atleet toe";
-                CurrentAthlete = Athlete.CreateNew();
+                _model.CurrentAthlete = Athlete.CreateNew();
             }
             else if (action == "DeleteAthleteCbi")
             {
@@ -79,7 +75,7 @@ namespace HangbankTrainer
         {
             if (e.AddedItems.Count > 0)
             {
-                CurrentAthlete = (Athlete)e.AddedItems[0];
+                _model.CurrentAthlete = (Athlete)e.AddedItems[0];
             }
         }
 
@@ -89,16 +85,16 @@ namespace HangbankTrainer
 
             if (action.Contains("Verwijder"))
             {
-                Athletes.Remove(CurrentAthlete);
+                _model.Athletes.Remove(_model.CurrentAthlete);
             }
             else if (action.Contains("Voeg"))
             {
-                Athletes.Add(CurrentAthlete);
+                _model.Athletes.Add(_model.CurrentAthlete);
             }
 
-            AthletePersister.Write(Athletes);
+            AthletePersister.Write(_model.Athletes);
 
-            var athlete = CurrentAthlete;
+            var athlete = _model.CurrentAthlete;
             ActionComboBox.SelectedIndex = 0;
 
             if (action.Contains("Verwijder"))
@@ -110,24 +106,5 @@ namespace HangbankTrainer
                 AthletesComboBox.SelectedItem = athlete;
             }
         }
-
-
-        #region INotifyPropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged(string propertyName)
-            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
-        protected bool SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
-            field = value;
-            OnPropertyChanged(propertyName);
-            return true;
-        }
-
-        #endregion
-
     }
 }

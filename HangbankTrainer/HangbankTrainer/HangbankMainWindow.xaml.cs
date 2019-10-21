@@ -23,20 +23,23 @@ namespace HangbankTrainer
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, INotifyPropertyChanged
+    public partial class HangbankMainWindow : Window, INotifyPropertyChanged
     {
-        public MainWindow()
+
+        private HangbankModel _model;
+
+        private FrontPageUserControl _frontPageUserControl;
+        private TrainingUserControl _trainingUserControl;
+        private ConfigurationUserControl _configUserControl; 
+
+        public HangbankMainWindow()
         {
             InitializeComponent();
             
-            var config = new HangbankTrainerConfiguration();
+            _model = new HangbankModel();
+            _model.SetSerialPort("COM4");
 
-            DataContext = config;
-            ConfigurationUserControl.Config = config;
-            ConfigurationUserControl.DataContext = config;
-            TrainingUserControl.Config = config;
-
-            ConfigurationUserControl.ComPortComboBox.SelectedValue = "COM4";  // This will trigger setting up the connection. 
+            StartFrontPage(); 
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -48,6 +51,22 @@ namespace HangbankTrainer
 
         private void Window_Closed(object sender, EventArgs e)
         {
+        }
+
+        internal void StartFrontPage()
+        {
+            _frontPageUserControl = new FrontPageUserControl(this, _model);
+            MainContentControl.Content = _frontPageUserControl; 
+        }
+
+        internal void StartTraining(Athlete athlete, Training training)
+        {
+            // Create UserControl. 
+        }
+
+        internal void EditConfiguration()
+        {
+            // Create UserControl. 
         }
 
     }
