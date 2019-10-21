@@ -1,5 +1,6 @@
 ﻿using LiveCharts;
 using LiveCharts.Configurations;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -12,11 +13,10 @@ namespace HangbankTrainer
     /// </summary>
     public partial class TrainingUserControl : UserControl, INotifyPropertyChanged
     {
-
         public class MeasureModel
         {
             public int X;
-            public int Y; 
+            public int Y;
         }
 
         private int _currentX;
@@ -24,10 +24,16 @@ namespace HangbankTrainer
         public ChartValues<MeasureModel> ChartValuesLeft { get; set; }
         public ChartValues<MeasureModel> ChartValuesRight { get; set; }
 
-        public TrainingUserControl()
+        private HangbankMainWindow _mainWindow; 
+        private HangbankModel _model;
+
+        public TrainingUserControl(HangbankMainWindow mainWindow, HangbankModel model)
         {
+            _mainWindow = mainWindow;
+            _model = model; 
+
             AxisMin = 0;
-            AxisMax = 100; 
+            AxisMax = 100;
 
             InitializeComponent();
 
@@ -42,53 +48,62 @@ namespace HangbankTrainer
             _currentX = 0;
 
             DataContext = this;
+
+            Start();  // TODO: Stop! 
         }
 
-        private HangbankModel _model; 
-        internal HangbankModel Model
+        private bool _started = false;
+
+        private void Start()
         {
-            get
+            if (!_started)
             {
-                return _model;
+                _started = true;
+                _model.Listener.NewMessage += OnMessage;
             }
-            set
+        }
+
+        private void Stop()
+        {
+            if (_started)
             {
-                _model = value;
-                _model.Listener.NewMessage += (s, e) =>
+                _model.Listener.NewMessage -= OnMessage;
+            }
+        }
+
+        private void OnMessage(object sender, EventArgs e)
+        {
+            
+            App.Current.Dispatcher.Invoke(() => {
+                var eventArgs = (SerialPortEventArgs)e;
+
+                LinksVolt = eventArgs.Left;
+                LinksMoment = (int)(1000 * (LinksVolt - _model.LinksOnbelast) / (_model.LinksBelast - _model.LinksOnbelast));
+
+                ChartValuesLeft.Add(new MeasureModel
                 {
-                    App.Current.Dispatcher.Invoke(() => {
-                        var eventArgs = (SerialPortEventArgs)e;
+                    X = _currentX,
+                    Y = LinksMoment
+                });
 
-                        LinksVolt = eventArgs.Left;
-                        LinksMoment = (int)(1000 * (LinksVolt - Model.LinksOnbelast) / (Model.LinksBelast - Model.LinksOnbelast));
+                RechtsVolt = eventArgs.Right;
+                RechtsMoment = (int)(1000 * (RechtsVolt - _model.RechtsOnbelast) / (_model.RechtsBelast - _model.RechtsOnbelast));
 
-                        ChartValuesLeft.Add(new MeasureModel
-                        {
-                            X = _currentX,
-                            Y = LinksMoment
-                        });
+                ChartValuesRight.Add(new MeasureModel
+                {
+                    X = _currentX,
+                    Y = RechtsMoment
+                });
 
-                        RechtsVolt = eventArgs.Right;
-                        RechtsMoment = (int)(1000 * (RechtsVolt - Model.RechtsOnbelast) / (Model.RechtsBelast - Model.RechtsOnbelast));
+                SetAxisLimits(_currentX);
+                _currentX++;
 
-                        ChartValuesRight.Add(new MeasureModel
-                        {
-                            X = _currentX,
-                            Y = RechtsMoment
-                        });
-
-                        SetAxisLimits(_currentX);
-                        _currentX++;
-
-                        if (ChartValuesLeft.Count > 1000)
-                        {
-                            ChartValuesLeft.RemoveAt(0);
-                            ChartValuesRight.RemoveAt(0);
-                        }
-
-                    });
-                };
-            }
+                if (ChartValuesLeft.Count > 1000)
+                {
+                    ChartValuesLeft.RemoveAt(0);
+                    ChartValuesRight.RemoveAt(0);
+                }
+            });
         }
 
         private double _axisMax;

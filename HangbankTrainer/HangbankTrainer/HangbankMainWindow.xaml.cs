@@ -23,7 +23,7 @@ namespace HangbankTrainer
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class HangbankMainWindow : Window, INotifyPropertyChanged
+    public partial class HangbankMainWindow : Window
     {
 
         private HangbankModel _model;
@@ -42,15 +42,9 @@ namespace HangbankTrainer
             StartFrontPage(); 
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged([CallerMemberName]string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         private void Window_Closed(object sender, EventArgs e)
         {
+            _model.CloseSerialPort(); 
         }
 
         internal void StartFrontPage()
@@ -59,15 +53,17 @@ namespace HangbankTrainer
             MainContentControl.Content = _frontPageUserControl; 
         }
 
-        internal void StartTraining(Athlete athlete, Training training)
+        internal void StartTraining()
         {
-            // Create UserControl. 
+            _trainingUserControl = new TrainingUserControl(this, _model);
+            MainContentControl.Content = _trainingUserControl; 
         }
 
-        internal void EditConfiguration()
+        internal void StartConfiguration()
         {
-            // Create UserControl. 
+            _configUserControl = new ConfigurationUserControl(this, _model);
+            MainContentControl.Content = _configUserControl;
+            throw new NotImplementedException();
         }
-
     }
 }

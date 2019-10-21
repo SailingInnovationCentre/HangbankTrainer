@@ -106,5 +106,16 @@ namespace HangbankTrainer
                 AthletesComboBox.SelectedItem = athlete;
             }
         }
+
+        private void StartTrainingButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            _mainWindow.StartTraining(); 
+        }
+
+        private void ConfigurationButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            _mainWindow.StartConfiguration();
+        }
+        
     }
 }

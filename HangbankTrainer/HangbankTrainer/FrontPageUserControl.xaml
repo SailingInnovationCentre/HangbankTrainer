@@ -54,6 +54,8 @@
         </StackPanel>
         <StackPanel Width="400" HorizontalAlignment="Center" Orientation="Vertical">
             <TextBlock HorizontalAlignment="Center" Text="Training" FontSize="18" FontWeight="Bold" Height="24"/>
+            <Button Margin="12" Width="200" x:Name="StartTrainingButton" Click="StartTrainingButton_Click" Content="Start training!"/>
+            <Button Margin="12" Width="200" x:Name="ConfigurationButton" Click="ConfigurationButton_Click" Content="Configuratie"/>
         </StackPanel>
     </UniformGrid>
 </UserControl>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -35,6 +36,11 @@ namespace HangbankTrainer
             Listener.SetSerialPort(port);
         }
 
+        internal void CloseSerialPort()
+        {
+            Listener.CloseSerialPort(); 
+        }
+
         private double _linksOnbelast;
         internal double LinksOnbelast
         {
@@ -47,7 +53,7 @@ namespace HangbankTrainer
         {
             get => _linksBelast;
             set => SetField(ref _linksBelast, value);
-        }
+        }      
 
         private double _rechtsOnbelast;
         internal double RechtsOnbelast

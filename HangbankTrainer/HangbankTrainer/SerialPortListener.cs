@@ -19,11 +19,7 @@ namespace HangbankTrainer
         {
             try
             {
-                if (_serialPort != null)
-                {
-                    _serialPort.Close();
-                    _serialPort = null;
-                }
+                CloseSerialPort(); 
             }
             catch (Exception)
             {
@@ -60,6 +56,15 @@ namespace HangbankTrainer
                 {
                     // gulp.
                 }
+            }
+        }
+
+        internal void CloseSerialPort()
+        {
+            if (_serialPort != null)
+            {
+                _serialPort.Close();
+                _serialPort = null;
             }
         }
 

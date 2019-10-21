@@ -8,10 +8,12 @@ namespace HangbankTrainer
     public partial class ConfigurationUserControl : UserControl
     {
 
+        private HangbankMainWindow _mainWindow; 
         private HangbankModel _model;
 
-        public ConfigurationUserControl(HangbankModel model)
+        public ConfigurationUserControl(HangbankMainWindow mainWindow, HangbankModel model)
         {
+            _mainWindow = mainWindow; 
             _model = model; 
             InitializeComponent();
         }
