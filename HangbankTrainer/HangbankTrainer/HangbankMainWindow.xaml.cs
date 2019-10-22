@@ -37,7 +37,7 @@ namespace HangbankTrainer
             InitializeComponent();
             
             _model = new HangbankModel();
-            _model.Listener.SerialPortName = "COM4";
+            _model.Listener.SerialPortName = "test";
 
             StartFrontPage(); 
         }
@@ -63,6 +63,12 @@ namespace HangbankTrainer
         {
             _configUserControl = new ConfigurationUserControl(this, _model);
             MainContentControl.Content = _configUserControl;
+        }
+
+        internal void StartCalibration()
+        {
+            var calibrationControl = new CalibrationUserControl(this, _model);
+            MainContentControl.Content = calibrationControl; 
         }
     }
 }

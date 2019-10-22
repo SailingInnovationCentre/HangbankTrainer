@@ -49,7 +49,8 @@
                 <TextBox Grid.Row="7" Grid.Column="1" Width="200" x:Name="Moment145TextBox" Text="{Binding CurrentAthlete.Moment145Degrees}"/>
             </Grid>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Margin="12" Width="200" x:Name="ActionButton" Click="ActionButton_Click"/>
+                <Button Margin="12" Width="150" x:Name="ActionButton" Click="ActionButton_Click"/>
+                <Button Margin="12" Width="150" x:Name="CalibrationButton" Click="CalibrationButton_Click" Content="Calibratie-hulp"/>
             </StackPanel>
         </StackPanel>
         <StackPanel Width="400" HorizontalAlignment="Center" Orientation="Vertical">

@@ -116,6 +116,10 @@ namespace HangbankTrainer
         {
             _mainWindow.StartConfiguration();
         }
-        
+
+        private void CalibrationButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            _mainWindow.StartCalibration(); 
+        }
     }
 }
