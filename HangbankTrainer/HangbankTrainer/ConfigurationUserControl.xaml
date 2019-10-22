@@ -18,10 +18,10 @@
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
-                <RowDefinition/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Text="COM poort"/>
-            <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding ComPorts}" SelectionChanged="ComboBox_SelectionChanged" SelectedValuePath="Content" x:Name="ComPortComboBox">
+            <ComboBox Grid.Row="0" Grid.Column="1" SelectedValue="{Binding Listener.SerialPortName}"
+                      SelectedValuePath="Content" x:Name="ComPortComboBox">
                 <ComboBoxItem>COM1</ComboBoxItem>
                 <ComboBoxItem>COM2</ComboBoxItem>
                 <ComboBoxItem>COM3</ComboBoxItem>
@@ -36,10 +36,8 @@
             <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding RechtsOnbelast}"/>
             <TextBlock Grid.Row="4" Grid.Column="0" Text="Waarde rechts bij belast 50kg op 120cm"/>
             <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding RechtsBelast}"/>
-            <TextBlock Grid.Row="5" Grid.Column="0" Text="Speler minimum"/>
-            <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding SpelerMinimum}"/>
-            <TextBlock Grid.Row="6" Grid.Column="0" Text="Speler maximum"/>
-            <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding SpelerMaximum}"/>
+
+            <Button Grid.Row="5" Grid.ColumnSpan="2" x:Name="FrontScreenButton" Click="FrontScreenButton_Click" Width="200" Content="Terug" Margin="0,20"/>
         </Grid>
     </StackPanel>
 </UserControl>

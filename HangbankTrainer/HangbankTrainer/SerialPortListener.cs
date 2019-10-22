@@ -1,13 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO.Ports;
+using System.Runtime.CompilerServices;
 using System.Timers;
 
 namespace HangbankTrainer
 {
 
-    internal class SerialPortListener
+    public class SerialPortListener : INotifyPropertyChanged
     {
         private SerialPort _serialPort;
+        private string _serialPortName;
+        public string SerialPortName
+        {
+            get => _serialPortName;
+            set
+            {
+                SetField(ref _serialPortName, value);
+                SetSerialPort(_serialPortName); 
+            }
+        }
+
         private string _cachedString; 
 
         public event EventHandler NewMessage;
@@ -15,7 +29,7 @@ namespace HangbankTrainer
         private Timer _timer;
         private Random _random = new Random(); 
 
-        internal void SetSerialPort(string port)
+        private void SetSerialPort(string port)
         {
             try
             {
@@ -95,5 +109,21 @@ namespace HangbankTrainer
             _timer.Start(); 
         }
 
+        #region INotifyPropertyChanged
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName)
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        protected bool SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
+        {
+            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+            field = value;
+            OnPropertyChanged(propertyName);
+            return true;
+        }
+
+        #endregion
     }
 }

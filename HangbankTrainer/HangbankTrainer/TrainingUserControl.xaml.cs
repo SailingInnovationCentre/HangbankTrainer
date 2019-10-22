@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace HangbankTrainer
@@ -49,7 +50,13 @@ namespace HangbankTrainer
 
             DataContext = this;
 
-            Start();  // TODO: Stop! 
+            Start();
+        }
+
+        private void StopTrainingButton_Click(object sender, RoutedEventArgs e)
+        {
+            Stop();
+            _mainWindow.StartFrontPage();
         }
 
         private bool _started = false;
@@ -67,43 +74,41 @@ namespace HangbankTrainer
         {
             if (_started)
             {
+                _started = false;
                 _model.Listener.NewMessage -= OnMessage;
             }
         }
 
         private void OnMessage(object sender, EventArgs e)
         {
-            
-            App.Current.Dispatcher.Invoke(() => {
-                var eventArgs = (SerialPortEventArgs)e;
+            var eventArgs = (SerialPortEventArgs)e;
 
-                LinksVolt = eventArgs.Left;
-                LinksMoment = (int)(1000 * (LinksVolt - _model.LinksOnbelast) / (_model.LinksBelast - _model.LinksOnbelast));
+            LinksVolt = eventArgs.Left;
+            LinksMoment = (int)(1000 * (LinksVolt - _model.LinksOnbelast) / (_model.LinksBelast - _model.LinksOnbelast));
 
-                ChartValuesLeft.Add(new MeasureModel
-                {
-                    X = _currentX,
-                    Y = LinksMoment
-                });
-
-                RechtsVolt = eventArgs.Right;
-                RechtsMoment = (int)(1000 * (RechtsVolt - _model.RechtsOnbelast) / (_model.RechtsBelast - _model.RechtsOnbelast));
-
-                ChartValuesRight.Add(new MeasureModel
-                {
-                    X = _currentX,
-                    Y = RechtsMoment
-                });
-
-                SetAxisLimits(_currentX);
-                _currentX++;
-
-                if (ChartValuesLeft.Count > 1000)
-                {
-                    ChartValuesLeft.RemoveAt(0);
-                    ChartValuesRight.RemoveAt(0);
-                }
+            ChartValuesLeft.Add(new MeasureModel
+            {
+                X = _currentX,
+                Y = LinksMoment
             });
+
+            RechtsVolt = eventArgs.Right;
+            RechtsMoment = (int)(1000 * (RechtsVolt - _model.RechtsOnbelast) / (_model.RechtsBelast - _model.RechtsOnbelast));
+
+            ChartValuesRight.Add(new MeasureModel
+            {
+                X = _currentX,
+                Y = RechtsMoment
+            });
+
+            SetAxisLimits(_currentX);
+            _currentX++;
+
+            if (ChartValuesLeft.Count > 1000)
+            {
+                ChartValuesLeft.RemoveAt(0);
+                ChartValuesRight.RemoveAt(0);
+            }
         }
 
         private double _axisMax;
@@ -195,5 +200,7 @@ namespace HangbankTrainer
         }
 
         #endregion
+
+
     }
 }

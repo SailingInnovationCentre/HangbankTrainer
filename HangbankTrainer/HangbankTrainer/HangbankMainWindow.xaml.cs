@@ -37,14 +37,14 @@ namespace HangbankTrainer
             InitializeComponent();
             
             _model = new HangbankModel();
-            _model.SetSerialPort("COM4");
+            _model.Listener.SerialPortName = "COM4";
 
             StartFrontPage(); 
         }
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            _model.CloseSerialPort(); 
+            _model.Listener.CloseSerialPort(); 
         }
 
         internal void StartFrontPage()
@@ -63,7 +63,6 @@ namespace HangbankTrainer
         {
             _configUserControl = new ConfigurationUserControl(this, _model);
             MainContentControl.Content = _configUserControl;
-            throw new NotImplementedException();
         }
     }
 }

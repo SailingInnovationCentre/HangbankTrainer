@@ -41,6 +41,7 @@
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="1" FontSize="18" Height="24" Text="Links"/>
             <TextBlock Grid.Row="0" Grid.Column="2" FontSize="18" Height="24" Text="Rechts"/>
@@ -56,6 +57,9 @@
             <TextBlock Grid.Row="3" Grid.Column="0" FontSize="18" Height="24" Text="Percentage"/>
             <TextBlock Grid.Row="3" Grid.Column="1" FontSize="18" Height="24" HorizontalAlignment="Right" Text="{Binding LinksPercentage, StringFormat=N2}"/>
             <TextBlock Grid.Row="3" Grid.Column="2" FontSize="18" Height="24" HorizontalAlignment="Right" Text="{Binding RechtsPercentage, StringFormat=N2}"/>
+
+            <Button Grid.Row="4" Grid.ColumnSpan="3" HorizontalAlignment="Center" Width="200" x:Name="StopTrainingButton" Margin="0,20"
+                    Click="StopTrainingButton_Click" Content="Stop de training"/>
         </Grid>
-    </StackPanel>
+     </StackPanel>
 </UserControl>

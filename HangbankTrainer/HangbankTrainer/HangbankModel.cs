@@ -13,14 +13,19 @@ namespace HangbankTrainer
         {
             Listener = new SerialPortListener();
 
-            _linksOnbelast = 456;   // 100 kg op zitvlak
-            _linksBelast = 570;     // 50 kg op 120cm op calibratiebalk. 
-            _rechtsOnbelast = 207;
-            _rechtsBelast = 256;
+            LinksOnbelast = 456;   // 100 kg op zitvlak
+            LinksBelast = 570;     // 50 kg op 120cm op calibratiebalk. 
+            RechtsOnbelast = 207;
+            RechtsBelast = 256;
+        }
+
+        private SerialPortListener _listener;
+        public SerialPortListener Listener {
+            get => _listener; 
+            set => SetField(ref _listener, value);  
         }
 
         private Athlete _currentAthlete;
-
         public Athlete CurrentAthlete
         {
             get => _currentAthlete;
@@ -29,41 +34,29 @@ namespace HangbankTrainer
 
         public ObservableCollection<Athlete> Athletes { get; set; }
 
-        internal SerialPortListener Listener { get; private set; }
-
-        internal void SetSerialPort(string port)
-        {
-            Listener.SetSerialPort(port);
-        }
-
-        internal void CloseSerialPort()
-        {
-            Listener.CloseSerialPort(); 
-        }
-
         private double _linksOnbelast;
-        internal double LinksOnbelast
+        public double LinksOnbelast
         {
             get => _linksOnbelast;
             set => SetField(ref _linksOnbelast, value);
         }
 
         private double _linksBelast;
-        internal double LinksBelast
+        public double LinksBelast
         {
             get => _linksBelast;
             set => SetField(ref _linksBelast, value);
         }      
 
         private double _rechtsOnbelast;
-        internal double RechtsOnbelast
+        public double RechtsOnbelast
         {
             get => _rechtsOnbelast;
             set => SetField(ref _rechtsOnbelast, value);
         }
 
         private double _rechtsBelast;
-        internal double RechtsBelast
+        public double RechtsBelast
         {
             get => _rechtsBelast;
             set => SetField(ref _rechtsBelast, value);
