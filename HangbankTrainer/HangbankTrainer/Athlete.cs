@@ -12,20 +12,20 @@ namespace HangbankTrainer
         private int _lengthCm;
         private int _weightKg;
         private int _momentMax;
-        private int _moment75;
-        private int _moment145Degrees;
+        private int _momentMin;
+        private int _momentGame;
 
         private bool _isChanged; 
 
-        public Athlete(string name, int length, int weight, int momentMax, int moment75, int moment145degrees)
+        public Athlete(string name, int length, int weight, int momentMin, int momentGame, int momentMax)
         {
             _name = name;
             _lengthCm = length;
             _weightKg = weight;
+            _momentMin = momentMin;
+            _momentGame = momentGame;
             _momentMax = momentMax;
-            _moment75 = moment75;
-            _moment145Degrees = moment145degrees;
-
+            
             _isChanged = false;
         }
 
@@ -66,7 +66,44 @@ namespace HangbankTrainer
             }
         }
 
-        public int MomentMax {
+        public int MomentMin {
+            get => _momentMin;
+            set
+            {
+                if (_momentMin != value)
+                {
+                    IsChanged = true;
+                    SetField(ref _momentMin, value);
+                    if (_momentMin >= _momentGame)
+                    {
+                        MomentGame = _momentMin + 10; 
+                    }
+                }
+            }
+        }
+
+        public int MomentGame {
+            get => _momentGame;
+            set
+            {
+                if (_momentGame != value)
+                {
+                    IsChanged = true;
+                    SetField(ref _momentGame, value);
+                    if (_momentGame >= _momentMax)
+                    {
+                        MomentMax = _momentGame + 10; 
+                    }
+                    if (_momentGame <= _momentMin)
+                    {
+                        MomentMin = _momentGame - 10; 
+                    }
+                }
+            }
+        }
+
+        public int MomentMax
+        {
             get => _momentMax;
             set
             {
@@ -74,30 +111,10 @@ namespace HangbankTrainer
                 {
                     IsChanged = true;
                     SetField(ref _momentMax, value);
-                }
-            }
-        }
-
-        public int Moment75 {
-            get => _moment75;
-            set
-            {
-                if (_moment75 != value)
-                {
-                    IsChanged = true;
-                    SetField(ref _moment75, value);
-                }
-            }
-        }
-
-        public int Moment145Degrees {
-            get => _moment145Degrees;
-            set
-            {
-                if (_moment145Degrees != value)
-                {
-                    IsChanged = true;
-                    SetField(ref _moment145Degrees, value);
+                    if (_momentMax <= _momentGame)
+                    {
+                        MomentGame = _momentMax - 10; 
+                    }
                 }
             }
         }
@@ -114,7 +131,7 @@ namespace HangbankTrainer
 
         internal static Athlete CreateNew()
         {
-            return new Athlete("Nieuwe atleet", 180, 85, 0, 0, 0)
+            return new Athlete("Nieuwe atleet", 180, 85, 800, 1400, 1700)
             {
                 IsNew = true
             };

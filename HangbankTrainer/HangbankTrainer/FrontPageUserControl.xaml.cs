@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace HangbankTrainer
@@ -18,10 +19,7 @@ namespace HangbankTrainer
 
             InitializeComponent();
             DataContext = model;
-
-            AthletePersister.AssertFilesPresent();
-
-            _model.Athletes = new ObservableCollection<Athlete>(AthletePersister.Read());
+            
             ActionComboBox.SelectedIndex = 0;
         }
 
@@ -32,40 +30,43 @@ namespace HangbankTrainer
             string action = ((ComboBoxItem)e.AddedItems[0]).Name;
             if (action == "CurrentAthleteCbi")
             {
-                AthletesComboBox.Visibility = System.Windows.Visibility.Visible;
+                AthletesComboBox.Visibility = Visibility.Visible;
                 AthletesComboBox.SelectedIndex = 0;
                 NameTextBox.IsEnabled = true;
                 LengthTextBox.IsEnabled = true;
                 WeightTextBox.IsEnabled = true;
+                MomentMinTextBox.IsEnabled = true;
+                MomentGameTextBox.IsEnabled = true;
                 MomentMaxTextBox.IsEnabled = true;
-                Moment75TextBox.IsEnabled = true;
-                Moment145TextBox.IsEnabled = true;
                 ActionButton.IsEnabled = true;
                 ActionButton.Content = "Sla gegevens op";
             }
             else if (action == "AddAthleteCbi")
             {
-                AthletesComboBox.Visibility = System.Windows.Visibility.Hidden;
+                AthletesComboBox.Visibility = Visibility.Hidden;
                 NameTextBox.IsEnabled = true;
                 LengthTextBox.IsEnabled = true;
                 WeightTextBox.IsEnabled = true;
+                MomentMinTextBox.IsEnabled = true;
+                MomentGameTextBox.IsEnabled = true;
                 MomentMaxTextBox.IsEnabled = true;
-                Moment75TextBox.IsEnabled = true;
-                Moment145TextBox.IsEnabled = true;
+
                 ActionButton.IsEnabled = true;
                 ActionButton.Content = "Voeg atleet toe";
                 _model.CurrentAthlete = Athlete.CreateNew();
+                _model.Athletes.Add(_model.CurrentAthlete);
             }
             else if (action == "DeleteAthleteCbi")
             {
-                AthletesComboBox.Visibility = System.Windows.Visibility.Visible;
+                AthletesComboBox.Visibility = Visibility.Visible;
                 AthletesComboBox.SelectedIndex = 0;
                 NameTextBox.IsEnabled = false;
                 LengthTextBox.IsEnabled = false;
                 WeightTextBox.IsEnabled = false;
+                MomentMinTextBox.IsEnabled = false;
+                MomentGameTextBox.IsEnabled = false;
                 MomentMaxTextBox.IsEnabled = false;
-                Moment75TextBox.IsEnabled = false;
-                Moment145TextBox.IsEnabled = false;
+
                 ActionButton.IsEnabled = true;
                 ActionButton.Content = "Verwijder atleet";
             }
@@ -93,6 +94,7 @@ namespace HangbankTrainer
             }
 
             AthletePersister.Write(_model.Athletes);
+            MessageBox.Show("Gegevens zijn geactualiseerd.");
 
             var athlete = _model.CurrentAthlete;
             ActionComboBox.SelectedIndex = 0;
@@ -105,6 +107,7 @@ namespace HangbankTrainer
             {
                 AthletesComboBox.SelectedItem = athlete;
             }
+
         }
 
         private void StartTrainingButton_Click(object sender, System.Windows.RoutedEventArgs e)

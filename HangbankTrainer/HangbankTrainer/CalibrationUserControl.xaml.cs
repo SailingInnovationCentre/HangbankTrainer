@@ -75,12 +75,12 @@ namespace HangbankTrainer
         
         private void CalibrateMinButton_Click(object sender, RoutedEventArgs e)
         {
-            _model.CurrentAthlete.Moment75 = _value;  
+            _model.CurrentAthlete.MomentMin = _value;  
         }
         
         private void CalibrateGameButton_Click(object sender, RoutedEventArgs e)
         {
-            _model.CurrentAthlete.Moment145Degrees = _value;
+            _model.CurrentAthlete.MomentGame = _value;
         }
         
         private void CalibrateMaxButton_Click(object sender, RoutedEventArgs e)

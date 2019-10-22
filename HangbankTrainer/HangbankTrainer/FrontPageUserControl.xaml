@@ -41,12 +41,12 @@
                 <TextBox Grid.Row="3" Grid.Column="1" Width="200" x:Name="LengthTextBox" Text="{Binding CurrentAthlete.LengthCm}"/>
                 <TextBlock Grid.Row="4" Grid.Column="0" Text="Gewicht (kg):"/>
                 <TextBox Grid.Row="4" Grid.Column="1" Width="200" x:Name="WeightTextBox" Text="{Binding CurrentAthlete.WeightKg}"/>
-                <TextBlock Grid.Row="5" Grid.Column="0" Text="Moment (max):"/>
-                <TextBox Grid.Row="5" Grid.Column="1" Width="200" x:Name="MomentMaxTextBox" Text="{Binding CurrentAthlete.MomentMax}"/>
-                <TextBlock Grid.Row="6" Grid.Column="0" Text="Moment (75%):"/>
-                <TextBox Grid.Row="6" Grid.Column="1" Width="200" x:Name="Moment75TextBox" Text="{Binding CurrentAthlete.Moment75}"/>
-                <TextBlock Grid.Row="7" Grid.Column="0" Text="Moment (145 graden):"/>
-                <TextBox Grid.Row="7" Grid.Column="1" Width="200" x:Name="Moment145TextBox" Text="{Binding CurrentAthlete.Moment145Degrees}"/>
+                <TextBlock Grid.Row="5" Grid.Column="0" Text="Moment (min):"/>
+                <TextBox Grid.Row="5" Grid.Column="1" Width="200" x:Name="MomentMinTextBox" Text="{Binding CurrentAthlete.MomentMin}"/>
+                <TextBlock Grid.Row="6" Grid.Column="0" Text="Moment (wedstrijd):"/>
+                <TextBox Grid.Row="6" Grid.Column="1" Width="200" x:Name="MomentGameTextBox" Text="{Binding CurrentAthlete.MomentGame}"/>
+                <TextBlock Grid.Row="7" Grid.Column="0" Text="Moment (max):"/>
+                <TextBox Grid.Row="7" Grid.Column="1" Width="200" x:Name="MomentMaxTextBox" Text="{Binding CurrentAthlete.MomentMax}"/>
             </Grid>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Margin="12" Width="150" x:Name="ActionButton" Click="ActionButton_Click"/>

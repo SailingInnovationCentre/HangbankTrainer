@@ -42,9 +42,9 @@ namespace HangbankTrainer
                     athlete.Name,
                     athlete.LengthCm.ToString(),
                     athlete.WeightKg.ToString(),
+                    athlete.MomentMin.ToString(),
+                    athlete.MomentGame.ToString(),
                     athlete.MomentMax.ToString(),
-                    athlete.Moment75.ToString(),
-                    athlete.Moment145Degrees.ToString(),
                 }));
             }
             File.WriteAllText(GetAthletesCsvFile(), sb.ToString()); 

@@ -2,6 +2,7 @@
 using LiveCharts.Wpf;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -38,6 +39,9 @@ namespace HangbankTrainer
             
             _model = new HangbankModel();
             _model.Listener.SerialPortName = "test";
+
+            AthletePersister.AssertFilesPresent();
+            _model.Athletes = new ObservableCollection<Athlete>(AthletePersister.Read());
 
             StartFrontPage(); 
         }
