@@ -7,7 +7,9 @@
              xmlns:local="clr-namespace:HangbankTrainer"
              mc:Ignorable="d">
     <StackPanel Orientation="Horizontal" Margin="16">
-        <lvc:CartesianChart AnimationsSpeed="0:0:0.5" Hoverable="False" DataTooltip="{x:Null}" Height="600" Width="1000">
+        <lvc:CartesianChart x:Name="TrainingCartesianChart" 
+            AnimationsSpeed="0:0:0.5" Hoverable="False" DataTooltip="{x:Null}" 
+            Height="600" Width="1000">
             <lvc:CartesianChart.Series>
                 <lvc:LineSeries Values="{Binding MomentValues}" 
                                 PointGeometry="{x:Null}" 
@@ -62,7 +64,7 @@
                 <lvc:Axis MaxValue="{Binding AxisMax}" MinValue="{Binding AxisMin}"/>
             </lvc:CartesianChart.AxisX>
             <lvc:CartesianChart.AxisY>
-                <lvc:Axis MaxValue="100" MinValue="0"/>
+                <lvc:Axis MaxValue="300" MinValue="0"/> <!-- This is overwritten in the code-behind -->
             </lvc:CartesianChart.AxisY>
         </lvc:CartesianChart>
 

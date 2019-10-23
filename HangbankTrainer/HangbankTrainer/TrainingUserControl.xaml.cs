@@ -96,6 +96,9 @@ namespace HangbankTrainer
             MinLowerValues = new ChartValues<MeasureModel>();
             MinLowerValues.Add(new MeasureModel { X = 0, Y = minLower });
             MinLowerValues.Add(new MeasureModel { X = 5000, Y = minLower });
+
+            TrainingCartesianChart.AxisY[0].MinValue = ((int)((minLower - 25) / 10)) * 10;
+            TrainingCartesianChart.AxisY[0].MaxValue = ((int)((maxUpper + 25) / 10)) * 10;
         }
 
         private void StopTrainingButton_Click(object sender, RoutedEventArgs e)
