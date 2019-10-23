@@ -67,11 +67,11 @@ namespace HangbankTrainer
             set => SetField(ref _rechtsBelast, value);
         }
 
-        public int DetermineMoment(int linksVolt, int rechtsVolt)
+        public double DetermineMoment(int linksVolt, int rechtsVolt)
         {
-            var linksMoment = (int)(1000 * (linksVolt - LinksOnbelast) / (LinksBelast - LinksOnbelast));
-            var rechtsMoment = (int)(1000 * (rechtsVolt - RechtsOnbelast) / (RechtsBelast - RechtsOnbelast));
-            return Math.Max(0, Math.Max( linksMoment, rechtsMoment));
+            var linksMoment = 100 * (linksVolt - LinksOnbelast) / (LinksBelast - LinksOnbelast);
+            var rechtsMoment = 100 * (rechtsVolt - RechtsOnbelast) / (RechtsBelast - RechtsOnbelast);
+            return Math.Max(0, Math.Max(linksMoment, rechtsMoment));
         }
 
         public string DetermineVoltage(int linksVolt, int rechtsVolt)

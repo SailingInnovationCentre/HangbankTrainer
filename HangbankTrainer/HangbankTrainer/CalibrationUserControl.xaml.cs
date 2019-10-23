@@ -41,8 +41,8 @@ namespace HangbankTrainer
             set => SetField(ref _voltValue, value); 
         }
 
-        private int _momentValue;
-        public int MomentValue
+        private double _momentValue;
+        public double MomentValue
         {
             get => _momentValue;
             set => SetField(ref _momentValue, value);
@@ -61,7 +61,7 @@ namespace HangbankTrainer
             set => SetField(ref _secondsLeft, value);
         }
 
-        private int CalculateMoment(EventArgs e)
+        private double CalculateMoment(EventArgs e)
         {
             var serialPortEventArgs = (SerialPortEventArgs)e;
             return _model.DetermineMoment(serialPortEventArgs.Left, serialPortEventArgs.Right); 
@@ -88,7 +88,7 @@ namespace HangbankTrainer
             _numberOfMoments++; 
         }
 
-        long _sumOfMoments;
+        double _sumOfMoments;
         int _numberOfMoments;
         Timer _timer; 
 

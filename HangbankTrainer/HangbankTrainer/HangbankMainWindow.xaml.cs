@@ -38,7 +38,7 @@ namespace HangbankTrainer
             InitializeComponent();
             
             _model = new HangbankModel();
-            _model.Listener.SerialPortName = "test";
+            _model.Listener.SerialPortName = "COM4";
 
             AthletePersister.AssertFilesPresent();
             _model.Athletes = new ObservableCollection<Athlete>(AthletePersister.Read());

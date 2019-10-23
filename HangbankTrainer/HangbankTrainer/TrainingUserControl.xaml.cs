@@ -17,13 +17,12 @@ namespace HangbankTrainer
         public class MeasureModel
         {
             public int X;
-            public int Y;
+            public double Y;
         }
 
         private int _currentX;
 
-        public ChartValues<MeasureModel> ChartValuesLeft { get; set; }
-        public ChartValues<MeasureModel> ChartValuesRight { get; set; }
+        public ChartValues<MeasureModel> MomentValues { get; set; }
 
         private HangbankMainWindow _mainWindow; 
         private HangbankModel _model;
@@ -44,8 +43,7 @@ namespace HangbankTrainer
 
             Charting.For<MeasureModel>(mapper);
 
-            ChartValuesLeft = new ChartValues<MeasureModel>();
-            ChartValuesRight = new ChartValues<MeasureModel>();
+            MomentValues = new ChartValues<MeasureModel>();
             _currentX = 0;
 
             DataContext = this;
@@ -82,32 +80,24 @@ namespace HangbankTrainer
         private void OnMessage(object sender, EventArgs e)
         {
             var eventArgs = (SerialPortEventArgs)e;
+            var moment = _model.DetermineMoment(eventArgs.Left, eventArgs.Right);
+            var voltage = _model.DetermineVoltage(eventArgs.Left, eventArgs.Right);
 
-            LinksVolt = eventArgs.Left;
-            LinksMoment = (int)(1000 * (LinksVolt - _model.LinksOnbelast) / (_model.LinksBelast - _model.LinksOnbelast));
+            CurrentMoment = moment;
+            CurrentVolt = voltage; 
 
-            ChartValuesLeft.Add(new MeasureModel
+            MomentValues.Add(new MeasureModel
             {
                 X = _currentX,
-                Y = LinksMoment
-            });
-
-            RechtsVolt = eventArgs.Right;
-            RechtsMoment = (int)(1000 * (RechtsVolt - _model.RechtsOnbelast) / (_model.RechtsBelast - _model.RechtsOnbelast));
-
-            ChartValuesRight.Add(new MeasureModel
-            {
-                X = _currentX,
-                Y = RechtsMoment
+                Y = moment
             });
 
             SetAxisLimits(_currentX);
             _currentX++;
 
-            if (ChartValuesLeft.Count > 1000)
+            if (MomentValues.Count > 1000)
             {
-                ChartValuesLeft.RemoveAt(0);
-                ChartValuesRight.RemoveAt(0);
+                MomentValues.RemoveAt(0);
             }
         }
 
@@ -140,46 +130,18 @@ namespace HangbankTrainer
             set => SetField(ref _serialInput, value);
         }
 
-        private int _linksVolt;
-        public int LinksVolt
+        private string _currentVolt;
+        public string CurrentVolt
         {
-            get => _linksVolt;
-            set => SetField(ref _linksVolt, value);
+            get => _currentVolt;
+            set => SetField(ref _currentVolt, value);
         }
 
-        private int _linksMmoment;
-        public int LinksMoment
+        private double _currentMoment;
+        public double CurrentMoment
         {
-            get => _linksMmoment;
-            set => SetField(ref _linksMmoment, value);
-        }
-
-        private double _linksPercentage;
-        public double LinksPercentage
-        {
-            get => _linksPercentage;
-            set => SetField(ref _linksPercentage, value);
-        }
-
-        private int _rechtsVolt;
-        public int RechtsVolt
-        {
-            get => _rechtsVolt;
-            set => SetField(ref _rechtsVolt, value);
-        }
-
-        private int _rechtsMmoment;
-        public int RechtsMoment
-        {
-            get => _rechtsMmoment;
-            set => SetField(ref _rechtsMmoment, value);
-        }
-
-        private double _rechtsPercentage;
-        public double RechtsPercentage
-        {
-            get => _rechtsPercentage;
-            set => SetField(ref _rechtsPercentage, value);
+            get => _currentMoment;
+            set => SetField(ref _currentMoment, value);
         }
 
         #endregion

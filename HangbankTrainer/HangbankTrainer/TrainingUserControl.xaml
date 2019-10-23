@@ -9,57 +9,31 @@
     <StackPanel Orientation="Horizontal" Margin="16">
         <lvc:CartesianChart AnimationsSpeed="0:0:0.5" Hoverable="False" DataTooltip="{x:Null}" Height="600" Width="1000">
             <lvc:CartesianChart.Series>
-                <lvc:LineSeries Values="{Binding ChartValuesLeft}" 
+                <lvc:LineSeries Values="{Binding MomentValues}" 
                                 PointGeometry="{x:Null}" 
                                 LineSmoothness="1"
                                 StrokeThickness="6" 
                                 Stroke="#1e3f5a"
-                                Fill="Transparent"/>
-                <lvc:LineSeries Values="{Binding ChartValuesRight}" 
-                                PointGeometry="{x:Null}" 
-                                LineSmoothness="1"
-                                StrokeThickness="6" 
-                                Stroke="#F34336"
                                 Fill="Transparent"/>
             </lvc:CartesianChart.Series>
             <lvc:CartesianChart.AxisX>
                 <lvc:Axis MaxValue="{Binding AxisMax}" MinValue="{Binding AxisMin}"/>
             </lvc:CartesianChart.AxisX>
             <lvc:CartesianChart.AxisY>
-                <lvc:Axis MaxValue="1500" MinValue="500"/>
+                <lvc:Axis MaxValue="100" MinValue="0"/>
             </lvc:CartesianChart.AxisY>
         </lvc:CartesianChart>
 
-        <Grid VerticalAlignment="Center" Margin="8,0,32,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*  "/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="1" FontSize="18" Height="24" Text="Links"/>
-            <TextBlock Grid.Row="0" Grid.Column="2" FontSize="18" Height="24" Text="Rechts"/>
+        <StackPanel VerticalAlignment="Center" Margin="8,0,32,0">
+            <TextBlock FontSize="96" Height="110" FontWeight="Bold"
+                       HorizontalAlignment="Center" Text="{Binding CurrentMoment, StringFormat=N1}"/>
 
-            <TextBlock Grid.Row="1" Grid.Column="0" FontSize="18" Height="24" Text="Voltage"/>
-            <TextBlock Grid.Row="1" Grid.Column="1" FontSize="18" Height="24" HorizontalAlignment="Right" Text="{Binding LinksVolt}"/>
-            <TextBlock Grid.Row="1" Grid.Column="2" FontSize="18" Height="24" HorizontalAlignment="Right" Text="{Binding RechtsVolt}"/>
+            <TextBlock FontSize="32" Height="40" 
+                       HorizontalAlignment="Center" Text="{Binding CurrentVolt}"/>
 
-            <TextBlock Grid.Row="2" Grid.Column="0" FontSize="18" Height="24" Text="Moment"/>
-            <TextBlock Grid.Row="2" Grid.Column="1" FontSize="18" Height="24" HorizontalAlignment="Right" Text="{Binding LinksMoment}"/>
-            <TextBlock Grid.Row="2" Grid.Column="2" FontSize="18" Height="24" HorizontalAlignment="Right" Text="{Binding RechtsMoment}"/>
-
-            <TextBlock Grid.Row="3" Grid.Column="0" FontSize="18" Height="24" Text="Percentage"/>
-            <TextBlock Grid.Row="3" Grid.Column="1" FontSize="18" Height="24" HorizontalAlignment="Right" Text="{Binding LinksPercentage, StringFormat=N2}"/>
-            <TextBlock Grid.Row="3" Grid.Column="2" FontSize="18" Height="24" HorizontalAlignment="Right" Text="{Binding RechtsPercentage, StringFormat=N2}"/>
-
-            <Button Grid.Row="4" Grid.ColumnSpan="3" HorizontalAlignment="Center" Width="200" x:Name="StopTrainingButton" Margin="0,20"
+            <Button HorizontalAlignment="Center" Width="200" 
+                    x:Name="StopTrainingButton" Margin="0,20"
                     Click="StopTrainingButton_Click" Content="Stop de training"/>
-        </Grid>
+        </StackPanel>
      </StackPanel>
 </UserControl>

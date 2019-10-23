@@ -97,35 +97,19 @@ namespace HangbankTrainer
             }
         }
 
-        private int _currentLeft; 
-        private int _currentRight; 
+        private int _counter; 
 
         private void StartTestLoop()
         {
-            _currentLeft = 500;
-            _currentRight = 240; 
-
             _timer = new Timer();
             _timer.AutoReset = true;
-            _timer.Interval = 250;
+            _timer.Interval = 100;
             _timer.Elapsed += (s, e) =>
             {
-                _currentLeft += 1;
-                if (_currentLeft > 600)
-                {
-                    _currentLeft = 500; 
-                }
-
-                _currentRight += 10; 
-                if (_currentRight > 350)
-                {
-                    _currentRight = 240; 
-                }
-
-                //NewMessage?.Invoke(this, new SerialPortEventArgs(_random.Next(550,560), _random.Next(245, 255)));
-                NewMessage?.Invoke(this, new SerialPortEventArgs(_currentLeft, 250));
+                _counter += 1;
+                NewMessage?.Invoke(this, new SerialPortEventArgs((int)(600 + 150 * Math.Sin(_counter/30.0)), 188));
             };
-            _timer.Start(); 
+            _timer.Start();
         }
 
         #region INotifyPropertyChanged

@@ -76,7 +76,7 @@ namespace HangbankTrainer
                     SetField(ref _momentMin, value);
                     if (_momentMin >= _momentGame)
                     {
-                        MomentGame = _momentMin + 10; 
+                        MomentGame = _momentMin + 1; 
                     }
                 }
             }
@@ -92,11 +92,11 @@ namespace HangbankTrainer
                     SetField(ref _momentGame, value);
                     if (_momentGame >= _momentMax)
                     {
-                        MomentMax = _momentGame + 10; 
+                        MomentMax = _momentGame + 1; 
                     }
                     if (_momentGame <= _momentMin)
                     {
-                        MomentMin = _momentGame - 10; 
+                        MomentMin = _momentGame - 1; 
                     }
                 }
             }
@@ -113,7 +113,7 @@ namespace HangbankTrainer
                     SetField(ref _momentMax, value);
                     if (_momentMax <= _momentGame)
                     {
-                        MomentGame = _momentMax - 10; 
+                        MomentGame = _momentMax - 1; 
                     }
                 }
             }
@@ -131,7 +131,7 @@ namespace HangbankTrainer
 
         internal static Athlete CreateNew()
         {
-            return new Athlete("Nieuwe atleet", 180, 85, 800, 1400, 1700)
+            return new Athlete("Nieuwe atleet", 180, 85, 40, 60, 80)
             {
                 IsNew = true
             };

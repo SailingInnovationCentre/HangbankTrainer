@@ -41,11 +41,11 @@
                 <TextBox Grid.Row="3" Grid.Column="1" Width="200" x:Name="LengthTextBox" Text="{Binding CurrentAthlete.LengthCm}"/>
                 <TextBlock Grid.Row="4" Grid.Column="0" Text="Gewicht (kg):"/>
                 <TextBox Grid.Row="4" Grid.Column="1" Width="200" x:Name="WeightTextBox" Text="{Binding CurrentAthlete.WeightKg}"/>
-                <TextBlock Grid.Row="5" Grid.Column="0" Text="Moment (min):"/>
+                <TextBlock Grid.Row="5" Grid.Column="0" Text="Moment (laag):"/>
                 <TextBox Grid.Row="5" Grid.Column="1" Width="200" x:Name="MomentMinTextBox" Text="{Binding CurrentAthlete.MomentMin}"/>
-                <TextBlock Grid.Row="6" Grid.Column="0" Text="Moment (wedstrijd):"/>
+                <TextBlock Grid.Row="6" Grid.Column="0" Text="Moment (middel):"/>
                 <TextBox Grid.Row="6" Grid.Column="1" Width="200" x:Name="MomentGameTextBox" Text="{Binding CurrentAthlete.MomentGame}"/>
-                <TextBlock Grid.Row="7" Grid.Column="0" Text="Moment (max):"/>
+                <TextBlock Grid.Row="7" Grid.Column="0" Text="Moment (hoog):"/>
                 <TextBox Grid.Row="7" Grid.Column="1" Width="200" x:Name="MomentMaxTextBox" Text="{Binding CurrentAthlete.MomentMax}"/>
             </Grid>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
