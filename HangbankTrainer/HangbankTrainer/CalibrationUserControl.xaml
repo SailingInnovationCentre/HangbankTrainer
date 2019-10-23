@@ -20,7 +20,7 @@
                     <lvc:AngularSection FromValue="0" ToValue="{Binding Model.CurrentAthlete.MomentMin}" Fill="#D6FF98"/>
                     <lvc:AngularSection FromValue="{Binding Model.CurrentAthlete.MomentMin}" ToValue="{Binding Model.CurrentAthlete.MomentGame}" Fill="#57b319"/>
                     <lvc:AngularSection FromValue="{Binding Model.CurrentAthlete.MomentGame}" ToValue="{Binding Model.CurrentAthlete.MomentMax}" Fill="#F8A725"/>
-                    <lvc:AngularSection FromValue="{Binding Model.CurrentAthlete.MomentMax}" ToValue="100" Fill="#FF3939"/>
+                    <lvc:AngularSection FromValue="{Binding Model.CurrentAthlete.MomentMax}" ToValue="200" Fill="#FF3939"/>
                 </lvc:AngularGauge.Sections>
             </lvc:AngularGauge>
             <TextBlock HorizontalAlignment="Center"
