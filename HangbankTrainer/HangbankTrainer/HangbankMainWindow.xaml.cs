@@ -28,6 +28,7 @@ namespace HangbankTrainer
     {
 
         private HangbankModel _model;
+        private Training _training;
 
         private FrontPageUserControl _frontPageUserControl;
         private TrainingUserControl _trainingUserControl;
@@ -42,6 +43,8 @@ namespace HangbankTrainer
 
             AthletePersister.AssertFilesPresent();
             _model.Athletes = new ObservableCollection<Athlete>(AthletePersister.Read());
+
+            _training = new Training(); 
 
             StartFrontPage(); 
         }
@@ -59,7 +62,7 @@ namespace HangbankTrainer
 
         internal void StartTraining()
         {
-            _trainingUserControl = new TrainingUserControl(this, _model);
+            _trainingUserControl = new TrainingUserControl(this, _model, _training);
             MainContentControl.Content = _trainingUserControl; 
         }
 

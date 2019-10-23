@@ -23,14 +23,22 @@ namespace HangbankTrainer
         private int _currentX;
 
         public ChartValues<MeasureModel> MomentValues { get; set; }
+        public ChartValues<MeasureModel> MaxUpperValues { get; set; }
+        public ChartValues<MeasureModel> MaxLowerValues { get; set; }
+        public ChartValues<MeasureModel> MidUpperValues { get; set; }
+        public ChartValues<MeasureModel> MidLowerValues { get; set; }
+        public ChartValues<MeasureModel> MinUpperValues { get; set; }
+        public ChartValues<MeasureModel> MinLowerValues { get; set; }
 
         private HangbankMainWindow _mainWindow; 
         private HangbankModel _model;
+        private Training _training; 
 
-        public TrainingUserControl(HangbankMainWindow mainWindow, HangbankModel model)
+        public TrainingUserControl(HangbankMainWindow mainWindow, HangbankModel model, Training training)
         {
             _mainWindow = mainWindow;
-            _model = model; 
+            _model = model;
+            _training = training; 
 
             AxisMin = 0;
             AxisMax = 100;
@@ -44,11 +52,50 @@ namespace HangbankTrainer
             Charting.For<MeasureModel>(mapper);
 
             MomentValues = new ChartValues<MeasureModel>();
+
+            SetBoundaries(); 
+
             _currentX = 0;
 
             DataContext = this;
 
             Start();
+        }
+
+        private void SetBoundaries()
+        {
+            double maxUpper = _model.CurrentAthlete.MomentMax + _training.Bandwidth;
+            double maxLower = _model.CurrentAthlete.MomentMax - _training.Bandwidth;
+
+            double midUpper = _model.CurrentAthlete.MomentGame + _training.Bandwidth;
+            double midLower = _model.CurrentAthlete.MomentGame - _training.Bandwidth;
+
+            double minUpper = _model.CurrentAthlete.MomentMin + _training.Bandwidth;
+            double minLower = _model.CurrentAthlete.MomentMin - _training.Bandwidth;
+
+            MaxUpperValues = new ChartValues<MeasureModel>();
+            MaxUpperValues.Add(new MeasureModel { X = 0, Y = maxUpper });
+            MaxUpperValues.Add(new MeasureModel { X = 5000, Y = maxUpper });
+
+            MaxLowerValues = new ChartValues<MeasureModel>();
+            MaxLowerValues.Add(new MeasureModel { X = 0, Y = maxLower });
+            MaxLowerValues.Add(new MeasureModel { X = 5000, Y = maxLower });
+
+            MidUpperValues = new ChartValues<MeasureModel>();
+            MidUpperValues.Add(new MeasureModel { X = 0, Y = midUpper });
+            MidUpperValues.Add(new MeasureModel { X = 5000, Y = midUpper });
+
+            MidLowerValues = new ChartValues<MeasureModel>();
+            MidLowerValues.Add(new MeasureModel { X = 0, Y = midLower });
+            MidLowerValues.Add(new MeasureModel { X = 5000, Y = midLower });
+
+            MinUpperValues = new ChartValues<MeasureModel>();
+            MinUpperValues.Add(new MeasureModel { X = 0, Y = minUpper });
+            MinUpperValues.Add(new MeasureModel { X = 5000, Y = minUpper });
+
+            MinLowerValues = new ChartValues<MeasureModel>();
+            MinLowerValues.Add(new MeasureModel { X = 0, Y = minLower });
+            MinLowerValues.Add(new MeasureModel { X = 5000, Y = minLower });
         }
 
         private void StopTrainingButton_Click(object sender, RoutedEventArgs e)

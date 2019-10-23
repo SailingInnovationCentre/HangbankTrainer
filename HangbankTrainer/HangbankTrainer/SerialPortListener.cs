@@ -12,6 +12,7 @@ namespace HangbankTrainer
     {
         private SerialPort _serialPort;
         private string _serialPortName;
+
         public string SerialPortName
         {
             get => _serialPortName;
