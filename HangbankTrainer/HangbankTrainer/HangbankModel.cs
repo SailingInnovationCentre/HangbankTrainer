@@ -13,10 +13,15 @@ namespace HangbankTrainer
         {
             Listener = new SerialPortListener();
 
-            LinksOnbelast = 456;   // 100 kg op zitvlak
-            LinksBelast = 570;     // 50 kg op 120cm op calibratiebalk. 
-            RechtsOnbelast = 207;
-            RechtsBelast = 256;
+            //LinksOnbelast = 456;   // 100 kg op zitvlak
+            //LinksBelast = 570;     // 50 kg op 120cm op calibratiebalk. 
+            //RechtsOnbelast = 207;
+            //RechtsBelast = 256;
+
+            LinksOnbelast = 394;   // 15 kg op balk van gym. 
+            LinksBelast = 770;     // 40 kg op
+            RechtsOnbelast = 188;
+            RechtsBelast = 373;
         }
 
         private SerialPortListener _listener;
@@ -60,6 +65,20 @@ namespace HangbankTrainer
         {
             get => _rechtsBelast;
             set => SetField(ref _rechtsBelast, value);
+        }
+
+        public int DetermineMoment(int linksVolt, int rechtsVolt)
+        {
+            var linksMoment = (int)(1000 * (linksVolt - LinksOnbelast) / (LinksBelast - LinksOnbelast));
+            var rechtsMoment = (int)(1000 * (rechtsVolt - RechtsOnbelast) / (RechtsBelast - RechtsOnbelast));
+            return Math.Max(0, Math.Max( linksMoment, rechtsMoment));
+        }
+
+        public string DetermineVoltage(int linksVolt, int rechtsVolt)
+        {
+            var linksMoment = (int)(1000 * (linksVolt - LinksOnbelast) / (LinksBelast - LinksOnbelast));
+            var rechtsMoment = (int)(1000 * (rechtsVolt - RechtsOnbelast) / (RechtsBelast - RechtsOnbelast));
+            return linksMoment > rechtsMoment ? $"Links: {linksVolt}" : $"Rechts: {rechtsVolt}";
         }
 
         #region INotifyPropertyChanged

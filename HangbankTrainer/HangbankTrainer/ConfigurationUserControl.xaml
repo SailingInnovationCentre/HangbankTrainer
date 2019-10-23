@@ -28,13 +28,13 @@
                 <ComboBoxItem>COM4</ComboBoxItem>
                 <ComboBoxItem>test</ComboBoxItem>
             </ComboBox>
-            <TextBlock Grid.Row="1" Grid.Column="0" Text="Waarde links bij 100kg op zitvlak"/>
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Waarde links onbelast (15kg op balk)"/>
             <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding LinksOnbelast}"/>
-            <TextBlock Grid.Row="2" Grid.Column="0" Text="Waarde links bij belast 50kg op 120cm"/>
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Waarde links belast (40kg op balk)B"/>
             <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding LinksBelast}"/>
-            <TextBlock Grid.Row="3" Grid.Column="0" Text="Waarde rechts bij 100kg op zitvlak"/>
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="Waarde rechts onbelast (15kg op balk)"/>
             <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding RechtsOnbelast}"/>
-            <TextBlock Grid.Row="4" Grid.Column="0" Text="Waarde rechts bij belast 50kg op 120cm"/>
+            <TextBlock Grid.Row="4" Grid.Column="0" Text="Waarde rechts belast (40kg op balk)"/>
             <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding RechtsBelast}"/>
 
             <Button Grid.Row="5" Grid.ColumnSpan="2" x:Name="FrontScreenButton" Click="FrontScreenButton_Click" Width="200" Content="Terug" Margin="0,20"/>

@@ -34,16 +34,24 @@ namespace HangbankTrainer
             DataContext = this;
         }
 
-        private int _value; 
-        public int Value
+        private string _voltValue; 
+        public string VoltValue
         {
-            get => _value;
-            set => SetField(ref _value, value); 
+            get => _voltValue;
+            set => SetField(ref _voltValue, value); 
+        }
+
+        private int _momentValue;
+        public int MomentValue
+        {
+            get => _momentValue;
+            set => SetField(ref _momentValue, value);
         }
 
         private void OnMessage(object sender, EventArgs e)
         {
-            Value = CalculateMoment(e); 
+            MomentValue = CalculateMoment(e); 
+            VoltValue = CalculateVoltage(e); 
         }
 
         private int _secondsLeft; 
@@ -56,7 +64,13 @@ namespace HangbankTrainer
         private int CalculateMoment(EventArgs e)
         {
             var serialPortEventArgs = (SerialPortEventArgs)e;
-            return (int)(1000 * (serialPortEventArgs.Left - _model.LinksOnbelast) / (_model.LinksBelast - _model.LinksOnbelast));
+            return _model.DetermineMoment(serialPortEventArgs.Left, serialPortEventArgs.Right); 
+        }
+
+        private string CalculateVoltage(EventArgs e)
+        {
+            var serialPortEventArgs = (SerialPortEventArgs)e;
+            return _model.DetermineVoltage(serialPortEventArgs.Left, serialPortEventArgs.Right);
         }
 
         private void StopCalibrationButton_Click(object sender, RoutedEventArgs e)

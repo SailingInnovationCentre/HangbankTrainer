@@ -102,7 +102,7 @@ namespace HangbankTrainer
 
         private void StartTestLoop()
         {
-            _currentLeft = 550;
+            _currentLeft = 500;
             _currentRight = 240; 
 
             _timer = new Timer();
@@ -111,19 +111,19 @@ namespace HangbankTrainer
             _timer.Elapsed += (s, e) =>
             {
                 _currentLeft += 1;
-                if (_currentLeft > 650)
+                if (_currentLeft > 600)
                 {
-                    _currentLeft = 550; 
+                    _currentLeft = 500; 
                 }
 
                 _currentRight += 10; 
-                if (_currentRight > 450)
+                if (_currentRight > 350)
                 {
                     _currentRight = 240; 
                 }
 
                 //NewMessage?.Invoke(this, new SerialPortEventArgs(_random.Next(550,560), _random.Next(245, 255)));
-                NewMessage?.Invoke(this, new SerialPortEventArgs(_currentLeft, _currentRight));
+                NewMessage?.Invoke(this, new SerialPortEventArgs(_currentLeft, 250));
             };
             _timer.Start(); 
         }
