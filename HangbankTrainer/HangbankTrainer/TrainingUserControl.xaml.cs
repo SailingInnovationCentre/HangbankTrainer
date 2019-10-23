@@ -21,6 +21,9 @@ namespace HangbankTrainer
         }
 
         private int _currentX;
+        private DateTime _t0; 
+
+
 
         public ChartValues<MeasureModel> MomentValues { get; set; }
         public ChartValues<MeasureModel> MaxUpperValues { get; set; }
@@ -56,6 +59,7 @@ namespace HangbankTrainer
             SetBoundaries(); 
 
             _currentX = 0;
+            _t0 = DateTime.Now + TimeSpan.FromSeconds(10);
 
             DataContext = this;
 
@@ -129,6 +133,8 @@ namespace HangbankTrainer
 
         private void OnMessage(object sender, EventArgs e)
         {
+            CurrentTimeSpan = DateTime.Now - _t0; 
+
             var eventArgs = (SerialPortEventArgs)e;
             var moment = _model.DetermineMoment(eventArgs.Left, eventArgs.Right);
             var voltage = _model.DetermineVoltage(eventArgs.Left, eventArgs.Right);
@@ -178,6 +184,13 @@ namespace HangbankTrainer
         {
             get => _serialInput;
             set => SetField(ref _serialInput, value);
+        }
+
+        private TimeSpan _currentTimeSpan; 
+        public TimeSpan CurrentTimeSpan
+        {
+            get => _currentTimeSpan;
+            set => SetField(ref _currentTimeSpan, value); 
         }
 
         private string _currentVolt;

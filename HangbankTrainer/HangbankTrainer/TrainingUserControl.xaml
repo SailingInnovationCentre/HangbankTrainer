@@ -75,6 +75,9 @@
             <TextBlock FontSize="32" Height="40" 
                        HorizontalAlignment="Center" Text="{Binding CurrentVolt}"/>
 
+            <TextBlock FontSize="32" Height="40" 
+                       HorizontalAlignment="Center" Text="{Binding CurrentTimeSpan, StringFormat='{}{0:mm\\:ss}'}" />
+            
             <Button HorizontalAlignment="Center" Width="200" 
                     x:Name="StopTrainingButton" Margin="0,20"
                     Click="StopTrainingButton_Click" Content="Stop de training"/>
