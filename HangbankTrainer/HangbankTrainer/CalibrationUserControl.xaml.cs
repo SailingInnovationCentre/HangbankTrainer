@@ -111,7 +111,7 @@ namespace HangbankTrainer
 
             _timer = new Timer();
             _timer.AutoReset = true;
-            _timer.Interval = 500;
+            _timer.Interval = 1000;
             _timer.Elapsed += CalibrationTimerElapsed;
             _timer.Start(); 
         }

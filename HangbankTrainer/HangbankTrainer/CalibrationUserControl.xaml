@@ -9,7 +9,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <StackPanel Orientation="Horizontal">
         <StackPanel Orientation="Vertical">
-            <lvc:AngularGauge Value="{Binding MomentValue}" FromValue="0" ToValue="100" 
+            <lvc:AngularGauge Value="{Binding MomentValue}" FromValue="0" ToValue="200" 
                           LabelsStep="10" TicksStep="2.5"
                           TicksForeground="White" Foreground="White" 
                           FontWeight="Bold" FontSize="16"
