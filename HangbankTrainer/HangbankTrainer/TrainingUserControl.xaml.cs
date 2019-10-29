@@ -24,6 +24,7 @@ namespace HangbankTrainer
         private DateTime _t0; 
 
         public ChartValues<MeasureModel> MomentValues { get; set; }
+        public ChartValues<MeasureModel> MomentNoBindingValues { get; set; }
         public ChartValues<MeasureModel> MaxUpperValues { get; set; }
         public ChartValues<MeasureModel> MaxLowerValues { get; set; }
         public ChartValues<MeasureModel> MidUpperValues { get; set; }
@@ -52,6 +53,7 @@ namespace HangbankTrainer
             Charting.For<MeasureModel>(mapper);
 
             MomentValues = new ChartValues<MeasureModel>();
+            MomentNoBindingValues = new ChartValues<MeasureModel>();
             SetBoundaries(); 
             DataContext = this;
 
@@ -131,8 +133,15 @@ namespace HangbankTrainer
             }
         }
 
+        private DateTime _lastUpdate;
+
         private void OnMessage(object sender, EventArgs e)
         {
+            if (_lastUpdate != null && DateTime.Now - _lastUpdate < TimeSpan.FromMilliseconds(200))
+            {
+                return;
+            }
+
             CurrentTimeSpan = DateTime.Now - _t0; 
 
             var eventArgs = (SerialPortEventArgs)e;
@@ -140,7 +149,12 @@ namespace HangbankTrainer
             var voltage = _model.DetermineVoltage(eventArgs.Left, eventArgs.Right);
 
             CurrentMoment = moment;
-            CurrentVolt = voltage; 
+            CurrentVolt = voltage;
+
+            if (_lastUpdate != null && DateTime.Now - _lastUpdate < TimeSpan.FromMilliseconds(1000))
+            {
+                return;
+            }
 
             MomentValues.Add(new MeasureModel
             {
@@ -150,10 +164,12 @@ namespace HangbankTrainer
 
             SetAxisLimits();
 
-            if (MomentValues.Count > 1000)
+            if (MomentValues.Count > 100)
             {
                 MomentValues.RemoveAt(0);
             }
+
+            _lastUpdate = DateTime.Now; 
         }
 
         private double _axisMax;
