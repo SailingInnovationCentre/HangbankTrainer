@@ -19,7 +19,7 @@ namespace HangbankTrainer
 
             InitializeComponent();
             DataContext = model;
-            
+
             ActionComboBox.SelectedIndex = 0;
         }
 
@@ -31,7 +31,6 @@ namespace HangbankTrainer
             if (action == "CurrentAthleteCbi")
             {
                 AthletesComboBox.Visibility = Visibility.Visible;
-                AthletesComboBox.SelectedIndex = 0;
                 NameTextBox.IsEnabled = true;
                 LengthTextBox.IsEnabled = true;
                 WeightTextBox.IsEnabled = true;
@@ -53,8 +52,8 @@ namespace HangbankTrainer
 
                 ActionButton.IsEnabled = true;
                 ActionButton.Content = "Voeg atleet toe";
-                _model.CurrentAthlete = Athlete.CreateNew();
                 _model.Athletes.Add(_model.CurrentAthlete);
+                _model.CurrentAthlete = Athlete.CreateNew();
             }
             else if (action == "DeleteAthleteCbi")
             {

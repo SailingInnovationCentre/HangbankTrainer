@@ -43,6 +43,10 @@ namespace HangbankTrainer
 
             AthletePersister.AssertFilesPresent();
             _model.Athletes = new ObservableCollection<Athlete>(AthletePersister.Read());
+            if (_model.Athletes.Count > 0)
+            {
+                _model.CurrentAthlete = _model.Athletes[0];
+            }
 
             _training = new Training(); 
 

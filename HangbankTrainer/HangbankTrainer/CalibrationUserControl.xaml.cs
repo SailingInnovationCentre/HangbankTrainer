@@ -32,6 +32,8 @@ namespace HangbankTrainer
             InitializeComponent();
 
             DataContext = this;
+
+            VoltValue = "0";
         }
 
         private string _voltValue; 

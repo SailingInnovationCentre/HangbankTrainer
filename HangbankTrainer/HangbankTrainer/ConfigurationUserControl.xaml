@@ -5,39 +5,61 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HangbankTrainer"
              mc:Ignorable="d">
-    <StackPanel Orientation="Horizontal">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="COM poort"/>
-            <ComboBox Grid.Row="0" Grid.Column="1" SelectedValue="{Binding Listener.SerialPortName}"
-                      SelectedValuePath="Content" x:Name="ComPortComboBox">
-                <ComboBoxItem>COM1</ComboBoxItem>
-                <ComboBoxItem>COM2</ComboBoxItem>
-                <ComboBoxItem>COM3</ComboBoxItem>
-                <ComboBoxItem>COM4</ComboBoxItem>
-                <ComboBoxItem>test</ComboBoxItem>
-            </ComboBox>
-            <TextBlock Grid.Row="1" Grid.Column="0" Text="Waarde links onbelast (15kg op balk)"/>
-            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding LinksOnbelast}"/>
-            <TextBlock Grid.Row="2" Grid.Column="0" Text="Waarde links belast (40kg op balk)B"/>
-            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding LinksBelast}"/>
-            <TextBlock Grid.Row="3" Grid.Column="0" Text="Waarde rechts onbelast (15kg op balk)"/>
-            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding RechtsOnbelast}"/>
-            <TextBlock Grid.Row="4" Grid.Column="0" Text="Waarde rechts belast (40kg op balk)"/>
-            <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding RechtsBelast}"/>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="DefaultResourceDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" 
+                   Style="{StaticResource RegularTextBlock}"
+                   Text="COM poort"/>
+        <ComboBox Grid.Row="0" Grid.Column="2" 
+                  x:Name="ComPortComboBox"
+                  SelectedValue="{Binding Listener.SerialPortName}"
+                  SelectedValuePath="Content">
+            <ComboBoxItem>COM1</ComboBoxItem>
+            <ComboBoxItem>COM2</ComboBoxItem>
+            <ComboBoxItem>COM3</ComboBoxItem>
+            <ComboBoxItem>COM4</ComboBoxItem>
+            <ComboBoxItem>test</ComboBoxItem>
+        </ComboBox>
+        <TextBlock Grid.Row="1" Grid.Column="0"
+                   Style="{StaticResource RegularTextBlock}"
+                   Text="Waarde links onbelast (15kg op balk)"/>
+        <TextBox Grid.Row="1" Grid.Column="2" 
+                 Text="{Binding LinksOnbelast}"/>
+        <TextBlock Grid.Row="2" Grid.Column="0"
+                   Style="{StaticResource RegularTextBlock}"
+                   Text="Waarde links belast (40kg op balk)"/>
+        <TextBox Grid.Row="2" Grid.Column="2" 
+                 Text="{Binding LinksBelast}"/>
+        <TextBlock Grid.Row="3" Grid.Column="0" 
+                   Style="{StaticResource RegularTextBlock}"
+                   Text="Waarde rechts onbelast (15kg op balk)"/>
+        <TextBox Grid.Row="3" Grid.Column="2" 
+                 Text="{Binding RechtsOnbelast}"/>
+        <TextBlock Grid.Row="4" Grid.Column="0" 
+                   Style="{StaticResource RegularTextBlock}"
+                   Text="Waarde rechts belast (40kg op balk)"/>
+        <TextBox Grid.Row="4" Grid.Column="2" 
+                 Text="{Binding RechtsBelast}"/>
 
-            <Button Grid.Row="5" Grid.ColumnSpan="2" x:Name="FrontScreenButton" Click="FrontScreenButton_Click" Width="200" Content="Terug" Margin="0,20"/>
-        </Grid>
-    </StackPanel>
+        <Button Grid.Row="5" Grid.ColumnSpan="3" x:Name="FrontScreenButton" Click="FrontScreenButton_Click" Width="200" Content="Terug" Margin="0,20"/>
+    </Grid>
 </UserControl>

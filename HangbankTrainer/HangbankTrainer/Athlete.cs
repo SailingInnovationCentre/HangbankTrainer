@@ -76,7 +76,7 @@ namespace HangbankTrainer
                     SetField(ref _momentMin, value);
                     if (_momentMin >= _momentGame)
                     {
-                        MomentGame = _momentMin + 1; 
+                        MomentGame = _momentMin + 5; 
                     }
                 }
             }
@@ -92,11 +92,11 @@ namespace HangbankTrainer
                     SetField(ref _momentGame, value);
                     if (_momentGame >= _momentMax)
                     {
-                        MomentMax = _momentGame + 1; 
+                        MomentMax = _momentGame + 5; 
                     }
                     if (_momentGame <= _momentMin)
                     {
-                        MomentMin = _momentGame - 1; 
+                        MomentMin = _momentGame - 5; 
                     }
                 }
             }
@@ -113,10 +113,17 @@ namespace HangbankTrainer
                     SetField(ref _momentMax, value);
                     if (_momentMax <= _momentGame)
                     {
-                        MomentGame = _momentMax - 1; 
+                        MomentGame = _momentMax - 5; 
                     }
                 }
             }
+        }
+
+        // This override is necessary for ComboBoxes of CurrentAthlete to work properly. 
+        // See: https://stackoverflow.com/questions/19632270/binding-combobox-selecteditem-using-mvvm
+        public override string ToString()
+        {
+            return Name; 
         }
 
         public bool IsChanged {

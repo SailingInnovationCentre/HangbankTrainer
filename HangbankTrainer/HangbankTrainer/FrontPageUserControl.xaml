@@ -6,14 +6,21 @@
              xmlns:local="clr-namespace:HangbankTrainer"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <UniformGrid Columns="2">
-
-        <StackPanel Width="400" HorizontalAlignment="Center" Orientation="Vertical">
-            <TextBlock HorizontalAlignment="Center" Text="Atleet" FontSize="18" FontWeight="Bold" Height="24"/>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="DefaultResourceDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <StackPanel Orientation="Horizontal">
+        <StackPanel Orientation="Vertical" Width="600">
+            <Label HorizontalAlignment="Center" Content="Atleet" Style="{StaticResource HeaderLabelStyle}"/>
             <Grid HorizontalAlignment="Center">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="150"/>
-                    <ColumnDefinition Width="240"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
@@ -25,38 +32,47 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="Ik wil:"/>
-                <ComboBox Grid.Row="0" Grid.Column="1" Width="200" SelectedValuePath="Content"
-                          x:Name="ActionComboBox" SelectionChanged="ActionComboBox_SelectionChanged">
+                <Label Grid.Row="0" Grid.Column="0" 
+                           Content="Ik wil:"/>
+                <ComboBox Grid.Row="0" Grid.Column="2" Width="250"
+                          SelectedValuePath="Content"
+                          x:Name="ActionComboBox" 
+                          SelectionChanged="ActionComboBox_SelectionChanged">
                     <ComboBoxItem x:Name="CurrentAthleteCbi">Ik heb al een spelersprofiel</ComboBoxItem>
                     <ComboBoxItem x:Name="AddAthleteCbi">Ik wil een spelersprofiel toevoegen</ComboBoxItem>
                     <ComboBoxItem x:Name="DeleteAthleteCbi">Ik wil een spelersprofiel verwijderen</ComboBoxItem>
                 </ComboBox>
-                <TextBlock Grid.Row="1" Grid.Column="0" Text="Ik ben:"/>
-                <ComboBox Grid.Row="1" Grid.Column="1" Width="200" ItemsSource="{Binding Athletes}" DisplayMemberPath="Name" 
-                          x:Name="AthletesComboBox" SelectionChanged="AthletesComboBox_SelectionChanged"/>
-                <TextBlock Grid.Row="2" Grid.Column="0" Text="Naam:" />
-                <TextBox Grid.Row="2" Grid.Column="1" Width="200" x:Name="NameTextBox" Text="{Binding CurrentAthlete.Name}"/>
-                <TextBlock Grid.Row="3" Grid.Column="0" Text="Lengte (cm):"/>
-                <TextBox Grid.Row="3" Grid.Column="1" Width="200" x:Name="LengthTextBox" Text="{Binding CurrentAthlete.LengthCm}"/>
-                <TextBlock Grid.Row="4" Grid.Column="0" Text="Gewicht (kg):"/>
-                <TextBox Grid.Row="4" Grid.Column="1" Width="200" x:Name="WeightTextBox" Text="{Binding CurrentAthlete.WeightKg}"/>
-                <TextBlock Grid.Row="5" Grid.Column="0" Text="Moment (laag):"/>
-                <TextBox Grid.Row="5" Grid.Column="1" Width="200" x:Name="MomentMinTextBox" Text="{Binding CurrentAthlete.MomentMin}"/>
-                <TextBlock Grid.Row="6" Grid.Column="0" Text="Moment (middel):"/>
-                <TextBox Grid.Row="6" Grid.Column="1" Width="200" x:Name="MomentGameTextBox" Text="{Binding CurrentAthlete.MomentGame}"/>
-                <TextBlock Grid.Row="7" Grid.Column="0" Text="Moment (hoog):"/>
-                <TextBox Grid.Row="7" Grid.Column="1" Width="200" x:Name="MomentMaxTextBox" Text="{Binding CurrentAthlete.MomentMax}"/>
+                <Label Grid.Row="1" Grid.Column="0" Content="Ik ben:"/>
+                <ComboBox Grid.Row="1" Grid.Column="2" x:Name="AthletesComboBox"
+                          ItemsSource="{Binding Athletes}" SelectedItem="{Binding CurrentAthlete}">
+                </ComboBox>
+                <Label Grid.Row="2" Grid.Column="0" Content="Naam:" />
+                <TextBox Grid.Row="2" Grid.Column="2" x:Name="NameTextBox" Text="{Binding CurrentAthlete.Name}"/>
+                <Label Grid.Row="3" Grid.Column="0" Content="Lengte (cm):"/>
+                <TextBox Grid.Row="3" Grid.Column="2" x:Name="LengthTextBox" Text="{Binding CurrentAthlete.LengthCm}"/>
+                <Label Grid.Row="4" Grid.Column="0" Content="Gewicht (kg):"/>
+                <TextBox Grid.Row="4" Grid.Column="2" x:Name="WeightTextBox" Text="{Binding CurrentAthlete.WeightKg}"/>
+                <Label Grid.Row="5" Grid.Column="0" Content="Moment (laag):"/>
+                <TextBox Grid.Row="5" Grid.Column="2" x:Name="MomentMinTextBox" Text="{Binding CurrentAthlete.MomentMin}"/>
+                <Label Grid.Row="6" Grid.Column="0" Content="Moment (middel):"/>
+                <TextBox Grid.Row="6" Grid.Column="2" x:Name="MomentGameTextBox" Text="{Binding CurrentAthlete.MomentGame}"/>
+                <Label Grid.Row="7" Grid.Column="0" Content="Moment (hoog):"/>
+                <TextBox Grid.Row="7" Grid.Column="2" x:Name="MomentMaxTextBox" Text="{Binding CurrentAthlete.MomentMax}"/>
             </Grid>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Margin="12" Width="150" x:Name="ActionButton" Click="ActionButton_Click"/>
                 <Button Margin="12" Width="150" x:Name="CalibrationButton" Click="CalibrationButton_Click" Content="Calibratie-hulp"/>
             </StackPanel>
         </StackPanel>
-        <StackPanel Width="400" HorizontalAlignment="Center" Orientation="Vertical">
-            <TextBlock HorizontalAlignment="Center" Text="Training" FontSize="18" FontWeight="Bold" Height="24"/>
-            <Button Margin="12" Width="200" x:Name="StartTrainingButton" Click="StartTrainingButton_Click" Content="Start training!"/>
-            <Button Margin="12" Width="200" x:Name="ConfigurationButton" Click="ConfigurationButton_Click" Content="Configuratie"/>
+        <StackPanel Orientation="Vertical" Width="300">
+            <Label HorizontalAlignment="Center" Content="Training" 
+                   Style="{StaticResource HeaderLabelStyle}"/>
+            <Button x:Name="StartTrainingButton" Click="StartTrainingButton_Click" Content="Start training!"/>
+        </StackPanel>        
+        <StackPanel Orientation="Vertical" Width="300">
+            <Label HorizontalAlignment="Center" Content="Overig" 
+                   Style="{StaticResource HeaderLabelStyle}"/>
+            <Button x:Name="ConfigurationButton" Click="ConfigurationButton_Click" Content="Configuratie"/>
         </StackPanel>
-    </UniformGrid>
+    </StackPanel>
 </UserControl>
