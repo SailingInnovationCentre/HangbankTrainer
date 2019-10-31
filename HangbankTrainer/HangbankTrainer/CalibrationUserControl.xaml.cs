@@ -83,10 +83,8 @@ namespace HangbankTrainer
 
         private void OnMessageDuringCalibration(object sender, EventArgs e)
         {
-            // TODO: Differentiate left/right. 
-            var linksMoment = CalculateMoment(e); 
-
-            _sumOfMoments += linksMoment;
+            var moment = CalculateMoment(e); 
+            _sumOfMoments += moment;
             _numberOfMoments++; 
         }
 
@@ -94,7 +92,7 @@ namespace HangbankTrainer
         int _numberOfMoments;
         Timer _timer; 
 
-        private CalibrationValue _calibratedValue; 
+        private IntensityTypeEnum _calibratedValue; 
 
         private void StartCalibration()
         {
@@ -126,15 +124,15 @@ namespace HangbankTrainer
 
                 // Calculate outcome of calibration.
                 int avgMoment = (int)(_sumOfMoments / (double)_numberOfMoments);
-                if (_calibratedValue == CalibrationValue.Min)
+                if (_calibratedValue == IntensityTypeEnum.Laag)
                 {
                     _model.CurrentAthlete.MomentMin = avgMoment;
                 }
-                if (_calibratedValue == CalibrationValue.Mid)
+                if (_calibratedValue == IntensityTypeEnum.Middel)
                 {
                     _model.CurrentAthlete.MomentMid = avgMoment;
                 }
-                else if (_calibratedValue == CalibrationValue.Max)
+                else if (_calibratedValue == IntensityTypeEnum.Hoog)
                 {
                     _model.CurrentAthlete.MomentMax = avgMoment;
                 }
@@ -145,19 +143,19 @@ namespace HangbankTrainer
 
         private void CalibrateMinButton_Click(object sender, RoutedEventArgs e)
         {
-            _calibratedValue = CalibrationValue.Min;
+            _calibratedValue = IntensityTypeEnum.Laag;
             StartCalibration(); 
         }
         
         private void CalibrateMidButton_Click(object sender, RoutedEventArgs e)
         {
-            _calibratedValue = CalibrationValue.Mid;
+            _calibratedValue = IntensityTypeEnum.Middel;
             StartCalibration();
         }
         
         private void CalibrateMaxButton_Click(object sender, RoutedEventArgs e)
         {
-            _calibratedValue = CalibrationValue.Max;
+            _calibratedValue = IntensityTypeEnum.Hoog;
             StartCalibration();
         }
 

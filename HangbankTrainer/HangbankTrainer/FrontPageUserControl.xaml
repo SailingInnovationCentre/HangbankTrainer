@@ -11,6 +11,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="DefaultResourceDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            
         </ResourceDictionary>
     </UserControl.Resources>
     <StackPanel Orientation="Horizontal">
@@ -53,11 +54,11 @@
                 <Label Grid.Row="4" Grid.Column="0" Content="Gewicht (kg):"/>
                 <TextBox Grid.Row="4" Grid.Column="2" x:Name="WeightTextBox" Text="{Binding CurrentAthlete.WeightKg}"/>
                 <Label Grid.Row="5" Grid.Column="0" Content="Moment (laag):"/>
-                <TextBox Grid.Row="5" Grid.Column="2" x:Name="MomentMinTextBox" Text="{Binding CurrentAthlete.MomentMin}"/>
+                <TextBox Grid.Row="5" Grid.Column="2" x:Name="MomentMinTextBox" Text="{Binding CurrentAthlete.MomentMin, StringFormat=N1}"/>
                 <Label Grid.Row="6" Grid.Column="0" Content="Moment (middel):"/>
-                <TextBox Grid.Row="6" Grid.Column="2" x:Name="MomentMidTextBox" Text="{Binding CurrentAthlete.MomentMid}"/>
+                <TextBox Grid.Row="6" Grid.Column="2" x:Name="MomentMidTextBox" Text="{Binding CurrentAthlete.MomentMid, StringFormat=N1}"/>
                 <Label Grid.Row="7" Grid.Column="0" Content="Moment (hoog):"/>
-                <TextBox Grid.Row="7" Grid.Column="2" x:Name="MomentMaxTextBox" Text="{Binding CurrentAthlete.MomentMax}"/>
+                <TextBox Grid.Row="7" Grid.Column="2" x:Name="MomentMaxTextBox" Text="{Binding CurrentAthlete.MomentMax, StringFormat=N1}"/>
             </Grid>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Margin="12" Width="150" x:Name="ActionButton" Click="ActionButton_Click"/>
@@ -67,7 +68,8 @@
         <StackPanel Orientation="Vertical" Width="300">
             <Label HorizontalAlignment="Center" Content="Training" 
                    Style="{StaticResource HeaderLabelStyle}"/>
-            <!--<ComboBox ItemsSource="{Binding Model.Training.TrainingScheme}"/>-->
+            <ComboBox ItemsSource="{Binding Source={StaticResource TrainingEnumValues}}" 
+                      SelectedItem="{Binding Training.TrainingType}"/>
             <Button x:Name="StartTrainingButton" Click="StartTrainingButton_Click" Content="Start training!"/>
         </StackPanel>        
         <StackPanel Orientation="Vertical" Width="300">

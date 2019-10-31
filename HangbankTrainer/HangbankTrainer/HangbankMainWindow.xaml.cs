@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -35,6 +36,9 @@ namespace HangbankTrainer
 
         public HangbankMainWindow()
         {
+            // Make sure that doubles are always written/read with a . as decimal separator. 
+            Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
+
             InitializeComponent();
             
             _model = new HangbankModel();

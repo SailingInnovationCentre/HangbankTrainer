@@ -12,6 +12,7 @@ namespace HangbankTrainer
         public HangbankModel()
         {
             Listener = new SerialPortListener();
+            Training = new Training(); 
 
             LinksOnbelast = 394;   // 15 kg op balk van gym. 
             LinksBelast = 770;     // 40 kg op balk van gym. 

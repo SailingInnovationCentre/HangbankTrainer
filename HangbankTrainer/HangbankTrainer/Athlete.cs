@@ -11,13 +11,12 @@ namespace HangbankTrainer
         private string _name;
         private int _lengthCm;
         private int _weightKg;
-        private int _momentMin;
-        private int _momentMid;
-        private int _momentMax;
+        private double _momentMin;
+        private double _momentMid;
+        private double _momentMax;
 
-        private bool _isChanged; 
-
-        public Athlete(string name, int length, int weight, int momentMin, int momentMid, int momentMax)
+        public Athlete(string name, int length, int weight, 
+            double momentMin, double momentMid, double momentMax)
         {
             _name = name;
             _lengthCm = length;
@@ -25,8 +24,6 @@ namespace HangbankTrainer
             _momentMin = momentMin;
             _momentMid = momentMid;
             _momentMax = momentMax;
-            
-            _isChanged = false;
         }
 
         public string Name {
@@ -35,7 +32,6 @@ namespace HangbankTrainer
             {
                 if (_name != value)
                 {
-                    IsChanged = true; 
                     SetField(ref _name, value);
                 }
             }
@@ -47,11 +43,9 @@ namespace HangbankTrainer
             {
                 if (_lengthCm != value)
                 {
-                    IsChanged = true;
                     SetField(ref _lengthCm, value);
                 }
             }
-
         }
 
         public int WeightKg {
@@ -60,19 +54,17 @@ namespace HangbankTrainer
             {
                 if (_weightKg != value)
                 {
-                    IsChanged = true;
                     SetField(ref _weightKg, value);
                 }
             }
         }
 
-        public int MomentMin {
+        public double MomentMin {
             get => _momentMin;
             set
             {
                 if (_momentMin != value)
                 {
-                    IsChanged = true;
                     SetField(ref _momentMin, value);
                     if (_momentMin >= _momentMid)
                     {
@@ -82,14 +74,13 @@ namespace HangbankTrainer
             }
         }
 
-        public int MomentMid
+        public double MomentMid
         {
             get => _momentMid;
             set
             {
                 if (_momentMid != value)
                 {
-                    IsChanged = true;
                     SetField(ref _momentMid, value);
                     if (_momentMid >= _momentMax)
                     {
@@ -103,14 +94,13 @@ namespace HangbankTrainer
             }
         }
 
-        public int MomentMax
+        public double MomentMax
         {
             get => _momentMax;
             set
             {
                 if (_momentMax != value)
                 {
-                    IsChanged = true;
                     SetField(ref _momentMax, value);
                     if (_momentMax <= _momentMid)
                     {
@@ -127,24 +117,11 @@ namespace HangbankTrainer
             return Name; 
         }
 
-        public bool IsChanged {
-            get => _isChanged;
-            set => SetField(ref _isChanged, value); 
-        }
-
-        public bool IsNew { 
-            get; 
-            set; 
-        }
-
         internal static Athlete CreateNew()
         {
-            return new Athlete("Nieuwe atleet", 180, 85, 40, 60, 80)
-            {
-                IsNew = true
-            };
+            return new Athlete("Nieuwe atleet", 180, 85, 40, 60, 80);
         }
-
+ 
         #region INotifyPropertyChanged
 
         public event PropertyChangedEventHandler PropertyChanged;

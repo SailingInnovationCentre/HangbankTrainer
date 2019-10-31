@@ -52,24 +52,35 @@
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" 
-                   Content="Moment (laag):"/>
-            <Label Grid.Row="0" Grid.Column="1" Width="50"
-                   Content="{Binding Model.CurrentAthlete.MomentMin, StringFormat=N1}"/>
+            <TextBlock Grid.Row="0" Grid.Column="0"
+                       Style="{StaticResource RegularTextBlock}" Width="140"
+                       HorizontalAlignment="Left"
+                       Text="Moment (laag):"/>
+            <TextBlock Grid.Row="0" Grid.Column="1" 
+                       Style="{StaticResource RegularTextBlock}" Width="50"
+                       HorizontalAlignment="Left"
+                       Text="{Binding Model.CurrentAthlete.MomentMin, StringFormat=N1}"/>
             <Button Grid.Row="0" Grid.Column="2" x:Name="CalibrateMinButton" 
                     Content="Calibreer" Click="CalibrateMinButton_Click"/>
 
-            <Label Grid.Row="1" Grid.Column="0" 
-                   Content="Moment (middel):"/>
-            <Label Grid.Row="1" Grid.Column="1" Width="50"
-                   Content="{Binding Model.CurrentAthlete.MomentMid, StringFormat=N1}"/>
+            <TextBlock Grid.Row="1" Grid.Column="0" 
+                       Style="{StaticResource RegularTextBlock}" Width="140"
+                       HorizontalAlignment="Left"
+                       Text="Moment (middel):"/>
+            <TextBlock Grid.Row="1" Grid.Column="1" 
+                       Style="{StaticResource RegularTextBlock}" Width="50"
+                       Text="{Binding Model.CurrentAthlete.MomentMid, StringFormat=N1}"/>
             <Button Grid.Row="1" Grid.Column="2" x:Name="CalibrateMidButton" 
                     Content="Calibreer" Click="CalibrateMidButton_Click"/>
 
-            <Label Grid.Row="2" Grid.Column="0" 
-                   Content="Moment (hoog):"/>
-            <Label Grid.Row="2" Grid.Column="1" Width="50"
-                   Content="{Binding Model.CurrentAthlete.MomentMax, StringFormat=N1}"/>
+            <TextBlock Grid.Row="2" Grid.Column="0" 
+                       Style="{StaticResource RegularTextBlock}" Width="140"
+                       HorizontalAlignment="Left"
+                       Text="Moment (hoog):"/>
+            <TextBlock Grid.Row="2" Grid.Column="1" 
+                       Style="{StaticResource RegularTextBlock}" Width="50"
+                       HorizontalAlignment="Left"
+                       Text="{Binding Model.CurrentAthlete.MomentMax, StringFormat=N1}"/>
             <Button Grid.Row="2" Grid.Column="2" x:Name="CalibrateMaxButton" 
                     Content="Calibreer" Click="CalibrateMaxButton_Click"/>
             

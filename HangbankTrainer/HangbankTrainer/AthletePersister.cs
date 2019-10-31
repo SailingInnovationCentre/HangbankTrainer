@@ -38,7 +38,7 @@ namespace HangbankTrainer
             var sb = new StringBuilder(); 
             foreach (var athlete in athletes)
             {
-                sb.AppendLine(String.Join(',', new[] {
+                sb.AppendLine(string.Join(',', new[] {
                     athlete.Name,
                     athlete.LengthCm.ToString(),
                     athlete.WeightKg.ToString(),
@@ -63,9 +63,9 @@ namespace HangbankTrainer
                         elements[0],
                         int.Parse(elements[1]),
                         int.Parse(elements[2]),
-                        int.Parse(elements[3]),
-                        int.Parse(elements[4]),
-                        int.Parse(elements[5])));
+                        double.Parse(elements[3].Replace(',', '.')),
+                        double.Parse(elements[4].Replace(',', '.')),
+                        double.Parse(elements[5].Replace(',', '.'))));
                 }
                 catch (Exception)
                 {
