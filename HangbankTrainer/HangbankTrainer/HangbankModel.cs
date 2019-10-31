@@ -8,7 +8,6 @@ namespace HangbankTrainer
 {
     public class HangbankModel : INotifyPropertyChanged
     {
-
         public HangbankModel()
         {
             Listener = new SerialPortListener();
