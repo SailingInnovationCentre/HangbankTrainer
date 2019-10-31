@@ -3,7 +3,7 @@
     public enum TrainingTypeEnum
     {
         Constant, 
-        Interval,
-        Custom
+        //Interval
+        // Custom
     }
 }

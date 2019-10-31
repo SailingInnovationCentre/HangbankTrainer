@@ -108,17 +108,30 @@ namespace HangbankTrainer
 
         }
 
-        private void StartTrainingButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void StartTrainingButton_Click(object sender, RoutedEventArgs e)
         {
+            if (_model.Training.IntensityType == IntensityTypeEnum.Hoog)
+            {
+                _model.Training.Target = _model.CurrentAthlete.MomentMax;
+            }
+            else if (_model.Training.IntensityType == IntensityTypeEnum.Middel)
+            {
+                _model.Training.Target = _model.CurrentAthlete.MomentMid;
+            }
+            else if (_model.Training.IntensityType == IntensityTypeEnum.Laag)
+            {
+                _model.Training.Target = _model.CurrentAthlete.MomentMin;
+            }
+
             _mainWindow.StartTraining(); 
         }
 
-        private void ConfigurationButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void ConfigurationButton_Click(object sender, RoutedEventArgs e)
         {
             _mainWindow.StartConfiguration();
         }
 
-        private void CalibrationButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void CalibrationButton_Click(object sender, RoutedEventArgs e)
         {
             _mainWindow.StartCalibration(); 
         }

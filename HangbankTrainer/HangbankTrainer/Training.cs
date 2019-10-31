@@ -8,21 +8,17 @@ namespace HangbankTrainer
     public class Training: INotifyPropertyChanged
     {
 
-        private double _bandwidth;
         private TrainingTypeEnum _trainingType;
-        private IntensityTypeEnum _intensityType; 
+        private IntensityTypeEnum _intensityType;
+
+        private double _target; 
+        private double _bandwidth;
 
         public Training()
         {
             Bandwidth = 2.0;
-            TrainingType = TrainingTypeEnum.Interval;
+            TrainingType = TrainingTypeEnum.Constant;
             IntensityType = IntensityTypeEnum.Middel;
-        }
-
-        public double Bandwidth
-        {
-            get => _bandwidth;
-            set => SetField(ref _bandwidth, value);
         }
 
         public TrainingTypeEnum TrainingType
@@ -35,6 +31,28 @@ namespace HangbankTrainer
         {
             get => _intensityType;
             set => SetField(ref _intensityType, value); 
+        }
+
+        public double Target
+        {
+            get => _target;
+            set => SetField(ref _target, value);
+        }
+
+        public double Bandwidth
+        {
+            get => _bandwidth;
+            set => SetField(ref _bandwidth, value);
+        }
+
+        public double GenerateTargetMinAt(double t)
+        {
+            return _target - _bandwidth; 
+        }
+
+        public double GenerateTargetMaxAt(double t)
+        {
+            return _target + _bandwidth; 
         }
 
         #region INotifyPropertyChanged

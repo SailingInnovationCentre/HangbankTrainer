@@ -3,6 +3,7 @@ using LiveCharts.Configurations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
@@ -17,15 +18,21 @@ namespace HangbankTrainer
     {
         public class MeasureModel
         {
-            public TimeSpan X;
-            public double Y;
+            public double T;
+            public double Moment;
+
+            public MeasureModel(double t, double moment)
+            {
+                T = t;
+                Moment = moment; 
+            }
         }
 
         private DateTime _t0; 
 
         public ChartValues<MeasureModel> MomentValues { get; set; }
-        public ChartValues<MeasureModel> UpperBoundaryValues { get; set; }
-        public ChartValues<MeasureModel> LowerBoundaryValues { get; set; }
+        public ChartValues<MeasureModel> UpperTargetValues { get; set; }
+        public ChartValues<MeasureModel> LowerTargetValues { get; set; }
 
         private HangbankMainWindow _mainWindow; 
         private HangbankModel _model;
@@ -35,43 +42,43 @@ namespace HangbankTrainer
             _mainWindow = mainWindow;
             _model = model;
 
-            AxisMin = 0.0;
-            AxisMax = 25.0; 
-
-            InitializeComponent();
+            InitialiseBindings();
+            UpdateAxisLimits(); 
 
             var mapper = Mappers.Xy<MeasureModel>()
-                .X(mm => mm.X.TotalSeconds)
-                .Y(mm => mm.Y);
+                .X(mm => mm.T)
+                .Y(mm => mm.Moment);
             Charting.For<MeasureModel>(mapper);
 
-            MomentValues = new ChartValues<MeasureModel>();
-            SetBoundaries(); 
+            InitializeComponent();
             DataContext = this;
 
             Task.Factory.StartNew(() =>
             {
+                // Give athletes 10 seconds before the training starts. 
+                //Task.Delay(0).Wait();
                 Task.Delay(10000).Wait();
                 _t0 = DateTime.Now;
                 Start();
             });
         }
 
-        private void SetBoundaries()
+        private void InitialiseBindings()
         {
-            double maxUpper = _model.CurrentAthlete.MomentMax + _model.Training.Bandwidth;
-            double maxLower = _model.CurrentAthlete.MomentMax - _model.Training.Bandwidth;
+            XAxisMin = 0.0;
+            XAxisMax = 25.0;
+            YAxisMin = 30.0;
+            YAxisMax = 70.0;
 
-            TimeSpan ts0 = TimeSpan.Zero;
-            TimeSpan ts1 = TimeSpan.FromMinutes(60);
+            MomentValues = new ChartValues<MeasureModel>();
+            UpperTargetValues = new ChartValues<MeasureModel>();
+            LowerTargetValues = new ChartValues<MeasureModel>();
 
-            UpperBoundaryValues = new ChartValues<MeasureModel>();
-            UpperBoundaryValues.Add(new MeasureModel { X = ts0, Y = maxUpper });
-            UpperBoundaryValues.Add(new MeasureModel { X = ts1, Y = maxUpper });
-
-            LowerBoundaryValues = new ChartValues<MeasureModel>();
-            LowerBoundaryValues.Add(new MeasureModel { X = ts0, Y = maxLower });
-            LowerBoundaryValues.Add(new MeasureModel { X = ts1, Y = maxLower });
+            for (double t=0; t<50; t+=1)
+            {
+                UpperTargetValues.Add(new MeasureModel(t, _model.Training.GenerateTargetMaxAt(t)));
+                LowerTargetValues.Add(new MeasureModel(t, _model.Training.GenerateTargetMinAt(t)));
+            }
         }
 
         private void StopTrainingButton_Click(object sender, RoutedEventArgs e)
@@ -100,16 +107,23 @@ namespace HangbankTrainer
             }
         }
 
-        private DateTime _lastUpdate;
+        private DateTime _lastSmallUpdate;
+        private DateTime _lastGraphUpdate;
 
         private void OnMessage(object sender, EventArgs e)
         {
-            if (_lastUpdate != null && DateTime.Now - _lastUpdate < TimeSpan.FromMilliseconds(200))
+            SmallUpdate(e);
+            GraphUpdate(e);
+        }
+
+        private void SmallUpdate(EventArgs e)
+        {
+            if (_lastSmallUpdate != null && DateTime.Now - _lastSmallUpdate < TimeSpan.FromMilliseconds(200))
             {
                 return;
             }
 
-            CurrentTimeSpan = DateTime.Now - _t0; 
+            CurrentTimeSpan = DateTime.Now - _t0;
 
             var eventArgs = (SerialPortEventArgs)e;
             var moment = _model.DetermineMoment(eventArgs.Left, eventArgs.Right);
@@ -118,55 +132,55 @@ namespace HangbankTrainer
             CurrentMoment = moment;
             CurrentVolt = voltage;
 
-            if (_lastUpdate != null && DateTime.Now - _lastUpdate < TimeSpan.FromMilliseconds(1000))
+            _lastSmallUpdate = DateTime.Now;
+        }
+
+        private void GraphUpdate(EventArgs e)
+        {
+            if (_lastGraphUpdate != null && DateTime.Now - _lastGraphUpdate < TimeSpan.FromSeconds(1))
             {
                 return;
             }
 
-            MomentValues.Add(new MeasureModel
-            {
-                X = CurrentTimeSpan,
-                Y = moment
-            });
+            var eventArgs = (SerialPortEventArgs)e;
+            var moment = _model.DetermineMoment(eventArgs.Left, eventArgs.Right);
 
-            SetAxisLimits();
+            var t = (DateTime.Now - _t0).TotalSeconds;
 
+            MomentValues.Add(new MeasureModel(t, moment)); 
             if (MomentValues.Count > 100)
             {
                 MomentValues.RemoveAt(0);
             }
 
-            _lastUpdate = DateTime.Now; 
+            UpperTargetValues.Add(new MeasureModel(t + 50.0, _model.Training.GenerateTargetMaxAt(t + 50.0))); 
+            LowerTargetValues.Add(new MeasureModel(t + 50.0, _model.Training.GenerateTargetMinAt(t + 50.0))); 
+            if (UpperTargetValues.Count > 100)
+            {
+                LowerTargetValues.RemoveAt(0);
+                UpperTargetValues.RemoveAt(0);
+            }
+
+            UpdateAxisLimits();
+
+            _lastGraphUpdate = DateTime.Now; 
         }
 
-        private double _axisMax;
-        public double AxisMax
-        {
-            get => _axisMax;
-            set => SetField(ref _axisMax, value);
-        }
-
-        private double _axisMin;
-        public double AxisMin
-        {
-            get => _axisMin;
-            set => SetField(ref _axisMin, value);
-        }
-
-        private void SetAxisLimits()
+        private void UpdateAxisLimits()
         {
             if (CurrentTimeSpan.TotalSeconds <= 20)
             {
-                AxisMin = 0.0;
-                AxisMax = 25.0;
+                XAxisMin = 0.0;
+                XAxisMax = 25.0;
             }
             else
             {
-                AxisMin = (CurrentTimeSpan - TimeSpan.FromSeconds(20)).TotalSeconds;
-                AxisMax = (CurrentTimeSpan + TimeSpan.FromSeconds(5)).TotalSeconds;
+                XAxisMin = (CurrentTimeSpan - TimeSpan.FromSeconds(20)).TotalSeconds;
+                XAxisMax = (CurrentTimeSpan + TimeSpan.FromSeconds(5)).TotalSeconds;
             }
 
-            //TODO: Y-axis. 
+            YAxisMin = LowerTargetValues.Min(v => v.Moment) - 20.0;
+            YAxisMax = UpperTargetValues.Max(v => v.Moment) + 20.0;
         }
 
         #region Bindings
@@ -197,6 +211,34 @@ namespace HangbankTrainer
         {
             get => _currentMoment;
             set => SetField(ref _currentMoment, value);
+        }
+
+        private double _xAxisMax;
+        public double XAxisMax
+        {
+            get => _xAxisMax;
+            set => SetField(ref _xAxisMax, value);
+        }
+
+        private double _xAxisMin;
+        public double XAxisMin
+        {
+            get => _xAxisMin;
+            set => SetField(ref _xAxisMin, value);
+        }
+
+        private double _yAxisMax;
+        public double YAxisMax
+        {
+            get => _yAxisMax;
+            set => SetField(ref _yAxisMax, value);
+        }
+
+        private double _yAxisMin;
+        public double YAxisMin
+        {
+            get => _yAxisMin;
+            set => SetField(ref _yAxisMin, value);
         }
 
         #endregion

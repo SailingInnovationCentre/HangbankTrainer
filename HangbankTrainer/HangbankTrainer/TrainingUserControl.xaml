@@ -24,14 +24,14 @@
                                 StrokeThickness="6" 
                                 Stroke="#1e3f5a"
                                 Fill="Transparent"/>
-                <lvc:LineSeries Values="{Binding UpperBoundaryValues}" 
+                <lvc:LineSeries Values="{Binding UpperTargetValues}" 
                                 PointGeometry="{x:Null}" 
                                 LineSmoothness="1"
                                 StrokeThickness="2" 
                                 StrokeDashArray="2,2"
                                 Stroke="#eb3232"
                                 Fill="Transparent"/>
-                <lvc:LineSeries Values="{Binding LowerBoundaryValues}" 
+                <lvc:LineSeries Values="{Binding LowerTargetValues}" 
                                 PointGeometry="{x:Null}" 
                                 LineSmoothness="1"
                                 StrokeThickness="2" 
@@ -40,10 +40,10 @@
                                 Fill="Transparent"/>
             </lvc:CartesianChart.Series>
             <lvc:CartesianChart.AxisX>
-                <lvc:Axis MaxValue="{Binding AxisMax}" MinValue="{Binding AxisMin}"/>
+                <lvc:Axis MaxValue="{Binding XAxisMax}" MinValue="{Binding XAxisMin}"/>
             </lvc:CartesianChart.AxisX>
             <lvc:CartesianChart.AxisY>
-                <lvc:Axis MaxValue="200" MinValue="0"/> <!-- This is overwritten in the code-behind -->
+                <lvc:Axis MaxValue="{Binding YAxisMax}" MinValue="{Binding YAxisMin}"/>
             </lvc:CartesianChart.AxisY>
         </lvc:CartesianChart>
 

@@ -11,17 +11,15 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="DefaultResourceDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            
         </ResourceDictionary>
     </UserControl.Resources>
     <StackPanel Orientation="Horizontal">
-        <StackPanel Orientation="Vertical" Width="600">
+        <StackPanel Orientation="Vertical" Margin="32,16">
             <Label HorizontalAlignment="Center" Content="Atleet" Style="{StaticResource HeaderLabelStyle}"/>
             <Grid HorizontalAlignment="Center">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="16"/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
@@ -35,7 +33,7 @@
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" Grid.Column="0" 
                            Content="Ik wil:"/>
-                <ComboBox Grid.Row="0" Grid.Column="2" Width="250"
+                <ComboBox Grid.Row="0" Grid.Column="1" Width="250"
                           SelectedValuePath="Content"
                           x:Name="ActionComboBox" 
                           SelectionChanged="ActionComboBox_SelectionChanged">
@@ -44,35 +42,64 @@
                     <ComboBoxItem x:Name="DeleteAthleteCbi">Ik wil een spelersprofiel verwijderen</ComboBoxItem>
                 </ComboBox>
                 <Label Grid.Row="1" Grid.Column="0" Content="Ik ben:"/>
-                <ComboBox Grid.Row="1" Grid.Column="2" x:Name="AthletesComboBox"
+                <ComboBox Grid.Row="1" Grid.Column="1" x:Name="AthletesComboBox"
                           ItemsSource="{Binding Athletes}" SelectedItem="{Binding CurrentAthlete}">
                 </ComboBox>
                 <Label Grid.Row="2" Grid.Column="0" Content="Naam:" />
-                <TextBox Grid.Row="2" Grid.Column="2" x:Name="NameTextBox" Text="{Binding CurrentAthlete.Name}"/>
+                <TextBox Grid.Row="2" Grid.Column="1" x:Name="NameTextBox" Text="{Binding CurrentAthlete.Name}"/>
                 <Label Grid.Row="3" Grid.Column="0" Content="Lengte (cm):"/>
-                <TextBox Grid.Row="3" Grid.Column="2" x:Name="LengthTextBox" Text="{Binding CurrentAthlete.LengthCm}"/>
+                <TextBox Grid.Row="3" Grid.Column="1" x:Name="LengthTextBox" Text="{Binding CurrentAthlete.LengthCm}"/>
                 <Label Grid.Row="4" Grid.Column="0" Content="Gewicht (kg):"/>
-                <TextBox Grid.Row="4" Grid.Column="2" x:Name="WeightTextBox" Text="{Binding CurrentAthlete.WeightKg}"/>
+                <TextBox Grid.Row="4" Grid.Column="1" x:Name="WeightTextBox" Text="{Binding CurrentAthlete.WeightKg}"/>
                 <Label Grid.Row="5" Grid.Column="0" Content="Moment (laag):"/>
-                <TextBox Grid.Row="5" Grid.Column="2" x:Name="MomentMinTextBox" Text="{Binding CurrentAthlete.MomentMin, StringFormat=N1}"/>
+                <TextBox Grid.Row="5" Grid.Column="1" x:Name="MomentMinTextBox" Text="{Binding CurrentAthlete.MomentMin, StringFormat=N1}"/>
                 <Label Grid.Row="6" Grid.Column="0" Content="Moment (middel):"/>
-                <TextBox Grid.Row="6" Grid.Column="2" x:Name="MomentMidTextBox" Text="{Binding CurrentAthlete.MomentMid, StringFormat=N1}"/>
+                <TextBox Grid.Row="6" Grid.Column="1" x:Name="MomentMidTextBox" Text="{Binding CurrentAthlete.MomentMid, StringFormat=N1}"/>
                 <Label Grid.Row="7" Grid.Column="0" Content="Moment (hoog):"/>
-                <TextBox Grid.Row="7" Grid.Column="2" x:Name="MomentMaxTextBox" Text="{Binding CurrentAthlete.MomentMax, StringFormat=N1}"/>
+                <TextBox Grid.Row="7" Grid.Column="1" x:Name="MomentMaxTextBox" Text="{Binding CurrentAthlete.MomentMax, StringFormat=N1}"/>
             </Grid>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Margin="12" Width="150" x:Name="ActionButton" Click="ActionButton_Click"/>
                 <Button Margin="12" Width="150" x:Name="CalibrationButton" Click="CalibrationButton_Click" Content="Calibratie-hulp"/>
             </StackPanel>
         </StackPanel>
-        <StackPanel Orientation="Vertical" Width="300">
+        <StackPanel Orientation="Vertical" Margin="32,16">
             <Label HorizontalAlignment="Center" Content="Training" 
                    Style="{StaticResource HeaderLabelStyle}"/>
-            <ComboBox ItemsSource="{Binding Source={StaticResource TrainingEnumValues}}" 
-                      SelectedItem="{Binding Training.TrainingType}"/>
-            <Button x:Name="StartTrainingButton" Click="StartTrainingButton_Click" Content="Start training!"/>
-        </StackPanel>        
-        <StackPanel Orientation="Vertical" Width="300">
+            <Grid HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource RegularTextBlock}"
+                           Text="Type training:"/>
+                <ComboBox Grid.Row="0" Grid.Column="1" 
+                          ItemsSource="{Binding Source={StaticResource TrainingEnumValues}}" 
+                          SelectedItem="{Binding Training.TrainingType}"/>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource RegularTextBlock}"
+                           Text="Intensiteit:"/>
+                <ComboBox Grid.Row="1" Grid.Column="1"
+                          ItemsSource="{Binding Source={StaticResource IntensityEnumValues}}" 
+                          SelectedItem="{Binding Training.IntensityType}"/>
+                    
+                <Button Grid.Row="2" Grid.ColumnSpan="2"
+                        x:Name="StartTrainingButton" Click="StartTrainingButton_Click" 
+                        Content="Start training!"/>
+            </Grid>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Margin="32,16">
             <Label HorizontalAlignment="Center" Content="Overig" 
                    Style="{StaticResource HeaderLabelStyle}"/>
             <Button x:Name="ConfigurationButton" Click="ConfigurationButton_Click" Content="Configuratie"/>
