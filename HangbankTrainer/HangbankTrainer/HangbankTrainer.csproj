@@ -4,6 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>sic_logo_lq8_icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
