@@ -32,6 +32,13 @@ namespace HangbankTrainer
             set => SetField(ref _currentAthlete, value);
         }
 
+        private Training _training; 
+        public Training Training
+        {
+            get => _training;
+            set => SetField(ref _training, value); 
+        }
+
         public ObservableCollection<Athlete> Athletes { get; set; }
 
         private double _linksOnbelast;

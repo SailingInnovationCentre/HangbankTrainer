@@ -35,7 +35,7 @@ namespace HangbankTrainer
                 LengthTextBox.IsEnabled = true;
                 WeightTextBox.IsEnabled = true;
                 MomentMinTextBox.IsEnabled = true;
-                MomentGameTextBox.IsEnabled = true;
+                MomentMidTextBox.IsEnabled = true;
                 MomentMaxTextBox.IsEnabled = true;
                 ActionButton.IsEnabled = true;
                 ActionButton.Content = "Sla gegevens op";
@@ -47,7 +47,7 @@ namespace HangbankTrainer
                 LengthTextBox.IsEnabled = true;
                 WeightTextBox.IsEnabled = true;
                 MomentMinTextBox.IsEnabled = true;
-                MomentGameTextBox.IsEnabled = true;
+                MomentMidTextBox.IsEnabled = true;
                 MomentMaxTextBox.IsEnabled = true;
 
                 ActionButton.IsEnabled = true;
@@ -63,7 +63,7 @@ namespace HangbankTrainer
                 LengthTextBox.IsEnabled = false;
                 WeightTextBox.IsEnabled = false;
                 MomentMinTextBox.IsEnabled = false;
-                MomentGameTextBox.IsEnabled = false;
+                MomentMidTextBox.IsEnabled = false;
                 MomentMaxTextBox.IsEnabled = false;
 
                 ActionButton.IsEnabled = true;

@@ -24,23 +24,16 @@ namespace HangbankTrainer
         private DateTime _t0; 
 
         public ChartValues<MeasureModel> MomentValues { get; set; }
-        public ChartValues<MeasureModel> MomentNoBindingValues { get; set; }
-        public ChartValues<MeasureModel> MaxUpperValues { get; set; }
-        public ChartValues<MeasureModel> MaxLowerValues { get; set; }
-        public ChartValues<MeasureModel> MidUpperValues { get; set; }
-        public ChartValues<MeasureModel> MidLowerValues { get; set; }
-        public ChartValues<MeasureModel> MinUpperValues { get; set; }
-        public ChartValues<MeasureModel> MinLowerValues { get; set; }
+        public ChartValues<MeasureModel> UpperBoundaryValues { get; set; }
+        public ChartValues<MeasureModel> LowerBoundaryValues { get; set; }
 
         private HangbankMainWindow _mainWindow; 
         private HangbankModel _model;
-        private Training _training; 
 
-        public TrainingUserControl(HangbankMainWindow mainWindow, HangbankModel model, Training training)
+        public TrainingUserControl(HangbankMainWindow mainWindow, HangbankModel model)
         {
             _mainWindow = mainWindow;
             _model = model;
-            _training = training;
 
             AxisMin = 0.0;
             AxisMax = 25.0; 
@@ -53,7 +46,6 @@ namespace HangbankTrainer
             Charting.For<MeasureModel>(mapper);
 
             MomentValues = new ChartValues<MeasureModel>();
-            MomentNoBindingValues = new ChartValues<MeasureModel>();
             SetBoundaries(); 
             DataContext = this;
 
@@ -67,44 +59,19 @@ namespace HangbankTrainer
 
         private void SetBoundaries()
         {
-            double maxUpper = _model.CurrentAthlete.MomentMax + _training.Bandwidth;
-            double maxLower = _model.CurrentAthlete.MomentMax - _training.Bandwidth;
-
-            double midUpper = _model.CurrentAthlete.MomentGame + _training.Bandwidth;
-            double midLower = _model.CurrentAthlete.MomentGame - _training.Bandwidth;
-
-            double minUpper = _model.CurrentAthlete.MomentMin + _training.Bandwidth;
-            double minLower = _model.CurrentAthlete.MomentMin - _training.Bandwidth;
+            double maxUpper = _model.CurrentAthlete.MomentMax + _model.Training.Bandwidth;
+            double maxLower = _model.CurrentAthlete.MomentMax - _model.Training.Bandwidth;
 
             TimeSpan ts0 = TimeSpan.Zero;
-            TimeSpan ts1 = TimeSpan.FromMinutes(60);  
+            TimeSpan ts1 = TimeSpan.FromMinutes(60);
 
-            MaxUpperValues = new ChartValues<MeasureModel>();
-            MaxUpperValues.Add(new MeasureModel { X = ts0, Y = maxUpper });
-            MaxUpperValues.Add(new MeasureModel { X = ts1, Y = maxUpper });
+            UpperBoundaryValues = new ChartValues<MeasureModel>();
+            UpperBoundaryValues.Add(new MeasureModel { X = ts0, Y = maxUpper });
+            UpperBoundaryValues.Add(new MeasureModel { X = ts1, Y = maxUpper });
 
-            MaxLowerValues = new ChartValues<MeasureModel>();
-            MaxLowerValues.Add(new MeasureModel { X = ts0, Y = maxLower });
-            MaxLowerValues.Add(new MeasureModel { X = ts1, Y = maxLower });
-
-            MidUpperValues = new ChartValues<MeasureModel>();
-            MidUpperValues.Add(new MeasureModel { X = ts0, Y = midUpper });
-            MidUpperValues.Add(new MeasureModel { X = ts1, Y = midUpper });
-
-            MidLowerValues = new ChartValues<MeasureModel>();
-            MidLowerValues.Add(new MeasureModel { X = ts0, Y = midLower });
-            MidLowerValues.Add(new MeasureModel { X = ts1, Y = midLower });
-
-            MinUpperValues = new ChartValues<MeasureModel>();
-            MinUpperValues.Add(new MeasureModel { X = ts0, Y = minUpper });
-            MinUpperValues.Add(new MeasureModel { X = ts1, Y = minUpper });
-
-            MinLowerValues = new ChartValues<MeasureModel>();
-            MinLowerValues.Add(new MeasureModel { X = ts0, Y = minLower });
-            MinLowerValues.Add(new MeasureModel { X = ts1, Y = minLower });
-
-            TrainingCartesianChart.AxisY[0].MinValue = ((int)((minLower - 25) / 10)) * 10;
-            TrainingCartesianChart.AxisY[0].MaxValue = ((int)((maxUpper + 25) / 10)) * 10;
+            LowerBoundaryValues = new ChartValues<MeasureModel>();
+            LowerBoundaryValues.Add(new MeasureModel { X = ts0, Y = maxLower });
+            LowerBoundaryValues.Add(new MeasureModel { X = ts1, Y = maxLower });
         }
 
         private void StopTrainingButton_Click(object sender, RoutedEventArgs e)
@@ -198,6 +165,8 @@ namespace HangbankTrainer
                 AxisMin = (CurrentTimeSpan - TimeSpan.FromSeconds(20)).TotalSeconds;
                 AxisMax = (CurrentTimeSpan + TimeSpan.FromSeconds(5)).TotalSeconds;
             }
+
+            //TODO: Y-axis. 
         }
 
         #region Bindings

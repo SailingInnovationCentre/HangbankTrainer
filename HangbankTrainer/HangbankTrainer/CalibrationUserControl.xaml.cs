@@ -94,11 +94,6 @@ namespace HangbankTrainer
         int _numberOfMoments;
         Timer _timer; 
 
-        enum CalibrationValue
-        {
-            Min, Game, Max
-        };
-
         private CalibrationValue _calibratedValue; 
 
         private void StartCalibration()
@@ -135,9 +130,9 @@ namespace HangbankTrainer
                 {
                     _model.CurrentAthlete.MomentMin = avgMoment;
                 }
-                if (_calibratedValue == CalibrationValue.Game)
+                if (_calibratedValue == CalibrationValue.Mid)
                 {
-                    _model.CurrentAthlete.MomentGame = avgMoment;
+                    _model.CurrentAthlete.MomentMid = avgMoment;
                 }
                 else if (_calibratedValue == CalibrationValue.Max)
                 {
@@ -154,9 +149,9 @@ namespace HangbankTrainer
             StartCalibration(); 
         }
         
-        private void CalibrateGameButton_Click(object sender, RoutedEventArgs e)
+        private void CalibrateMidButton_Click(object sender, RoutedEventArgs e)
         {
-            _calibratedValue = CalibrationValue.Game;
+            _calibratedValue = CalibrationValue.Mid;
             StartCalibration();
         }
         
@@ -171,7 +166,7 @@ namespace HangbankTrainer
             Application.Current.Dispatcher.Invoke(() =>
             {
                 CalibrateMinButton.IsEnabled = !shouldLock;
-                CalibrateGameButton.IsEnabled = !shouldLock;
+                CalibrateMidButton.IsEnabled = !shouldLock;
                 CalibrateMaxButton.IsEnabled = !shouldLock;
                 StopCalibrationButton.IsEnabled = !shouldLock;
             });

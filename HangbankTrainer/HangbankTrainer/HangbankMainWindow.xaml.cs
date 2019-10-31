@@ -28,7 +28,6 @@ namespace HangbankTrainer
     {
 
         private HangbankModel _model;
-        private Training _training;
 
         private FrontPageUserControl _frontPageUserControl;
         private TrainingUserControl _trainingUserControl;
@@ -48,8 +47,6 @@ namespace HangbankTrainer
                 _model.CurrentAthlete = _model.Athletes[0];
             }
 
-            _training = new Training(); 
-
             StartFrontPage(); 
         }
 
@@ -66,7 +63,7 @@ namespace HangbankTrainer
 
         internal void StartTraining()
         {
-            _trainingUserControl = new TrainingUserControl(this, _model, _training);
+            _trainingUserControl = new TrainingUserControl(this, _model);
             MainContentControl.Content = _trainingUserControl; 
         }
 

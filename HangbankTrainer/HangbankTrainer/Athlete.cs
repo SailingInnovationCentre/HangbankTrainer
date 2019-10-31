@@ -11,19 +11,19 @@ namespace HangbankTrainer
         private string _name;
         private int _lengthCm;
         private int _weightKg;
-        private int _momentMax;
         private int _momentMin;
-        private int _momentGame;
+        private int _momentMid;
+        private int _momentMax;
 
         private bool _isChanged; 
 
-        public Athlete(string name, int length, int weight, int momentMin, int momentGame, int momentMax)
+        public Athlete(string name, int length, int weight, int momentMin, int momentMid, int momentMax)
         {
             _name = name;
             _lengthCm = length;
             _weightKg = weight;
             _momentMin = momentMin;
-            _momentGame = momentGame;
+            _momentMid = momentMid;
             _momentMax = momentMax;
             
             _isChanged = false;
@@ -74,29 +74,30 @@ namespace HangbankTrainer
                 {
                     IsChanged = true;
                     SetField(ref _momentMin, value);
-                    if (_momentMin >= _momentGame)
+                    if (_momentMin >= _momentMid)
                     {
-                        MomentGame = _momentMin + 5; 
+                        MomentMid = _momentMin + 5; 
                     }
                 }
             }
         }
 
-        public int MomentGame {
-            get => _momentGame;
+        public int MomentMid
+        {
+            get => _momentMid;
             set
             {
-                if (_momentGame != value)
+                if (_momentMid != value)
                 {
                     IsChanged = true;
-                    SetField(ref _momentGame, value);
-                    if (_momentGame >= _momentMax)
+                    SetField(ref _momentMid, value);
+                    if (_momentMid >= _momentMax)
                     {
-                        MomentMax = _momentGame + 5; 
+                        MomentMax = _momentMid + 5; 
                     }
-                    if (_momentGame <= _momentMin)
+                    if (_momentMid <= _momentMin)
                     {
-                        MomentMin = _momentGame - 5; 
+                        MomentMin = _momentMid - 5; 
                     }
                 }
             }
@@ -111,9 +112,9 @@ namespace HangbankTrainer
                 {
                     IsChanged = true;
                     SetField(ref _momentMax, value);
-                    if (_momentMax <= _momentGame)
+                    if (_momentMax <= _momentMid)
                     {
-                        MomentGame = _momentMax - 5; 
+                        _momentMid = _momentMax - 5; 
                     }
                 }
             }

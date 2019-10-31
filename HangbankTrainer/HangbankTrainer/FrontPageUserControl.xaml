@@ -55,7 +55,7 @@
                 <Label Grid.Row="5" Grid.Column="0" Content="Moment (laag):"/>
                 <TextBox Grid.Row="5" Grid.Column="2" x:Name="MomentMinTextBox" Text="{Binding CurrentAthlete.MomentMin}"/>
                 <Label Grid.Row="6" Grid.Column="0" Content="Moment (middel):"/>
-                <TextBox Grid.Row="6" Grid.Column="2" x:Name="MomentGameTextBox" Text="{Binding CurrentAthlete.MomentGame}"/>
+                <TextBox Grid.Row="6" Grid.Column="2" x:Name="MomentMidTextBox" Text="{Binding CurrentAthlete.MomentMid}"/>
                 <Label Grid.Row="7" Grid.Column="0" Content="Moment (hoog):"/>
                 <TextBox Grid.Row="7" Grid.Column="2" x:Name="MomentMaxTextBox" Text="{Binding CurrentAthlete.MomentMax}"/>
             </Grid>
@@ -67,6 +67,7 @@
         <StackPanel Orientation="Vertical" Width="300">
             <Label HorizontalAlignment="Center" Content="Training" 
                    Style="{StaticResource HeaderLabelStyle}"/>
+            <!--<ComboBox ItemsSource="{Binding Model.Training.TrainingScheme}"/>-->
             <Button x:Name="StartTrainingButton" Click="StartTrainingButton_Click" Content="Start training!"/>
         </StackPanel>        
         <StackPanel Orientation="Vertical" Width="300">

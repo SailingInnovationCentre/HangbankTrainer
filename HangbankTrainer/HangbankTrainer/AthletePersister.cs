@@ -43,7 +43,7 @@ namespace HangbankTrainer
                     athlete.LengthCm.ToString(),
                     athlete.WeightKg.ToString(),
                     athlete.MomentMin.ToString(),
-                    athlete.MomentGame.ToString(),
+                    athlete.MomentMid.ToString(),
                     athlete.MomentMax.ToString(),
                 }));
             }
