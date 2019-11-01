@@ -48,6 +48,10 @@
         </lvc:CartesianChart>
 
         <StackPanel VerticalAlignment="Center" Margin="8,0,32,0">
+            <TextBlock Style="{StaticResource HeaderTextBlockStyle}"
+                       HorizontalAlignment="Center"
+                       Text="{Binding Model.CurrentAthlete.Name}"/>
+            
             <TextBlock FontSize="96" Height="110" FontWeight="Bold"
                        HorizontalAlignment="Center" Text="{Binding CurrentMoment, StringFormat=N1}"/>
 

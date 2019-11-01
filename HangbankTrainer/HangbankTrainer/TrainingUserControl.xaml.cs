@@ -36,11 +36,16 @@ namespace HangbankTrainer
 
         private HangbankMainWindow _mainWindow; 
         private HangbankModel _model;
+        public HangbankModel Model
+        {
+            get => _model;
+            set => SetField(ref _model, value);
+        }
 
         public TrainingUserControl(HangbankMainWindow mainWindow, HangbankModel model)
         {
             _mainWindow = mainWindow;
-            _model = model;
+            Model = model;
 
             InitialiseBindings();
             UpdateAxisLimits(); 
