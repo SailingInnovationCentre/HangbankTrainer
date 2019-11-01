@@ -77,7 +77,7 @@ namespace HangbankTrainer
 
         private void StopCalibrationButton_Click(object sender, RoutedEventArgs e)
         {
-            _model.Listener.NewMessage -= OnMessage; 
+            _model.Listener.NewMessage -= OnMessage;
             _mainWindow.StartFrontPage(); 
         }
 
@@ -123,7 +123,7 @@ namespace HangbankTrainer
                 _model.Listener.NewMessage -= OnMessageDuringCalibration;
 
                 // Calculate outcome of calibration.
-                int avgMoment = (int)(_sumOfMoments / (double)_numberOfMoments);
+                double avgMoment = _sumOfMoments / _numberOfMoments;
                 if (_calibratedValue == IntensityTypeEnum.Laag)
                 {
                     _model.CurrentAthlete.MomentMin = avgMoment;

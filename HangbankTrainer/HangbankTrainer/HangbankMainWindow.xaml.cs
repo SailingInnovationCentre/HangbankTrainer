@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
@@ -40,7 +41,10 @@ namespace HangbankTrainer
             Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
 
             InitializeComponent();
-            
+
+            Version version = Assembly.GetEntryAssembly().GetName().Version;
+            Title = $"HangbankTrainer v{version}";
+
             _model = new HangbankModel();
             _model.Listener.SerialPortName = "COM4";
 
@@ -56,6 +60,8 @@ namespace HangbankTrainer
 
         private void Window_Closed(object sender, EventArgs e)
         {
+            AthletePersister.Write(_model.Athletes); 
+
             _model.Listener.CloseSerialPort(); 
         }
 

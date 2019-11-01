@@ -61,8 +61,8 @@ namespace HangbankTrainer
             Task.Factory.StartNew(() =>
             {
                 // Give athletes 10 seconds before the training starts. 
-                //Task.Delay(0).Wait();
-                Task.Delay(10000).Wait();
+                Task.Delay(0).Wait();
+                //Task.Delay(10000).Wait();
                 _t0 = DateTime.Now;
                 Start();
             });
@@ -72,8 +72,8 @@ namespace HangbankTrainer
         {
             XAxisMin = 0.0;
             XAxisMax = 25.0;
-            YAxisMin = 30.0;
-            YAxisMax = 70.0;
+            YAxisMin = 0.0;
+            YAxisMax = 200.0;
 
             MomentValues = new ChartValues<MeasureModel>();
             UpperTargetValues = new ChartValues<MeasureModel>();
@@ -184,8 +184,8 @@ namespace HangbankTrainer
                 XAxisMax = (CurrentTimeSpan + TimeSpan.FromSeconds(5)).TotalSeconds;
             }
 
-            YAxisMin = LowerTargetValues.Min(v => v.Moment) - 20.0;
-            YAxisMax = UpperTargetValues.Max(v => v.Moment) + 20.0;
+            YAxisMin = LowerTargetValues.Min(v => v.Moment) - 10.0;
+            YAxisMax = UpperTargetValues.Max(v => v.Moment) + 10.0;
         }
 
         #region Bindings

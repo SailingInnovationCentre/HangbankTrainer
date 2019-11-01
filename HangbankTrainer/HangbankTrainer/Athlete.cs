@@ -14,9 +14,10 @@ namespace HangbankTrainer
         private double _momentMin;
         private double _momentMid;
         private double _momentMax;
+        private double _bandwidth; 
 
         public Athlete(string name, int length, int weight, 
-            double momentMin, double momentMid, double momentMax)
+            double momentMin, double momentMid, double momentMax, double bandwidth)
         {
             _name = name;
             _lengthCm = length;
@@ -24,6 +25,7 @@ namespace HangbankTrainer
             _momentMin = momentMin;
             _momentMid = momentMid;
             _momentMax = momentMax;
+            _bandwidth = bandwidth; 
         }
 
         public string Name {
@@ -110,6 +112,12 @@ namespace HangbankTrainer
             }
         }
 
+        public double Bandwidth
+        {
+            get => _bandwidth;
+            set => SetField(ref _bandwidth, value); 
+        }
+
         // This override is necessary for ComboBoxes of CurrentAthlete to work properly. 
         // See: https://stackoverflow.com/questions/19632270/binding-combobox-selecteditem-using-mvvm
         public override string ToString()
@@ -119,7 +127,7 @@ namespace HangbankTrainer
 
         internal static Athlete CreateNew()
         {
-            return new Athlete("Nieuwe atleet", 180, 85, 40, 60, 80);
+            return new Athlete("Nieuwe atleet", 180, 85, 40, 60, 80, 3.0);
         }
  
         #region INotifyPropertyChanged

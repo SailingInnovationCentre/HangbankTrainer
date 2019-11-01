@@ -45,6 +45,7 @@ namespace HangbankTrainer
                     athlete.MomentMin.ToString(),
                     athlete.MomentMid.ToString(),
                     athlete.MomentMax.ToString(),
+                    athlete.Bandwidth.ToString()
                 }));
             }
             File.WriteAllText(GetAthletesCsvFile(), sb.ToString()); 
@@ -59,13 +60,29 @@ namespace HangbankTrainer
                 var elements = line.Split(',');
                 try
                 {
-                    athletes.Add(new Athlete(
-                        elements[0],
-                        int.Parse(elements[1]),
-                        int.Parse(elements[2]),
-                        double.Parse(elements[3].Replace(',', '.')),
-                        double.Parse(elements[4].Replace(',', '.')),
-                        double.Parse(elements[5].Replace(',', '.'))));
+                    if (elements.Length == 6)
+                    {
+                        // Backwards compatibility
+                        athletes.Add(new Athlete(
+                            elements[0],
+                            int.Parse(elements[1]),
+                            int.Parse(elements[2]),
+                            double.Parse(elements[3].Replace(',', '.')),
+                            double.Parse(elements[4].Replace(',', '.')),
+                            double.Parse(elements[5].Replace(',', '.')),
+                            10.0));  // Add default bandwidth
+                    }
+                    else if (elements.Length == 7)
+                    {
+                        athletes.Add(new Athlete(
+                            elements[0],
+                            int.Parse(elements[1]),
+                            int.Parse(elements[2]),
+                            double.Parse(elements[3].Replace(',', '.')),
+                            double.Parse(elements[4].Replace(',', '.')),
+                            double.Parse(elements[5].Replace(',', '.')),
+                            double.Parse(elements[6].Replace(',', '.'))));
+                    }
                 }
                 catch (Exception)
                 {

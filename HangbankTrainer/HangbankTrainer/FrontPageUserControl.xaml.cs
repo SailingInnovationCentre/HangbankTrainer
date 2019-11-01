@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace HangbankTrainer
@@ -18,94 +21,34 @@ namespace HangbankTrainer
 
             InitializeComponent();
             DataContext = model;
-
-            ActionComboBox.SelectedIndex = 0;
         }
 
-        public Athlete CurrentAthlete => _model.CurrentAthlete; 
-
-        private void ActionComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void AddAthleteButton_Click(object sender, RoutedEventArgs e)
         {
-            string action = ((ComboBoxItem)e.AddedItems[0]).Name;
-            if (action == "CurrentAthleteCbi")
-            {
-                AthletesComboBox.Visibility = Visibility.Visible;
-                NameTextBox.IsEnabled = true;
-                LengthTextBox.IsEnabled = true;
-                WeightTextBox.IsEnabled = true;
-                MomentMinTextBox.IsEnabled = true;
-                MomentMidTextBox.IsEnabled = true;
-                MomentMaxTextBox.IsEnabled = true;
-                ActionButton.IsEnabled = true;
-                ActionButton.Content = "Sla gegevens op";
-            }
-            else if (action == "AddAthleteCbi")
-            {
-                AthletesComboBox.Visibility = Visibility.Hidden;
-                NameTextBox.IsEnabled = true;
-                LengthTextBox.IsEnabled = true;
-                WeightTextBox.IsEnabled = true;
-                MomentMinTextBox.IsEnabled = true;
-                MomentMidTextBox.IsEnabled = true;
-                MomentMaxTextBox.IsEnabled = true;
-
-                ActionButton.IsEnabled = true;
-                ActionButton.Content = "Voeg atleet toe";
-                _model.Athletes.Add(_model.CurrentAthlete);
-                _model.CurrentAthlete = Athlete.CreateNew();
-            }
-            else if (action == "DeleteAthleteCbi")
-            {
-                AthletesComboBox.Visibility = Visibility.Visible;
-                AthletesComboBox.SelectedIndex = 0;
-                NameTextBox.IsEnabled = false;
-                LengthTextBox.IsEnabled = false;
-                WeightTextBox.IsEnabled = false;
-                MomentMinTextBox.IsEnabled = false;
-                MomentMidTextBox.IsEnabled = false;
-                MomentMaxTextBox.IsEnabled = false;
-
-                ActionButton.IsEnabled = true;
-                ActionButton.Content = "Verwijder atleet";
-            }
+            var athlete = new Athlete("Nieuwe atleet", 180, 85, 60, 80, 100, 3);
+            _model.Athletes.Add(athlete);
+            _model.CurrentAthlete = athlete; 
         }
 
-        private void AthletesComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void DeleteAthleteButton_Click(object sender, RoutedEventArgs e)
         {
-            if (e.AddedItems.Count > 0)
+            if (_model.CurrentAthlete != null && _model.Athletes.Contains(_model.CurrentAthlete))
             {
-                _model.CurrentAthlete = (Athlete)e.AddedItems[0];
+                _model.Athletes.Remove(_model.CurrentAthlete); 
             }
+
+            _model.CurrentAthlete = _model.Athletes.FirstOrDefault(); 
         }
 
-        private void ActionButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void NameTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            string action = (string)((Button)sender).Content;
-
-            if (action.Contains("Verwijder"))
-            {
-                _model.Athletes.Remove(_model.CurrentAthlete);
-            }
-            else if (action.Contains("Voeg"))
-            {
-                _model.Athletes.Add(_model.CurrentAthlete);
-            }
-
-            AthletePersister.Write(_model.Athletes);
-            MessageBox.Show("Gegevens zijn geactualiseerd.");
-
-            var athlete = _model.CurrentAthlete;
-            ActionComboBox.SelectedIndex = 0;
-
-            if (action.Contains("Verwijder"))
-            {
-                AthletesComboBox.SelectedIndex = 0;
-            }
-            else
-            {
-                AthletesComboBox.SelectedItem = athlete;
-            }
-
+            // Somehow, the ComboBox doesn't update properly after the change of name. 
+            // This routine enforces this behaviour. 
+            _model.CurrentAthlete.Name = NameTextBox.Text;
+            int selectedIndex = AthletesComboBox.SelectedIndex;
+            AthletesComboBox.SelectedIndex = -1;
+            AthletesComboBox.Items.Refresh();
+            AthletesComboBox.SelectedIndex = selectedIndex;
         }
 
         private void StartTrainingButton_Click(object sender, RoutedEventArgs e)
@@ -122,6 +65,8 @@ namespace HangbankTrainer
             {
                 _model.Training.Target = _model.CurrentAthlete.MomentMin;
             }
+
+            _model.Training.Bandwidth = _model.CurrentAthlete.Bandwidth; 
 
             _mainWindow.StartTraining(); 
         }
