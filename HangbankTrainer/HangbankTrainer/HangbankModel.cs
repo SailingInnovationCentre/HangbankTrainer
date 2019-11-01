@@ -14,9 +14,9 @@ namespace HangbankTrainer
             Training = new Training(); 
 
             LinksOnbelast = 394;   // 15 kg op balk van gym. 
-            LinksBelast = 770;     // 40 kg op balk van gym. 
+            LinksBelast = 748;     // 40 kg op balk van gym. 
             RechtsOnbelast = 188;
-            RechtsBelast = 373;
+            RechtsBelast = 360;
         }
 
         private SerialPortListener _listener;
