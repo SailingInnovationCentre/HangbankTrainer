@@ -66,7 +66,7 @@ namespace HangbankTrainer
                 if (_momentMin != value)
                 {
                     SetField(ref _momentMin, value);
-                    if (_momentMin >= _momentMid)
+                    if (_momentMin >= _momentMid - 5)
                     {
                         MomentMid = _momentMin + 5; 
                     }
@@ -82,11 +82,11 @@ namespace HangbankTrainer
                 if (_momentMid != value)
                 {
                     SetField(ref _momentMid, value);
-                    if (_momentMid >= _momentMax)
+                    if (_momentMid >= _momentMax - 5)
                     {
                         MomentMax = _momentMid + 5; 
                     }
-                    if (_momentMid <= _momentMin)
+                    if (_momentMid <= _momentMin + 5)
                     {
                         MomentMin = _momentMid - 5; 
                     }
@@ -102,9 +102,9 @@ namespace HangbankTrainer
                 if (_momentMax != value)
                 {
                     SetField(ref _momentMax, value);
-                    if (_momentMax <= _momentMid)
+                    if (_momentMax <= _momentMid + 5)
                     {
-                        _momentMid = _momentMax - 5; 
+                        MomentMid = MomentMax - 5; 
                     }
                 }
             }
