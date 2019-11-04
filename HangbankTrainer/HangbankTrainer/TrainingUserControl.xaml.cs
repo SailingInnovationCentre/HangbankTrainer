@@ -28,19 +28,11 @@ namespace HangbankTrainer
             }
         }
 
-        private DateTime _t0; 
-
-        public ChartValues<MeasureModel> MomentValues { get; set; }
-        public ChartValues<MeasureModel> UpperTargetValues { get; set; }
-        public ChartValues<MeasureModel> LowerTargetValues { get; set; }
-
         private HangbankMainWindow _mainWindow; 
         private HangbankModel _model;
-        public HangbankModel Model
-        {
-            get => _model;
-            set => SetField(ref _model, value);
-        }
+
+        private DateTime _t0;
+        private bool _started = false;
 
         public TrainingUserControl(HangbankMainWindow mainWindow, HangbankModel model)
         {
@@ -76,11 +68,13 @@ namespace HangbankTrainer
             YAxisMax = 200.0;
 
             MomentValues = new ChartValues<MeasureModel>();
+            TargetValues = new ChartValues<MeasureModel>();
             UpperTargetValues = new ChartValues<MeasureModel>();
             LowerTargetValues = new ChartValues<MeasureModel>();
 
             for (double t=0; t<50; t+=1)
             {
+                TargetValues.Add(new MeasureModel(t, _model.Training.GenerateTargetAt(t)));
                 UpperTargetValues.Add(new MeasureModel(t, _model.Training.GenerateTargetMaxAt(t)));
                 LowerTargetValues.Add(new MeasureModel(t, _model.Training.GenerateTargetMinAt(t)));
             }
@@ -92,7 +86,7 @@ namespace HangbankTrainer
             _mainWindow.StartFrontPage();
         }
 
-        private bool _started = false;
+        
 
         private void Start()
         {
@@ -190,6 +184,12 @@ namespace HangbankTrainer
 
         #region Bindings
 
+        public HangbankModel Model
+        {
+            get => _model;
+            set => SetField(ref _model, value);
+        }
+
         private string _serialInput;
         public string SerialInput
         {
@@ -217,6 +217,11 @@ namespace HangbankTrainer
             get => _currentMoment;
             set => SetField(ref _currentMoment, value);
         }
+
+        public ChartValues<MeasureModel> MomentValues { get; set; }
+        public ChartValues<MeasureModel> TargetValues { get; set; }
+        public ChartValues<MeasureModel> UpperTargetValues { get; set; }
+        public ChartValues<MeasureModel> LowerTargetValues { get; set; }
 
         private double _xAxisMax;
         public double XAxisMax

@@ -45,6 +45,11 @@ namespace HangbankTrainer
             set => SetField(ref _bandwidth, value);
         }
 
+        public double GenerateTargetAt(double t)
+        {
+            return _target; 
+        }
+
         public double GenerateTargetMinAt(double t)
         {
             return _target - _bandwidth; 
