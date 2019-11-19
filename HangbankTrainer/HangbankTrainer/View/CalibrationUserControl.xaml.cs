@@ -126,15 +126,15 @@ namespace HangbankTrainer.View
 
                 // Calculate outcome of calibration.
                 double avgMoment = _sumOfMoments / _numberOfMoments;
-                if (_calibratedValue == IntensityTypeEnum.Laag)
+                if (_calibratedValue == IntensityTypeEnum.Low)
                 {
                     _model.CurrentAthlete.MomentMin = avgMoment;
                 }
-                if (_calibratedValue == IntensityTypeEnum.Middel)
+                if (_calibratedValue == IntensityTypeEnum.Mid)
                 {
                     _model.CurrentAthlete.MomentMid = avgMoment;
                 }
-                else if (_calibratedValue == IntensityTypeEnum.Hoog)
+                else if (_calibratedValue == IntensityTypeEnum.High)
                 {
                     _model.CurrentAthlete.MomentMax = avgMoment;
                 }
@@ -145,19 +145,19 @@ namespace HangbankTrainer.View
 
         private void CalibrateMinButton_Click(object sender, RoutedEventArgs e)
         {
-            _calibratedValue = IntensityTypeEnum.Laag;
+            _calibratedValue = IntensityTypeEnum.Low;
             StartCalibration();
         }
 
         private void CalibrateMidButton_Click(object sender, RoutedEventArgs e)
         {
-            _calibratedValue = IntensityTypeEnum.Middel;
+            _calibratedValue = IntensityTypeEnum.Mid;
             StartCalibration();
         }
 
         private void CalibrateMaxButton_Click(object sender, RoutedEventArgs e)
         {
-            _calibratedValue = IntensityTypeEnum.Hoog;
+            _calibratedValue = IntensityTypeEnum.High;
             StartCalibration();
         }
 

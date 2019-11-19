@@ -18,7 +18,7 @@ namespace HangbankTrainer.Model
         {
             Bandwidth = 2.0;
             TrainingType = TrainingTypeEnum.Constant;
-            IntensityType = IntensityTypeEnum.Middel;
+            IntensityType = IntensityTypeEnum.Mid;
         }
 
         public TrainingTypeEnum TrainingType

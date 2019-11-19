@@ -54,15 +54,15 @@ namespace HangbankTrainer.View
 
         private void StartTrainingButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_model.Training.IntensityType == IntensityTypeEnum.Hoog)
+            if (_model.Training.IntensityType == IntensityTypeEnum.High)
             {
                 _model.Training.Target = _model.CurrentAthlete.MomentMax;
             }
-            else if (_model.Training.IntensityType == IntensityTypeEnum.Middel)
+            else if (_model.Training.IntensityType == IntensityTypeEnum.Mid)
             {
                 _model.Training.Target = _model.CurrentAthlete.MomentMid;
             }
-            else if (_model.Training.IntensityType == IntensityTypeEnum.Laag)
+            else if (_model.Training.IntensityType == IntensityTypeEnum.Low)
             {
                 _model.Training.Target = _model.CurrentAthlete.MomentMin;
             }

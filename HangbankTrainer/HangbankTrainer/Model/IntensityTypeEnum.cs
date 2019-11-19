@@ -2,9 +2,9 @@
 {
     public enum IntensityTypeEnum
     {
-        Laag,
-        Middel,
-        Hoog
+        Low,
+        Mid,
+        High
     };
 
 }
