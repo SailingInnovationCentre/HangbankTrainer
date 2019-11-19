@@ -1,4 +1,5 @@
-﻿using LiveCharts;
+﻿using HangbankTrainer.DataAccess;
+using LiveCharts;
 using LiveCharts.Wpf;
 using System;
 using System.Collections.Generic;
@@ -44,25 +45,33 @@ namespace HangbankTrainer
 
             Version version = Assembly.GetEntryAssembly().GetName().Version;
             Title = $"HangbankTrainer v{version}";
+            
+            InitModel(); 
 
+            StartFrontPage(); 
+        }
+
+        private void InitModel()
+        {
             _model = new HangbankModel();
             _model.Listener.SerialPortName = "COM4";
 
-            AthletePersister.AssertFilesPresent();
+            PersistenceTools.AssertPersistenceDirPresent(); 
+
+            CalibrationPersister.Read(_model); 
+
             _model.Athletes = new ObservableCollection<Athlete>(AthletePersister.Read());
             if (_model.Athletes.Count > 0)
             {
                 _model.CurrentAthlete = _model.Athletes[0];
             }
-
-            StartFrontPage(); 
         }
 
         private void Window_Closed(object sender, EventArgs e)
         {
+            _model.Listener.CloseSerialPort();
+            CalibrationPersister.Write(_model); 
             AthletePersister.Write(_model.Athletes); 
-
-            _model.Listener.CloseSerialPort(); 
         }
 
         internal void StartFrontPage()

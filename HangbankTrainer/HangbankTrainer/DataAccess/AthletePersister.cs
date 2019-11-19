@@ -3,36 +3,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace HangbankTrainer
+namespace HangbankTrainer.DataAccess
 {
     static class AthletePersister
-    {
-
-        public static string GetHangbankDir()
+    { 
+        private static string GetAthletesCsvFile()
         {
-            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "hangbank"); 
+            return Path.Combine(PersistenceTools.GetHangbankDir(), "athletes.csv"); 
         }
-
-        public static string GetAthletesCsvFile()
-        {
-            return Path.Combine(GetHangbankDir(), "athletes.csv"); 
-        }
-
-        public static void AssertFilesPresent()
-        {
-            string hangbankPath = GetHangbankDir();
-            if (!Directory.Exists(hangbankPath))
-            {
-                Directory.CreateDirectory(hangbankPath); 
-            }
-
-            string athletesCsvPath = GetAthletesCsvFile();
-            if (!File.Exists(athletesCsvPath))
-            {
-                File.Create(athletesCsvPath).Close(); 
-            }
-        }
-
+        
         public static void Write(IEnumerable<Athlete> athletes)
         {
             var sb = new StringBuilder(); 
@@ -53,6 +32,13 @@ namespace HangbankTrainer
 
         public static List<Athlete> Read()
         {
+            var athletesPath = GetAthletesCsvFile(); 
+            if (!File.Exists(athletesPath))
+            {
+                // Default: empty list of athletes. 
+                return new List<Athlete>(); 
+            }
+            
             var lines = File.ReadAllLines(GetAthletesCsvFile());
             var athletes = new List<Athlete>(); 
             foreach (var line in lines)
