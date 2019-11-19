@@ -1,10 +1,11 @@
-﻿using System;
+﻿using HangbankTrainer.Model;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace HangbankTrainer
+namespace HangbankTrainer.View
 {
     /// <summary>
     /// Interaction logic for TrainingConfigurationUserControl.xaml

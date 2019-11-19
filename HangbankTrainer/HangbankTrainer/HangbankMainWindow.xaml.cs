@@ -1,4 +1,6 @@
 ﻿using HangbankTrainer.DataAccess;
+using HangbankTrainer.Model;
+using HangbankTrainer.View;
 using LiveCharts;
 using LiveCharts.Wpf;
 using System;

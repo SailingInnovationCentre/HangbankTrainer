@@ -3,8 +3,9 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 using System.Windows;
+using HangbankTrainer.Model;
 
-namespace HangbankTrainer
+namespace HangbankTrainer.View
 {
     /// <summary>
     /// Interaction logic for ConfigurationUserControl.xaml

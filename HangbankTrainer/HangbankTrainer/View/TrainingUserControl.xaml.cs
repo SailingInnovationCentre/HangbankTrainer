@@ -1,4 +1,6 @@
-﻿using LiveCharts;
+﻿using HangbankTrainer.Communication;
+using HangbankTrainer.Model;
+using LiveCharts;
 using LiveCharts.Configurations;
 using System;
 using System.Collections.Generic;
@@ -9,7 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace HangbankTrainer
+namespace HangbankTrainer.View
 {
     /// <summary>
     /// Interaction logic for TrainingUserControl.xaml

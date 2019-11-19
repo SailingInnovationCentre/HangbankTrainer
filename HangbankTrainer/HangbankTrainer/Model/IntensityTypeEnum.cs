@@ -1,9 +1,9 @@
-﻿namespace HangbankTrainer
+﻿namespace HangbankTrainer.Model
 {
     public enum IntensityTypeEnum
     {
-        Laag, 
-        Middel, 
+        Laag,
+        Middel,
         Hoog
     };
 

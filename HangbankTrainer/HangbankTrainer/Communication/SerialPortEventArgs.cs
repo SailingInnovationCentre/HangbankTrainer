@@ -1,16 +1,16 @@
 ﻿using System;
 
-namespace HangbankTrainer
+namespace HangbankTrainer.Communication
 {
     internal class SerialPortEventArgs : EventArgs
     {
 
         public int Left { get; }
-        public int Right { get;  }
+        public int Right { get; }
 
         public SerialPortEventArgs(string message)
         {
-            int i = message.IndexOf(','); 
+            int i = message.IndexOf(',');
             if (i == -1)
             {
                 return;
@@ -20,23 +20,23 @@ namespace HangbankTrainer
             bool b2 = int.TryParse(message.Substring(i + 1), out int right);
             if (!b1 || !b2)
             {
-                return; 
+                return;
             }
 
             Left = left;
-            Right = right; 
+            Right = right;
         }
 
         public SerialPortEventArgs(int left, int right)
         {
             Left = left;
-            Right = right; 
+            Right = right;
         }
 
         public SerialPortEventArgs()
         {
             Left = 0;
-            Right = 0; 
+            Right = 0;
         }
     }
 }

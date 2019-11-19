@@ -5,7 +5,7 @@ using System.IO.Ports;
 using System.Runtime.CompilerServices;
 using System.Timers;
 
-namespace HangbankTrainer
+namespace HangbankTrainer.Communication
 {
 
     public class SerialPortListener : INotifyPropertyChanged
@@ -19,22 +19,22 @@ namespace HangbankTrainer
             set
             {
                 SetField(ref _serialPortName, value);
-                SetSerialPort(_serialPortName); 
+                SetSerialPort(_serialPortName);
             }
         }
 
-        private string _cachedString; 
+        private string _cachedString;
 
         public event EventHandler NewMessage;
 
         private Timer _timer;
-        private Random _random = new Random(); 
+        private Random _random = new Random();
 
         private void SetSerialPort(string port)
         {
             try
             {
-                CloseSerialPort(); 
+                CloseSerialPort();
             }
             catch (Exception)
             {
@@ -44,12 +44,12 @@ namespace HangbankTrainer
             if (_timer != null)
             {
                 _timer.Stop();
-                _timer = null; 
+                _timer = null;
             }
 
             if (port == "test")
             {
-                StartTestLoop(); 
+                StartTestLoop();
             }
             else
             {
@@ -88,17 +88,17 @@ namespace HangbankTrainer
             SerialPort sp = (SerialPort)sender;
             _cachedString += sp.ReadExisting();
 
-            int indexNewline = _cachedString.IndexOf('\n'); 
+            int indexNewline = _cachedString.IndexOf('\n');
             while (indexNewline != -1)
             {
                 string newMessage = _cachedString.Substring(0, indexNewline).Trim();
                 NewMessage?.Invoke(this, new SerialPortEventArgs(newMessage));
-                _cachedString = _cachedString.Substring(indexNewline+1); 
-                indexNewline = _cachedString.IndexOf('\n'); 
+                _cachedString = _cachedString.Substring(indexNewline + 1);
+                indexNewline = _cachedString.IndexOf('\n');
             }
         }
 
-        private int _counter; 
+        private int _counter;
 
         private void StartTestLoop()
         {
@@ -108,7 +108,7 @@ namespace HangbankTrainer
             _timer.Elapsed += (s, e) =>
             {
                 _counter += 1;
-                NewMessage?.Invoke(this, new SerialPortEventArgs((int)(700 + 20 * Math.Sin(_counter/30.0)), 188));
+                NewMessage?.Invoke(this, new SerialPortEventArgs((int)(700 + 20 * Math.Sin(_counter / 30.0)), 188));
             };
             _timer.Start();
         }

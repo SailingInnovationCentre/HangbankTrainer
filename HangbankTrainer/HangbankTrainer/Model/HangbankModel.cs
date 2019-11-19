@@ -1,17 +1,18 @@
-﻿using System;
+﻿using HangbankTrainer.Communication;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace HangbankTrainer
+namespace HangbankTrainer.Model
 {
     public class HangbankModel : INotifyPropertyChanged
     {
         public HangbankModel()
         {
             Listener = new SerialPortListener();
-            Training = new Training(); 
+            Training = new Training();
 
             LinksOnbelast = 394;   // 15 kg op balk van gym. 
             LinksBelast = 748;     // 40 kg op balk van gym. 
@@ -20,9 +21,10 @@ namespace HangbankTrainer
         }
 
         private SerialPortListener _listener;
-        public SerialPortListener Listener {
-            get => _listener; 
-            set => SetField(ref _listener, value);  
+        public SerialPortListener Listener
+        {
+            get => _listener;
+            set => SetField(ref _listener, value);
         }
 
         private Athlete _currentAthlete;
@@ -32,11 +34,11 @@ namespace HangbankTrainer
             set => SetField(ref _currentAthlete, value);
         }
 
-        private Training _training; 
+        private Training _training;
         public Training Training
         {
             get => _training;
-            set => SetField(ref _training, value); 
+            set => SetField(ref _training, value);
         }
 
         public ObservableCollection<Athlete> Athletes { get; set; }
@@ -53,7 +55,7 @@ namespace HangbankTrainer
         {
             get => _linksBelast;
             set => SetField(ref _linksBelast, value);
-        }      
+        }
 
         private double _rechtsOnbelast;
         public double RechtsOnbelast
@@ -95,7 +97,7 @@ namespace HangbankTrainer
             if (EqualityComparer<T>.Default.Equals(field, value)) return false;
             field = value;
             OnPropertyChanged(propertyName);
-            return true; 
+            return true;
         }
 
         #endregion

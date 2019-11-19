@@ -2,16 +2,16 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace HangbankTrainer
+namespace HangbankTrainer.Model
 {
 
-    public class Training: INotifyPropertyChanged
+    public class Training : INotifyPropertyChanged
     {
 
         private TrainingTypeEnum _trainingType;
         private IntensityTypeEnum _intensityType;
 
-        private double _target; 
+        private double _target;
         private double _bandwidth;
 
         public Training()
@@ -24,13 +24,13 @@ namespace HangbankTrainer
         public TrainingTypeEnum TrainingType
         {
             get => _trainingType;
-            set => SetField(ref _trainingType, value); 
+            set => SetField(ref _trainingType, value);
         }
 
         public IntensityTypeEnum IntensityType
         {
             get => _intensityType;
-            set => SetField(ref _intensityType, value); 
+            set => SetField(ref _intensityType, value);
         }
 
         public double Target
@@ -47,17 +47,17 @@ namespace HangbankTrainer
 
         public double GenerateTargetAt(double t)
         {
-            return _target; 
+            return _target;
         }
 
         public double GenerateTargetMinAt(double t)
         {
-            return _target - _bandwidth; 
+            return _target - _bandwidth;
         }
 
         public double GenerateTargetMaxAt(double t)
         {
-            return _target + _bandwidth; 
+            return _target + _bandwidth;
         }
 
         #region INotifyPropertyChanged

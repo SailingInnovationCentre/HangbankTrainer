@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HangbankTrainer.Communication;
+using HangbankTrainer.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -6,7 +8,7 @@ using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace HangbankTrainer
+namespace HangbankTrainer.View
 {
     /// <summary>
     /// Interaction logic for CalibrationUserControl.xaml
@@ -20,7 +22,7 @@ namespace HangbankTrainer
         public HangbankModel Model
         {
             get => _model;
-            set => SetField(ref _model, value); 
+            set => SetField(ref _model, value);
         }
 
         public CalibrationUserControl(HangbankMainWindow mainWindow, HangbankModel model)
@@ -36,11 +38,11 @@ namespace HangbankTrainer
             VoltValue = "0";
         }
 
-        private string _voltValue; 
+        private string _voltValue;
         public string VoltValue
         {
             get => _voltValue;
-            set => SetField(ref _voltValue, value); 
+            set => SetField(ref _voltValue, value);
         }
 
         private double _momentValue;
@@ -52,11 +54,11 @@ namespace HangbankTrainer
 
         private void OnMessage(object sender, EventArgs e)
         {
-            MomentValue = CalculateMoment(e); 
-            VoltValue = CalculateVoltage(e); 
+            MomentValue = CalculateMoment(e);
+            VoltValue = CalculateVoltage(e);
         }
 
-        private int _secondsLeft; 
+        private int _secondsLeft;
         public int SecondsLeft
         {
             get => _secondsLeft;
@@ -66,7 +68,7 @@ namespace HangbankTrainer
         private double CalculateMoment(EventArgs e)
         {
             var serialPortEventArgs = (SerialPortEventArgs)e;
-            return _model.DetermineMoment(serialPortEventArgs.Left, serialPortEventArgs.Right); 
+            return _model.DetermineMoment(serialPortEventArgs.Left, serialPortEventArgs.Right);
         }
 
         private string CalculateVoltage(EventArgs e)
@@ -78,25 +80,25 @@ namespace HangbankTrainer
         private void StopCalibrationButton_Click(object sender, RoutedEventArgs e)
         {
             _model.Listener.NewMessage -= OnMessage;
-            _mainWindow.StartFrontPage(); 
+            _mainWindow.StartFrontPage();
         }
 
         private void OnMessageDuringCalibration(object sender, EventArgs e)
         {
-            var moment = CalculateMoment(e); 
+            var moment = CalculateMoment(e);
             _sumOfMoments += moment;
-            _numberOfMoments++; 
+            _numberOfMoments++;
         }
 
         double _sumOfMoments;
         int _numberOfMoments;
-        Timer _timer; 
+        Timer _timer;
 
-        private IntensityTypeEnum _calibratedValue; 
+        private IntensityTypeEnum _calibratedValue;
 
         private void StartCalibration()
         {
-            LockButtons(true); 
+            LockButtons(true);
 
             _sumOfMoments = 0;
             _numberOfMoments = 0;
@@ -108,7 +110,7 @@ namespace HangbankTrainer
             _timer.AutoReset = true;
             _timer.Interval = 1000;
             _timer.Elapsed += CalibrationTimerElapsed;
-            _timer.Start(); 
+            _timer.Start();
         }
 
         private void CalibrationTimerElapsed(object sender, ElapsedEventArgs e)
@@ -144,15 +146,15 @@ namespace HangbankTrainer
         private void CalibrateMinButton_Click(object sender, RoutedEventArgs e)
         {
             _calibratedValue = IntensityTypeEnum.Laag;
-            StartCalibration(); 
+            StartCalibration();
         }
-        
+
         private void CalibrateMidButton_Click(object sender, RoutedEventArgs e)
         {
             _calibratedValue = IntensityTypeEnum.Middel;
             StartCalibration();
         }
-        
+
         private void CalibrateMaxButton_Click(object sender, RoutedEventArgs e)
         {
             _calibratedValue = IntensityTypeEnum.Hoog;

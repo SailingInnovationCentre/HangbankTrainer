@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace HangbankTrainer
+namespace HangbankTrainer.Model
 {
-    public class Athlete: INotifyPropertyChanged
+    public class Athlete : INotifyPropertyChanged
     {
 
         private string _name;
@@ -14,9 +14,9 @@ namespace HangbankTrainer
         private double _momentMin;
         private double _momentMid;
         private double _momentMax;
-        private double _bandwidth; 
+        private double _bandwidth;
 
-        public Athlete(string name, int length, int weight, 
+        public Athlete(string name, int length, int weight,
             double momentMin, double momentMid, double momentMax, double bandwidth)
         {
             _name = name;
@@ -25,10 +25,11 @@ namespace HangbankTrainer
             _momentMin = momentMin;
             _momentMid = momentMid;
             _momentMax = momentMax;
-            _bandwidth = bandwidth; 
+            _bandwidth = bandwidth;
         }
 
-        public string Name {
+        public string Name
+        {
             get => _name;
             set
             {
@@ -39,7 +40,8 @@ namespace HangbankTrainer
             }
         }
 
-        public int LengthCm {
+        public int LengthCm
+        {
             get => _lengthCm;
             set
             {
@@ -50,7 +52,8 @@ namespace HangbankTrainer
             }
         }
 
-        public int WeightKg {
+        public int WeightKg
+        {
             get => _weightKg;
             set
             {
@@ -61,7 +64,8 @@ namespace HangbankTrainer
             }
         }
 
-        public double MomentMin {
+        public double MomentMin
+        {
             get => _momentMin;
             set
             {
@@ -70,7 +74,7 @@ namespace HangbankTrainer
                     SetField(ref _momentMin, value);
                     if (_momentMin >= _momentMid - 5)
                     {
-                        MomentMid = _momentMin + 5; 
+                        MomentMid = _momentMin + 5;
                     }
                 }
             }
@@ -86,11 +90,11 @@ namespace HangbankTrainer
                     SetField(ref _momentMid, value);
                     if (_momentMid >= _momentMax - 5)
                     {
-                        MomentMax = _momentMid + 5; 
+                        MomentMax = _momentMid + 5;
                     }
                     if (_momentMid <= _momentMin + 5)
                     {
-                        MomentMin = _momentMid - 5; 
+                        MomentMin = _momentMid - 5;
                     }
                 }
             }
@@ -106,7 +110,7 @@ namespace HangbankTrainer
                     SetField(ref _momentMax, value);
                     if (_momentMax <= _momentMid + 5)
                     {
-                        MomentMid = MomentMax - 5; 
+                        MomentMid = MomentMax - 5;
                     }
                 }
             }
@@ -115,21 +119,21 @@ namespace HangbankTrainer
         public double Bandwidth
         {
             get => _bandwidth;
-            set => SetField(ref _bandwidth, value); 
+            set => SetField(ref _bandwidth, value);
         }
 
         // This override is necessary for ComboBoxes of CurrentAthlete to work properly. 
         // See: https://stackoverflow.com/questions/19632270/binding-combobox-selecteditem-using-mvvm
         public override string ToString()
         {
-            return Name; 
+            return Name;
         }
 
         internal static Athlete CreateNew()
         {
             return new Athlete("Nieuwe atleet", 180, 85, 40, 60, 80, 3.0);
         }
- 
+
         #region INotifyPropertyChanged
 
         public event PropertyChangedEventHandler PropertyChanged;
