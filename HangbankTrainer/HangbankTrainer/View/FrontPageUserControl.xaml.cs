@@ -1,6 +1,5 @@
-﻿using HangbankTrainer.Model;
-using System;
-using System.Collections.ObjectModel;
+﻿using HangbankTrainer;
+using HangbankTrainer.Model;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;

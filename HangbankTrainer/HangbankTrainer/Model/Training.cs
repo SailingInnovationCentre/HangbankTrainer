@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -14,11 +15,18 @@ namespace HangbankTrainer.Model
         private double _target;
         private double _bandwidth;
 
+        // Only for Interval type of training. 
+        private int _secondsTraining;
+        private int _secondsRest; 
+
         public Training()
         {
-            Bandwidth = 2.0;
             TrainingType = TrainingTypeEnum.Constant;
             IntensityType = IntensityTypeEnum.Mid;
+
+            SecondsTraining = 60;
+            SecondsRest = 5; 
+            Bandwidth = 2.0;
         }
 
         public TrainingTypeEnum TrainingType
@@ -45,19 +53,50 @@ namespace HangbankTrainer.Model
             set => SetField(ref _bandwidth, value);
         }
 
+        public int SecondsTraining
+        {
+            get => _secondsTraining;
+            set => SetField(ref _secondsTraining, value);
+        }
+
+        public int SecondsRest
+        {
+            get => _secondsRest;
+            set => SetField(ref _secondsRest, value);
+        }
+
         public double GenerateTargetAt(double t)
         {
-            return _target;
+            if (_trainingType == TrainingTypeEnum.Constant)
+            {
+                return _target;
+            }
+            else if (_trainingType == TrainingTypeEnum.Interval)
+            {
+                double period = _secondsTraining + _secondsRest;
+                double remainder = t % period;
+                if (remainder < _secondsTraining)
+                {
+                    return _target; 
+                }
+                else
+                {
+                    return 0.0; 
+                }
+
+            }
+
+            return 0.0;
         }
 
         public double GenerateTargetMinAt(double t)
         {
-            return _target - _bandwidth;
+            return GenerateTargetAt(t) - _bandwidth;
         }
 
         public double GenerateTargetMaxAt(double t)
         {
-            return _target + _bandwidth;
+            return GenerateTargetAt(t) + _bandwidth;
         }
 
         #region INotifyPropertyChanged

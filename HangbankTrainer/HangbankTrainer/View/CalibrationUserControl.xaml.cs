@@ -17,7 +17,7 @@ namespace HangbankTrainer.View
     {
 
         private HangbankMainWindow _mainWindow;
-
+        
         private HangbankModel _model;
         public HangbankModel Model
         {

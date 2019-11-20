@@ -15,7 +15,7 @@
     </UserControl.Resources>
     <StackPanel Orientation="Horizontal">
         <StackPanel Orientation="Vertical" Margin="32,16">
-            <Label HorizontalAlignment="Center" Content="Atleet" 
+            <Label HorizontalAlignment="Center" Content="Atleet"
                    Style="{StaticResource HeaderLabelStyle}"/>
             <Grid HorizontalAlignment="Center">
                 <Grid.ColumnDefinitions>
@@ -99,8 +99,16 @@
                 <ComboBox Grid.Row="1" Grid.Column="1"
                           ItemsSource="{Binding Source={StaticResource IntensityEnumValues}}" 
                           SelectedItem="{Binding Training.IntensityType}"/>
-                    
-                <Button Grid.Row="2" Grid.ColumnSpan="2" Margin="0,20"
+
+                <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource RegularTextBlock}"
+                           Text="Interval inspanning (seconden):"/>
+                <TextBox Grid.Row="2" Grid.Column="1" x:Name="SecondsTrainingTextBox" Text="{Binding Training.SecondsTraining}"/>
+
+                <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource RegularTextBlock}"
+                           Text="Interval inspanning (seconden):"/>
+                <TextBox Grid.Row="3" Grid.Column="1" x:Name="SecondsRestTextBox" Text="{Binding Training.SecondsRest}"/>
+
+                <Button Grid.Row="4" Grid.ColumnSpan="2" Margin="0,20"
                         x:Name="StartTrainingButton" Click="StartTrainingButton_Click" 
                         Content="Start training!"/>
             </Grid>

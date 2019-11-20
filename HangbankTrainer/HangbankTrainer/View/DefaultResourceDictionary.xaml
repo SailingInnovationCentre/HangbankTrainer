@@ -1,13 +1,13 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:HangbankTrainer"
+                    xmlns:model="clr-namespace:HangbankTrainer.Model"
                     xmlns:sys="clr-namespace:System;assembly=System.Runtime">
 
     <ObjectDataProvider MethodName="GetValues"
                             ObjectType="{x:Type sys:Enum}"
                             x:Key="IntensityEnumValues">
         <ObjectDataProvider.MethodParameters>
-            <x:Type TypeName="local:IntensityTypeEnum" />
+            <x:Type TypeName="model:IntensityTypeEnum" />
         </ObjectDataProvider.MethodParameters>
     </ObjectDataProvider>
 
@@ -15,7 +15,7 @@
                             ObjectType="{x:Type sys:Enum}"
                             x:Key="TrainingEnumValues">
         <ObjectDataProvider.MethodParameters>
-            <x:Type TypeName="local:TrainingTypeEnum" />
+            <x:Type TypeName="model:TrainingTypeEnum" />
         </ObjectDataProvider.MethodParameters>
     </ObjectDataProvider>
     

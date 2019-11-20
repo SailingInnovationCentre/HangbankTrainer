@@ -154,10 +154,12 @@ namespace HangbankTrainer.View
                 MomentValues.RemoveAt(0);
             }
 
+            TargetValues.Add(new MeasureModel(t + 50.0, _model.Training.GenerateTargetAt(t + 50.0)));
             UpperTargetValues.Add(new MeasureModel(t + 50.0, _model.Training.GenerateTargetMaxAt(t + 50.0))); 
             LowerTargetValues.Add(new MeasureModel(t + 50.0, _model.Training.GenerateTargetMinAt(t + 50.0))); 
             if (UpperTargetValues.Count > 100)
             {
+                TargetValues.RemoveAt(0);
                 LowerTargetValues.RemoveAt(0);
                 UpperTargetValues.RemoveAt(0);
             }
