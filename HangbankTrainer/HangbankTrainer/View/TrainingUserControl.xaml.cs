@@ -88,8 +88,6 @@ namespace HangbankTrainer.View
             _mainWindow.StartFrontPage();
         }
 
-        
-
         private void Start()
         {
             if (!_started)

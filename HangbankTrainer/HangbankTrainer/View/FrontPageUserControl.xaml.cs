@@ -80,5 +80,13 @@ namespace HangbankTrainer.View
         {
             _mainWindow.StartCalibration(); 
         }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            bool enabled = _model.Training.TrainingType == TrainingTypeEnum.Interval;
+            NrIntervalsTextBox.IsEnabled = enabled;
+            SecondsTrainingTextBox.IsEnabled = enabled;
+            SecondsRestTextBox.IsEnabled = enabled; 
+        }
     }
 }

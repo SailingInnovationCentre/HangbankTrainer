@@ -14,6 +14,8 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <StackPanel Orientation="Horizontal">
+        
+        <!-- ATLEET -->
         <StackPanel Orientation="Vertical" Margin="32,16">
             <Label HorizontalAlignment="Center" Content="Atleet"
                    Style="{StaticResource HeaderLabelStyle}"/>
@@ -69,6 +71,8 @@
                         Content="Calibratie-hulp"/>
             </Grid>
         </StackPanel>
+        
+        <!-- TRAINIG -->
         <StackPanel Orientation="Vertical" Margin="32,16">
             <Label HorizontalAlignment="Center" Content="Training" 
                    Style="{StaticResource HeaderLabelStyle}"/>
@@ -84,15 +88,14 @@
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
                 </Grid.RowDefinitions>
 
                 <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource RegularTextBlock}"
                            Text="Type training:"/>
                 <ComboBox Grid.Row="0" Grid.Column="1" 
                           ItemsSource="{Binding Source={StaticResource TrainingEnumValues}}" 
-                          SelectedItem="{Binding Training.TrainingType}"/>
+                          SelectedItem="{Binding Training.TrainingType}"
+                          SelectionChanged="ComboBox_SelectionChanged"/>
 
                 <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource RegularTextBlock}"
                            Text="Intensiteit:"/>
@@ -101,18 +104,27 @@
                           SelectedItem="{Binding Training.IntensityType}"/>
 
                 <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource RegularTextBlock}"
-                           Text="Interval inspanning (seconden):"/>
-                <TextBox Grid.Row="2" Grid.Column="1" x:Name="SecondsTrainingTextBox" Text="{Binding Training.SecondsTraining}"/>
-
+                           Text="Aantal intervallen:"/>
+                <TextBox Grid.Row="2" Grid.Column="1" x:Name="NrIntervalsTextBox" 
+                         Text="{Binding Training.NrOfIntervals}"/>
+                
                 <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource RegularTextBlock}"
                            Text="Interval inspanning (seconden):"/>
-                <TextBox Grid.Row="3" Grid.Column="1" x:Name="SecondsRestTextBox" Text="{Binding Training.SecondsRest}"/>
+                <TextBox Grid.Row="3" Grid.Column="1" x:Name="SecondsTrainingTextBox" 
+                         Text="{Binding Training.SecondsTraining}"/>
 
-                <Button Grid.Row="4" Grid.ColumnSpan="2" Margin="0,20"
+                <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource RegularTextBlock}"
+                           Text="Wisseltijd (seconden):"/>
+                <TextBox Grid.Row="4" Grid.Column="1" x:Name="SecondsRestTextBox" 
+                         Text="{Binding Training.SecondsRest}"/>
+
+                <Button Grid.Row="5" Grid.ColumnSpan="2" Margin="0,20"
                         x:Name="StartTrainingButton" Click="StartTrainingButton_Click" 
                         Content="Start training!"/>
             </Grid>
         </StackPanel>
+        
+        <!-- OVERIG -->
         <StackPanel Orientation="Vertical" Margin="32,16">
             <Label HorizontalAlignment="Center" Content="Overig" 
                    Style="{StaticResource HeaderLabelStyle}"/>
