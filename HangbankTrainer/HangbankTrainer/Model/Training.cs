@@ -1,10 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace HangbankTrainer.Model
 {
 
+    /// <summary>
+    /// Models a 'training'. There are two types of training: 
+    /// - Constant: delivers a constant target. 
+    /// - Interval: delivers alternately NaN for rest and a constant target: 
+    /// 
+    ///   REST         TRAINING         REST        TRAINING          REST
+    /// <------><--------------------><------><--------------------><------>
+    /// <------><----------------------------><---------------------------->
+    ///  INT 0          INTERVAL 1                    INTERVAL 2
+    ///            
+    /// </summary>
     public class Training : INotifyPropertyChanged
     {
         private TrainingTypeEnum _trainingType;
@@ -13,14 +25,14 @@ namespace HangbankTrainer.Model
         private double _target;
         private double _bandwidth;
 
-        // Only for Interval type of training. 
+        // Only applicable to Interval type of training. 
         private int _secondsTraining;
         private int _secondsRest;
         private int _nrOfIntervals; 
 
         public Training()
         {
-            TrainingType = TrainingTypeEnum.Constant;
+            TrainingType = TrainingTypeEnum.Interval;
             IntensityType = IntensityTypeEnum.Mid;
 
             NrOfIntervals = 12; 
@@ -71,11 +83,13 @@ namespace HangbankTrainer.Model
             set => SetField(ref _nrOfIntervals, value);
         }
 
-        public double GenerateTargetAt(double t)
+        public void GenerateTargetAt(double t, out double target, out double min, out double max)
         {
+            target = 0.0; 
+
             if (_trainingType == TrainingTypeEnum.Constant)
             {
-                return _target;
+                target = _target;
             }
             else if (_trainingType == TrainingTypeEnum.Interval)
             {
@@ -83,33 +97,33 @@ namespace HangbankTrainer.Model
                 if (t > period * _nrOfIntervals)
                 {
                     // Training has ended. 
-                    return double.NaN; 
-                }
-
-                double remainder = t % period;
-                if (remainder < _secondsTraining)
-                {
-                    // Training
-                    return _target; 
+                    target = double.NaN;
                 }
                 else
                 {
-                    // At rest. 
-                    return double.NaN; 
+                    double remainder = t % period;
+                    if (remainder < _secondsRest)
+                    {
+                        // At rest. The training starts with rest, so the athlete can step into the hiking bench after 
+                        // starting the training in the GUI. 
+                        target = double.NaN;
+                    }
+                    else
+                    {
+                        // Training
+                        target = _target;
+                    }
                 }
             }
 
-            return 0.0;
+            min = target - _bandwidth;
+            max = target + _bandwidth; 
         }
 
-        public double GenerateTargetMinAt(double t)
+        public string GenerateStatusIndication(double t)
         {
-            return GenerateTargetAt(t) - _bandwidth;
-        }
-
-        public double GenerateTargetMaxAt(double t)
-        {
-            return GenerateTargetAt(t) + _bandwidth;
+            var status = new TrainingStatus(t, this);
+            return status.GetStatusText(); 
         }
 
         #region INotifyPropertyChanged

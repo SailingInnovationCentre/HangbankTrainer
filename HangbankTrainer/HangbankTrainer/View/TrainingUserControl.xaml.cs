@@ -42,7 +42,7 @@ namespace HangbankTrainer.View
             Model = model;
 
             InitialiseBindings();
-            UpdateAxisLimits(); 
+            UpdateAxisLimits(0.0); 
 
             var mapper = Mappers.Xy<MeasureModel>()
                 .X(mm => mm.T)
@@ -56,7 +56,6 @@ namespace HangbankTrainer.View
             {
                 // Give athletes 10 seconds before the training starts. 
                 Task.Delay(0).Wait();
-                //Task.Delay(10000).Wait();
                 _t0 = DateTime.Now;
                 Start();
             });
@@ -76,9 +75,10 @@ namespace HangbankTrainer.View
 
             for (double t=0; t<50; t+=1)
             {
-                TargetValues.Add(new MeasureModel(t, _model.Training.GenerateTargetAt(t)));
-                UpperTargetValues.Add(new MeasureModel(t, _model.Training.GenerateTargetMaxAt(t)));
-                LowerTargetValues.Add(new MeasureModel(t, _model.Training.GenerateTargetMinAt(t)));
+                _model.Training.GenerateTargetAt(t, out double target, out double minTarget, out double maxTarget); 
+                TargetValues.Add(new MeasureModel(t, target));
+                UpperTargetValues.Add(new MeasureModel(t, maxTarget));
+                LowerTargetValues.Add(new MeasureModel(t, minTarget));
             }
         }
 
@@ -122,7 +122,8 @@ namespace HangbankTrainer.View
                 return;
             }
 
-            CurrentTimeSpan = DateTime.Now - _t0;
+            var _currentT = (DateTime.Now - _t0).TotalSeconds;
+            CurrentStatus = _model.Training.GenerateStatusIndication(_currentT); 
 
             var eventArgs = (SerialPortEventArgs)e;
             var moment = _model.DetermineMoment(eventArgs.Left, eventArgs.Right);
@@ -152,9 +153,11 @@ namespace HangbankTrainer.View
                 MomentValues.RemoveAt(0);
             }
 
-            TargetValues.Add(new MeasureModel(t + 50.0, _model.Training.GenerateTargetAt(t + 50.0)));
-            UpperTargetValues.Add(new MeasureModel(t + 50.0, _model.Training.GenerateTargetMaxAt(t + 50.0))); 
-            LowerTargetValues.Add(new MeasureModel(t + 50.0, _model.Training.GenerateTargetMinAt(t + 50.0))); 
+            _model.Training.GenerateTargetAt(t + 50.0, out double target, out double minTarget, out double maxTarget);
+            TargetValues.Add(new MeasureModel(t + 50.0, target));
+            UpperTargetValues.Add(new MeasureModel(t + 50.0, maxTarget)); 
+            LowerTargetValues.Add(new MeasureModel(t + 50.0, minTarget)); 
+
             if (UpperTargetValues.Count > 100)
             {
                 TargetValues.RemoveAt(0);
@@ -162,26 +165,27 @@ namespace HangbankTrainer.View
                 UpperTargetValues.RemoveAt(0);
             }
 
-            UpdateAxisLimits();
+            UpdateAxisLimits(t);
 
             _lastGraphUpdate = DateTime.Now; 
         }
 
-        private void UpdateAxisLimits()
+        private void UpdateAxisLimits(double t)
         {
-            if (CurrentTimeSpan.TotalSeconds <= 20)
+            if (t <= 20)
             {
                 XAxisMin = 0.0;
                 XAxisMax = 25.0;
             }
             else
             {
-                XAxisMin = (CurrentTimeSpan - TimeSpan.FromSeconds(20)).TotalSeconds;
-                XAxisMax = (CurrentTimeSpan + TimeSpan.FromSeconds(5)).TotalSeconds;
+                XAxisMin = t - 20.0;
+                XAxisMax = t + 5.0; 
             }
 
-            YAxisMin = LowerTargetValues.Min(v => v.Moment) - 10.0;
-            YAxisMax = UpperTargetValues.Max(v => v.Moment) + 10.0;
+            // Where-clause here is needed to prevent Y-axis be influenced by NaN values. 
+            YAxisMin = LowerTargetValues.Where(mm => !double.IsNaN(mm.Moment)).Min(v => v.Moment) - 10.0;
+            YAxisMax = UpperTargetValues.Where(mm => !double.IsNaN(mm.Moment)).Max(v => v.Moment) + 10.0;
         }
 
         #region Bindings
@@ -199,11 +203,11 @@ namespace HangbankTrainer.View
             set => SetField(ref _serialInput, value);
         }
 
-        private TimeSpan _currentTimeSpan; 
-        public TimeSpan CurrentTimeSpan
+        private string _currentStatus; 
+        public string CurrentStatus
         {
-            get => _currentTimeSpan;
-            set => SetField(ref _currentTimeSpan, value); 
+            get => _currentStatus;
+            set => SetField(ref _currentStatus, value); 
         }
 
         private string _currentVolt;
@@ -243,14 +247,26 @@ namespace HangbankTrainer.View
         public double YAxisMax
         {
             get => _yAxisMax;
-            set => SetField(ref _yAxisMax, value);
+            set
+            {
+                if (Math.Abs(_yAxisMax - value) > 2.0)
+                {
+                    SetField(ref _yAxisMax, value);
+                }
+            }
         }
 
         private double _yAxisMin;
         public double YAxisMin
         {
             get => _yAxisMin;
-            set => SetField(ref _yAxisMin, value);
+            set
+            {
+                if (Math.Abs(_yAxisMin - value) > 2.0)
+                {
+                    SetField(ref _yAxisMin, value);
+                }
+            }
         }
 
         #endregion
@@ -271,7 +287,6 @@ namespace HangbankTrainer.View
         }
 
         #endregion
-
 
     }
 }
