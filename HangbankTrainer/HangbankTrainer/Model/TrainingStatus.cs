@@ -46,12 +46,12 @@ namespace HangbankTrainer.Model
                     {
                         _isTrainingActive = false;
                         _remainingSeconds = training.SecondsRest - secondsWithinInterval;
-                        _intervalNr--;
                     }
                     else
                     {
                         _isTrainingActive = true;
                         _remainingSeconds = training.SecondsTraining - (secondsWithinInterval - training.SecondsRest);
+                        _intervalNr++;
                     }
                 }
             }
@@ -76,7 +76,7 @@ namespace HangbankTrainer.Model
             else if (TrainingType == TrainingTypeEnum.Interval)
             {
                 TimeSpan ts = TimeSpan.FromSeconds(_remainingSeconds);
-                return ts.ToString(@"mm\:ss");
+                return $"Interval {_intervalNr}, " + ts.ToString(@"mm\:ss");
             }
             else
             {
