@@ -184,8 +184,18 @@ namespace HangbankTrainer.View
             }
 
             // Where-clause here is needed to prevent Y-axis be influenced by NaN values. 
-            YAxisMin = LowerTargetValues.Where(mm => !double.IsNaN(mm.Moment)).Min(v => v.Moment) - 10.0;
-            YAxisMax = UpperTargetValues.Where(mm => !double.IsNaN(mm.Moment)).Max(v => v.Moment) + 10.0;
+            // If only NaNs (for instance, after an entire training), do not update the YAxis. 
+            var lowerTargetValues = LowerTargetValues.Where(mm => !double.IsNaN(mm.Moment));
+            if (lowerTargetValues.Any())
+            {
+                YAxisMin = lowerTargetValues.Min(v => v.Moment) - 10.0;
+            }
+
+            var upperTargetValues = UpperTargetValues.Where(mm => !double.IsNaN(mm.Moment));
+            if (upperTargetValues.Any())
+            {
+                YAxisMax = upperTargetValues.Max(v => v.Moment) + 10.0; 
+            }
         }
 
         #region Bindings
