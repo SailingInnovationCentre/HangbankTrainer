@@ -28,7 +28,6 @@ namespace HangbankTrainer.Communication
         public event EventHandler NewMessage;
 
         private Timer _timer;
-        private Random _random = new Random();
 
         private void SetSerialPort(string port)
         {

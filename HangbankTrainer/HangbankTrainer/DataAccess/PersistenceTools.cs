@@ -3,7 +3,7 @@ using System.IO;
 
 namespace HangbankTrainer.DataAccess
 {
-    class PersistenceTools
+    static class PersistenceTools
     {
 
         public static string GetHangbankDir()

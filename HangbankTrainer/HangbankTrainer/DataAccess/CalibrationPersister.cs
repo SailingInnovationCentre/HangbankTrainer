@@ -5,7 +5,7 @@ using System.IO;
 
 namespace HangbankTrainer.DataAccess
 {
-    class CalibrationPersister
+    static class CalibrationPersister
     {
 
         private static string GetCalibrationCsvFile()
