@@ -51,11 +51,12 @@ namespace HangbankTrainer.View
 
             InitializeComponent();
             DataContext = this;
+            CurrentStatus = "Prepare to start...";
 
             Task.Factory.StartNew(() =>
             {
                 // Give athletes 10 seconds before the training starts. 
-                Task.Delay(0).Wait();
+                Task.Delay(5000).Wait();
                 _t0 = DateTime.Now;
                 Start();
             });

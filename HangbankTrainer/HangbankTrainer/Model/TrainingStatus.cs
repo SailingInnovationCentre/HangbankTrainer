@@ -29,29 +29,29 @@ namespace HangbankTrainer.Model
             {
                 if (t < 0 || t > training.NrOfIntervals * (training.SecondsRest + training.SecondsTraining))
                 {
+                    // Out of training period. 
+                    _isOutOfTraining = true; 
                     _intervalNr = 0;
                     _remainingSeconds = 0;
                     _isTrainingActive = false;
-                    _isOutOfTraining = false;
                 } 
                 else
                 {
                     _isOutOfTraining = false;
 
                     int elapsedSeconds = (int)(Math.Floor(t-1.0));  // Drawing runs 1 second behind, so it should be compensated. 
-                    _intervalNr = elapsedSeconds / (training.SecondsTraining + training.SecondsRest);
+                    _intervalNr = (elapsedSeconds / (training.SecondsTraining + training.SecondsRest)) + 1;
                     int secondsWithinInterval = elapsedSeconds % (training.SecondsTraining + training.SecondsRest);
 
-                    if (secondsWithinInterval < training.SecondsRest)
+                    if (secondsWithinInterval < training.SecondsTraining)
                     {
-                        _isTrainingActive = false;
-                        _remainingSeconds = training.SecondsRest - secondsWithinInterval;
+                        _isTrainingActive = true;
+                        _remainingSeconds = training.SecondsTraining - secondsWithinInterval ;
                     }
                     else
                     {
-                        _isTrainingActive = true;
-                        _remainingSeconds = training.SecondsTraining - (secondsWithinInterval - training.SecondsRest);
-                        _intervalNr++;
+                        _isTrainingActive = false;
+                        _remainingSeconds = training.SecondsRest - (secondsWithinInterval - training.SecondsTraining);
                     }
                 }
             }

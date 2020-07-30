@@ -35,9 +35,8 @@ namespace HangbankTrainer.DataAccess
         {
             var athletesPath = GetAthletesCsvFile(); 
             if (!File.Exists(athletesPath))
-            {
-                // Default: empty list of athletes. 
-                return new List<Athlete>(); 
+            { 
+                return CreateDefaultAthleteList(); 
             }
             
             var lines = File.ReadAllLines(GetAthletesCsvFile());
@@ -76,7 +75,22 @@ namespace HangbankTrainer.DataAccess
                     // gulp
                 }
             }
+
+            if (athletes.Count == 0)
+            {
+                return CreateDefaultAthleteList(); 
+            }
+
             return athletes; 
+        }
+
+        public static List<Athlete> CreateDefaultAthleteList()
+        {
+            // Creates a list with one athlete. 
+            return new List<Athlete>
+            {
+                Athlete.CreateNew()
+            };
         }
     }
 }

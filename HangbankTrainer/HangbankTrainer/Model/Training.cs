@@ -11,10 +11,10 @@ namespace HangbankTrainer.Model
     /// - Constant: delivers a constant target. 
     /// - Interval: delivers alternately NaN for rest and a constant target: 
     /// 
-    ///   REST         TRAINING         REST        TRAINING          REST
-    /// <------><--------------------><------><--------------------><------>
-    /// <------><----------------------------><---------------------------->
-    ///  INT 0          INTERVAL 1                    INTERVAL 2
+    ///         TRAINING         REST        TRAINING          REST
+    /// <--------------------><------><--------------------><------>
+    /// <----------------------------><---------------------------->
+    ///        INTERVAL 1                    INTERVAL 2
     ///            
     /// </summary>
     public class Training : INotifyPropertyChanged
@@ -102,16 +102,15 @@ namespace HangbankTrainer.Model
                 else
                 {
                     double remainder = t % period;
-                    if (remainder < _secondsRest)
-                    {
-                        // At rest. The training starts with rest, so the athlete can step into the hiking bench after 
-                        // starting the training in the GUI. 
-                        target = double.NaN;
-                    }
-                    else
+                    if (remainder < _secondsTraining)
                     {
                         // Training
                         target = _target;
+                    }
+                    else
+                    {
+                        // Switching / resting
+                        target = double.NaN;
                     }
                 }
             }
